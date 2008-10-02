@@ -1,0 +1,3 @@
+To Zoom: Select a range in the red rectangle by clicking on a start
+location, and then clicking on an end location. Or, enter
+a range into the text boxes below. Then, click the Zoom button.
