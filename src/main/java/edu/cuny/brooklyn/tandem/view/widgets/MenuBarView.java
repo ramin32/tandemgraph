@@ -18,6 +18,7 @@ import java.sql.Connection;
 import java.sql.Statement;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Map;
 
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -26,6 +27,7 @@ import javax.swing.JMenuItem;
 
 import edu.cuny.brooklyn.tandem.controller.widgets.MenuBarController;
 import edu.cuny.brooklyn.tandem.helper.SqlConnectionFactory;
+import edu.cuny.brooklyn.tandem.model.JdbcDistanceDao;
 
 public class MenuBarView extends JMenuBar implements ActionListener
 {
@@ -82,26 +84,16 @@ public class MenuBarView extends JMenuBar implements ActionListener
 
     }
 
-    public final void addChromosomesToMenu(JMenu menu)
+    public final void addChromosomesToMenu(javax.swing.JMenu menu)
     {
-        Statement statement = SqlConnectionFactory.getStatement();
-        try
+        for (Map<String, Object> map: JdbcDistanceDao.getAllChromosomeNames())
         {
-            statement.execute("SELECT name FROM chromosome");
-            ResultSet rs = statement.getResultSet();
+            JMenuItem menuItem = new JMenuItem((String) map.get("name"));
+            chromosomes_.add(menuItem);
+            menuItem.addActionListener(this);
+            menu.add(menuItem);
+        }
 
-            while (rs.next())
-            {
-                JMenuItem menuItem = new JMenuItem(rs.getString("name"));
-                chromosomes_.add(menuItem);
-                menuItem.addActionListener(this);
-                menu.add(menuItem);
-            }
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
     }
 
     public void actionPerformed(ActionEvent e)
@@ -126,13 +118,13 @@ public class MenuBarView extends JMenuBar implements ActionListener
         }
         else // Otherwise a chromosome name has been selected!
         {
-          for(JMenuItem menuItem: chromosomes_)
-          {
-              if(source == menuItem)
-              {
-                  menuBarController_.openChromosome(containingFrame_, menuItem.getText());
-              }
-          }
+            for (JMenuItem menuItem : chromosomes_)
+            {
+                if (source == menuItem)
+                {
+                    menuBarController_.openChromosome(containingFrame_, menuItem.getText());
+                }
+            }
         }
     }
 }

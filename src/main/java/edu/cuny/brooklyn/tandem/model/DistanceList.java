@@ -59,20 +59,7 @@ public class DistanceList extends AbstractList<Distance>
         selected_ = selected;
     }
 
-//	public void setInputFile(File file) throws FileNotFoundException
-//	{
-//		inputScanner_ = new Scanner(file);
-//		inputId_ = file.getName();
-//	}
-//
-//	public void setInputURL(String urlString) throws IOException
-//	{
-//		InputStream inputStream = new URL(urlString).openStream();
-//		InputStreamReader isr = new InputStreamReader(inputStream);
-//		inputScanner_ = new Scanner(isr);
-//
-//		inputId_ = urlString;
-//	}
+
 
     public void load()
     {
