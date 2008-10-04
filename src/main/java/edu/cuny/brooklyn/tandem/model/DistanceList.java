@@ -40,7 +40,7 @@ public class DistanceList extends AbstractList<Distance>
     private String inputId_;
     //	private Scanner inputScanner_;
     private Distance selected_;
-    private String chromosomeName_;
+    private Chromosome chromosome_;
 
     public DistanceList()
     {
@@ -63,26 +63,12 @@ public class DistanceList extends AbstractList<Distance>
 
     public void load()
     {
-        if (chromosomeName_ == null)
+        if (chromosome_ == null)
             throw new IllegalStateException("Chromosome name not set!");
 
         distances_.clear();
-        try
-        {
-            String sqlQuery = "SELECT start, end FROM edit_distance where chromosome_id = " +
-                                "(SELECT chromosome_id from chromosome WHERE name = '" + chromosomeName_ + "')";
-            Statement statement = SqlConnectionFactory.getPreparedStatement(sqlQuery);
-            statement.execute(sqlQuery);
-            ResultSet resultSet = statement.getResultSet();
-
-            while (resultSet.next())
-            {
-                add(resultSet.getInt("start"), resultSet.getInt("end"));
-            }
-        }
-        catch (SQLException e)
-        {
-        }
+        addAll(JdbcTandemDao.getInstance().getAllDistancesByChromosome(chromosome_));
+        print();
     }
 
     /**
@@ -246,9 +232,9 @@ public class DistanceList extends AbstractList<Distance>
     }
 
 
-    public void setChromosomeName(String chromosomeName)
+    public void setChromosomeName(Chromosome chromosome)
     {
 
-        chromosomeName_ = chromosomeName;
+        chromosome_ = chromosome;
     }
 }

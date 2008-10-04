@@ -24,6 +24,7 @@ import edu.cuny.brooklyn.tandem.helper.SwingUtil;
 import edu.cuny.brooklyn.tandem.helper.SqlConnectionFactory;
 import edu.cuny.brooklyn.tandem.model.DistanceList;
 import edu.cuny.brooklyn.tandem.model.DistancesLoaderWorker;
+import edu.cuny.brooklyn.tandem.model.Chromosome;
 import edu.cuny.brooklyn.tandem.view.widgets.BusyDialog;
 
 public class MenuBarController
@@ -49,36 +50,6 @@ public class MenuBarController
         JComponent aboutTextArea = SwingUtil.createFileTextArea(InfoFiles.ABOUT);
         showMessageDialog(frame, aboutTextArea, "About", JOptionPane.INFORMATION_MESSAGE);
     }
-
-//	public void openFile(final JFrame frame)
-//	{
-//
-//		JFileChooser fc = new JFileChooser();
-//		fc.setCurrentDirectory(new File("."));
-//		int returnVal = fc.showOpenDialog(frame);
-//
-//		if (returnVal == JFileChooser.APPROVE_OPTION)
-//		{
-//			File fileName = fc.getSelectedFile();
-//			try
-//			{
-//
-//				distanceList_.setInputFile(fileName);
-//
-//				BusyDialog busyDialog = new BusyDialog(frame, InfoFiles.LOADING);
-//				DistancesLoaderWorker worker = new DistancesLoaderWorker(distanceList_, runnable_, busyDialog);
-//				worker.execute();
-//			}
-//			catch (FileNotFoundException e)
-//			{
-//				showMessageDialog(frame,
-//						"Errors occured while trying to read from file: "
-//						+ e.getMessage());
-//			}
-//
-//
-//		}
-//	}
 
     public void clear()
     {
@@ -118,10 +89,10 @@ public class MenuBarController
 //		}
 //	}
 
-    public void openChromosome(JFrame frame, String chromosomeName)
+    public void openChromosome(JFrame frame, Chromosome chromosome)
     {
 
-        distanceList_.setChromosomeName(chromosomeName);
+        distanceList_.setChromosomeName(chromosome);
         BusyDialog busyDialog = new BusyDialog(frame, InfoFiles.LOADING);
         DistancesLoaderWorker worker = new DistancesLoaderWorker(distanceList_, runnable_, busyDialog);
         worker.execute();

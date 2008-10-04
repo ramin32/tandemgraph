@@ -13,12 +13,7 @@ package edu.cuny.brooklyn.tandem.view.widgets;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.ResultSet;
-import java.sql.Connection;
-import java.sql.Statement;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Map;
+import java.util.*;
 
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -26,15 +21,17 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
 import edu.cuny.brooklyn.tandem.controller.widgets.MenuBarController;
-import edu.cuny.brooklyn.tandem.helper.SqlConnectionFactory;
-import edu.cuny.brooklyn.tandem.model.JdbcDistanceDao;
+import edu.cuny.brooklyn.tandem.model.JdbcTandemDao;
+import edu.cuny.brooklyn.tandem.model.Chromosome;
 
 public class MenuBarView extends JMenuBar implements ActionListener
 {
     private final JMenu fileMenu_;
     private final JMenu aboutMenu_;
     private final JMenu dbOpen_;
-    private final ArrayList<JMenuItem> chromosomes_;
+    private final List<JMenuItem> chromosomeMenuItems_;
+    private final Map<String, Chromosome> chromosomes_;
+
     private final JMenuItem clear_;
     private final JMenuItem exit_;
 
@@ -43,6 +40,8 @@ public class MenuBarView extends JMenuBar implements ActionListener
 
     private final JFrame containingFrame_;
     private final MenuBarController menuBarController_;
+
+    private final JdbcTandemDao jdbcTandemDao_;
 
     public MenuBarView(JFrame containingFrame,
                        MenuBarController menuBarController)
@@ -55,8 +54,19 @@ public class MenuBarView extends JMenuBar implements ActionListener
 
         // Instantiate fileMenu's items
         dbOpen_ = new JMenu("Open Chromosome");
-        chromosomes_ = new ArrayList<JMenuItem>();
-        addChromosomesToMenu(dbOpen_);
+        chromosomeMenuItems_ = new ArrayList<JMenuItem>();
+        jdbcTandemDao_ = JdbcTandemDao.getInstance();
+        chromosomes_ = new HashMap<String, Chromosome>();
+
+        for (Chromosome chromosome : jdbcTandemDao_.getAllChromosomes())
+        {
+            chromosomes_.put(chromosome.getName(), chromosome);
+            JMenuItem menuItem = new JMenuItem(chromosome.getName());
+            chromosomeMenuItems_.add(menuItem);
+            menuItem.addActionListener(this);
+            dbOpen_.add(menuItem);
+        }
+
         clear_ = new JMenuItem("Clear");
         exit_ = new JMenuItem("Exit");
 
@@ -84,17 +94,6 @@ public class MenuBarView extends JMenuBar implements ActionListener
 
     }
 
-    public final void addChromosomesToMenu(javax.swing.JMenu menu)
-    {
-        for (Map<String, Object> map: JdbcDistanceDao.getAllChromosomeNames())
-        {
-            JMenuItem menuItem = new JMenuItem((String) map.get("name"));
-            chromosomes_.add(menuItem);
-            menuItem.addActionListener(this);
-            menu.add(menuItem);
-        }
-
-    }
 
     public void actionPerformed(ActionEvent e)
     {
@@ -118,11 +117,11 @@ public class MenuBarView extends JMenuBar implements ActionListener
         }
         else // Otherwise a chromosome name has been selected!
         {
-            for (JMenuItem menuItem : chromosomes_)
+            for (JMenuItem menuItem : chromosomeMenuItems_)
             {
                 if (source == menuItem)
                 {
-                    menuBarController_.openChromosome(containingFrame_, menuItem.getText());
+                     menuBarController_.openChromosome(containingFrame_, chromosomes_.get(menuItem.getText()));
                 }
             }
         }
