@@ -20,6 +20,13 @@
         </dependency>
 
         <dependency>
+            <groupId>commons-dbcp</groupId>
+            <artifactId>commons-dbcp</artifactId>
+            <version>1.2.1</version>
+        </dependency>
+
+
+        <dependency>
             <groupId>log4j</groupId>
             <artifactId>log4j</artifactId>
             <version>1.2.14</version>
@@ -63,49 +70,49 @@
 
     <!-- ADDED FOR SITE GENERATION -->
     <!--reporting>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-project-info-reports-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>jxr-maven-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <artifactId>maven-pmd-plugin</artifactId>
-                <configuration>
-                    <targetJdk>1.5</targetJdk>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-            </plugin>
+    <plugins>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-project-info-reports-plugin</artifactId>
+        </plugin>
+        <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>jxr-maven-plugin</artifactId>
+        </plugin>
+        <plugin>
+            <artifactId>maven-pmd-plugin</artifactId>
+            <configuration>
+                <targetJdk>1.5</targetJdk>
+            </configuration>
+        </plugin>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-javadoc-plugin</artifactId>
+        </plugin>
 
 
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <configuration>
-                    <show>private</show>
-                    <doclet>gr.spinellis.umlgraph.doclet.UmlGraphDoc</doclet>
-                    <docletArtifact>
-                        <groupId>gr.spinellis</groupId>
-                        <artifactId>UmlGraph</artifactId>
-                        <version>4.6</version>
-                    </docletArtifact>
-                    <additionalparam>
-                        -inferrel
-                        -collpackages java.util.*
-                        -hide java.*
-                    </additionalparam>
-                </configuration>
-            </plugin>
-        </plugins>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <configuration>
+                <show>private</show>
+                <doclet>gr.spinellis.umlgraph.doclet.UmlGraphDoc</doclet>
+                <docletArtifact>
+                    <groupId>gr.spinellis</groupId>
+                    <artifactId>UmlGraph</artifactId>
+                    <version>4.6</version>
+                </docletArtifact>
+                <additionalparam>
+                    -inferrel
+                    -collpackages java.util.*
+                    -hide java.*
+                </additionalparam>
+            </configuration>
+        </plugin>
+    </plugins>
 
 
-    </reporting -->
-    <!-- END OF SITE GENERATION -->
+</reporting -->
+<!-- END OF SITE GENERATION -->
 
 </project>
