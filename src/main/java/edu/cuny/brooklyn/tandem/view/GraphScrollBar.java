@@ -17,48 +17,45 @@
 
 package edu.cuny.brooklyn.tandem.view;
 
+import edu.cuny.brooklyn.tandem.controller.widgets.GraphShifterController;
+
+import javax.swing.*;
 import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;
 
-import javax.swing.JScrollBar;
-
-import edu.cuny.brooklyn.tandem.controller.widgets.GraphShifterController;
-
 public class GraphScrollBar extends JScrollBar implements AdjustmentListener
 {
-	private final GraphShifterController graphShifterController_;
+    private final GraphShifterController graphShifterController_;
 
-	private static final int interval = 100 / 7; // 6 Intervals plus 1 for
-	private int center_;
-	// neutral
+    private static final int interval = 100 / 7; // 6 Intervals plus 1 for
+    private int center_;
+    // neutral
 
-	public GraphScrollBar(GraphShifterController graphShifterController)
-	{
-		graphShifterController_ = graphShifterController;
-		setOrientation(HORIZONTAL);
-		centralize();
-		
-	}
-	
-	private final void centralize()
-	{
-		removeAdjustmentListener(this);
-		setValue(50 - getBlockIncrement() / 2);
-		center_ = getValue();
-		addAdjustmentListener(this);
-	}
+    public GraphScrollBar(GraphShifterController graphShifterController)
+    {
+        graphShifterController_ = graphShifterController;
+        setOrientation(HORIZONTAL);
+        centralize();
 
-	@Override
-	public void adjustmentValueChanged(AdjustmentEvent ae)
-	{
+    }
+
+    private final void centralize()
+    {
+        removeAdjustmentListener(this);
+        setValue(50 - getBlockIncrement() / 2);
+        center_ = getValue();
+        addAdjustmentListener(this);
+    }
+
+    @Override
+    public void adjustmentValueChanged(AdjustmentEvent ae)
+    {
 //		if (ae.getValueIsAdjusting() == true) 
 //			;	// Skip while being dragged
-		if(ae.getValue() < center_)
-			graphShifterController_.shiftRight();
-		else if(ae.getValue() > center_)
-			graphShifterController_.shiftLeft();
-		
-		centralize();
+        if (ae.getValue() < center_) graphShifterController_.shiftRight();
+        else if (ae.getValue() > center_) graphShifterController_.shiftLeft();
 
-	}
+        centralize();
+
+    }
 }

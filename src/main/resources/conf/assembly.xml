@@ -1,0 +1,11 @@
+<assembly>
+    <id>bin</id>
+    <formats>
+        <format>zip</format>
+    </formats>
+    <repositories>
+        <repository>
+            <outputDirectory>repository</outputDirectory>
+        </repository>
+    </repositories>
+</assembly>

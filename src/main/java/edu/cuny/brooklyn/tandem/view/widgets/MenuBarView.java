@@ -11,18 +11,17 @@
  ************************************************************************/
 package edu.cuny.brooklyn.tandem.view.widgets;
 
+import edu.cuny.brooklyn.tandem.controller.widgets.MenuBarController;
+import edu.cuny.brooklyn.tandem.model.Chromosome;
+import edu.cuny.brooklyn.tandem.model.JdbcTandemDao;
+
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.*;
-
-import javax.swing.JFrame;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-
-import edu.cuny.brooklyn.tandem.controller.widgets.MenuBarController;
-import edu.cuny.brooklyn.tandem.model.JdbcTandemDao;
-import edu.cuny.brooklyn.tandem.model.Chromosome;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class MenuBarView extends JMenuBar implements ActionListener
 {
@@ -36,6 +35,7 @@ public class MenuBarView extends JMenuBar implements ActionListener
     private final JMenuItem exit_;
 
     private final JMenuItem usage_;
+    private final JMenuItem license_;
     private final JMenuItem about_;
 
     private final JFrame containingFrame_;
@@ -43,8 +43,7 @@ public class MenuBarView extends JMenuBar implements ActionListener
 
     private final JdbcTandemDao jdbcTandemDao_;
 
-    public MenuBarView(JFrame containingFrame,
-                       MenuBarController menuBarController)
+    public MenuBarView(JFrame containingFrame, MenuBarController menuBarController)
     {
         menuBarController_ = menuBarController;
         containingFrame_ = containingFrame;
@@ -72,12 +71,14 @@ public class MenuBarView extends JMenuBar implements ActionListener
 
         // Instantiate aboutMenu's items
         usage_ = new JMenuItem("Usage");
+        license_ = new JMenuItem("License");
         about_ = new JMenuItem("About");
 
         clear_.addActionListener(this);
         exit_.addActionListener(this);
 
         usage_.addActionListener(this);
+        license_.addActionListener(this);
         about_.addActionListener(this);
 
         // Add fileMenu's items
@@ -86,6 +87,7 @@ public class MenuBarView extends JMenuBar implements ActionListener
         fileMenu_.add(exit_);
 
         aboutMenu_.add(usage_);
+        aboutMenu_.add(license_);
         aboutMenu_.add(about_);
 
 
@@ -115,13 +117,17 @@ public class MenuBarView extends JMenuBar implements ActionListener
         {
             menuBarController_.showAbout(containingFrame_);
         }
+        else if (source == license_)
+        {
+            menuBarController_.showLicense(containingFrame_);
+        }
         else // Otherwise a chromosome name has been selected!
         {
             for (JMenuItem menuItem : chromosomeMenuItems_)
             {
                 if (source == menuItem)
                 {
-                     menuBarController_.openChromosome(containingFrame_, chromosomes_.get(menuItem.getText()));
+                    menuBarController_.openChromosome(containingFrame_, chromosomes_.get(menuItem.getText()));
                 }
             }
         }

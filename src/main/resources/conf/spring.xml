@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+               http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+        <property name="url" value="jdbc:mysql://tandem.sci.brooklyn.cuny.edu/tandem"/>
+        <property name="username" value="client"/>
+        <property name="password" value="client"/>
+        <property name="initialSize" value="5"/>
+        <property name="maxActive" value="10"/>
+
+    </bean>
+
+    <bean id="jdbcTandemDao" class="edu.cuny.brooklyn.tandem.model.JdbcTandemDao">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+</beans>

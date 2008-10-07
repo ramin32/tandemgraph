@@ -19,29 +19,20 @@
 
 package edu.cuny.brooklyn.tandem;
 
-import java.io.File;
-import java.sql.SQLException;
-
-import javax.swing.JDialog;
-import javax.swing.SwingUtilities;
-
-import edu.cuny.brooklyn.tandem.helper.InfoFiles;
-import edu.cuny.brooklyn.tandem.helper.SwingUtil;
-import edu.cuny.brooklyn.tandem.helper.SqlConnectionFactory;
 import edu.cuny.brooklyn.tandem.model.DistanceList;
-import edu.cuny.brooklyn.tandem.model.DistancesLoaderWorker;
 import edu.cuny.brooklyn.tandem.view.TandemGraphView;
-import edu.cuny.brooklyn.tandem.view.widgets.BusyDialog;
+
+import javax.swing.*;
 
 public class TandemGraph
 {
-	public static void main(final String[] args)
-	{
+    public static void main(final String[] args)
+    {
 
         DistanceList distanceList = new DistanceList();
-		TandemGraphView tandemGraphView = new TandemGraphView(distanceList);
+        TandemGraphView tandemGraphView = new TandemGraphView(distanceList);
 
-		SwingUtilities.invokeLater(tandemGraphView);
+        SwingUtilities.invokeLater(tandemGraphView);
 
 
     }

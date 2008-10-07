@@ -1,0 +1,3 @@
+To Zoom: Select a range in the red rectangle by dragging the portion
+of the graph that you wish to select. Then, click the Zoom button.
+You may also manually enter in the start and ending points of the desired range.

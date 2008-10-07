@@ -1,7 +1,6 @@
 package edu.cuny.brooklyn.tandem.model;
 
 import junit.framework.TestCase;
-
 import org.apache.log4j.Logger;
 
 import java.util.List;
@@ -29,15 +28,15 @@ public class JdbcTemplateDaoTest extends TestCase
         List<Chromosome> chromosomes = jdbcTandemDao_.getAllChromosomes();
         logger_.debug("Obtaining all chromosomes took: " + (System.currentTimeMillis() - start) + "ms");
 
-        assertEquals(chromosomes.size(),3);
+        assertEquals(chromosomes.size(), 3);
         logger_.debug(chromosomes);
 
         start = System.currentTimeMillis();
         List<Distance> distances = jdbcTandemDao_.getAllDistancesByChromosome(chromosomes.get(0));
         logger_.debug("Obtaining all distances took: " + (System.currentTimeMillis() - start) + "ms");
-        
+
         assertEquals(distances.size(), 224399);
     }
 
-   
+
 }

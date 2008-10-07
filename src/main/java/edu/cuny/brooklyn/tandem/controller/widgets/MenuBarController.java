@@ -1,31 +1,14 @@
 package edu.cuny.brooklyn.tandem.controller.widgets;
 
-import static javax.swing.JOptionPane.showMessageDialog;
-
-import java.awt.Insets;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.sql.Statement;
-import java.sql.SQLException;
-import java.sql.ResultSet;
-
-import javax.swing.JComponent;
-import javax.swing.JDialog;
-import javax.swing.JFileChooser;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
-import javax.swing.SwingUtilities;
-import javax.swing.SwingWorker;
-
 import edu.cuny.brooklyn.tandem.helper.InfoFiles;
 import edu.cuny.brooklyn.tandem.helper.SwingUtil;
-import edu.cuny.brooklyn.tandem.helper.SqlConnectionFactory;
+import edu.cuny.brooklyn.tandem.model.Chromosome;
 import edu.cuny.brooklyn.tandem.model.DistanceList;
 import edu.cuny.brooklyn.tandem.model.DistancesLoaderWorker;
-import edu.cuny.brooklyn.tandem.model.Chromosome;
 import edu.cuny.brooklyn.tandem.view.widgets.BusyDialog;
+
+import javax.swing.*;
+import static javax.swing.JOptionPane.showMessageDialog;
 
 public class MenuBarController
 {
@@ -51,6 +34,12 @@ public class MenuBarController
         showMessageDialog(frame, aboutTextArea, "About", JOptionPane.INFORMATION_MESSAGE);
     }
 
+    public void showLicense(JFrame frame)
+    {
+        JComponent aboutTextArea = SwingUtil.createFileTextArea(InfoFiles.LICENSE);
+        showMessageDialog(frame, aboutTextArea, "About", JOptionPane.INFORMATION_MESSAGE);
+    }
+
     public void clear()
     {
         distanceList_.clear();
@@ -60,8 +49,7 @@ public class MenuBarController
 
     public void exit(final JFrame frame)
     {
-        int choice = JOptionPane.showConfirmDialog(frame,
-                "Are you sure you want to quit? ");
+        int choice = JOptionPane.showConfirmDialog(frame, "Are you sure you want to quit? ");
         if (choice == 0)
         {
             System.exit(0);

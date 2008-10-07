@@ -25,8 +25,7 @@ public class SqlConnectionFactory
         try
         {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
-            connection_ =
-                    DriverManager.getConnection(HOST, USERNAME, PASSWORD);
+            connection_ = DriverManager.getConnection(HOST, USERNAME, PASSWORD);
             statement_ = connection_.createStatement();
         }
         catch (Exception e)

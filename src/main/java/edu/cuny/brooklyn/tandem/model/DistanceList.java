@@ -11,24 +11,7 @@
  ************************************************************************/
 package edu.cuny.brooklyn.tandem.model;
 
-import edu.cuny.brooklyn.tandem.helper.SqlConnectionFactory;
-
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.util.AbstractList;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Scanner;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.util.*;
 
 public class DistanceList extends AbstractList<Distance>
 {
@@ -60,11 +43,9 @@ public class DistanceList extends AbstractList<Distance>
     }
 
 
-
     public void load()
     {
-        if (chromosome_ == null)
-            throw new IllegalStateException("Chromosome name not set!");
+        if (chromosome_ == null) throw new IllegalStateException("Chromosome name not set!");
 
         distances_.clear();
         addAll(JdbcTandemDao.getInstance().getAllDistancesByChromosome(chromosome_));
@@ -90,14 +71,11 @@ public class DistanceList extends AbstractList<Distance>
             }
             else
             {
-                if (limitedRange_.getGlobalMin() > distance.getMin())
-                    limitedRange_.setGlobalMin(distance.getMin());
+                if (limitedRange_.getGlobalMin() > distance.getMin()) limitedRange_.setGlobalMin(distance.getMin());
 
-                if (limitedRange_.getGlobalMax() < distance.getMax())
-                    limitedRange_.setGlobalMax(distance.getMax());
+                if (limitedRange_.getGlobalMax() < distance.getMax()) limitedRange_.setGlobalMax(distance.getMax());
 
-                if (maxSize_ < distance.getSize())
-                    maxSize_ = distance.getSize();
+                if (maxSize_ < distance.getSize()) maxSize_ = distance.getSize();
             }
             distances_.add(distance);
         }
@@ -162,10 +140,8 @@ public class DistanceList extends AbstractList<Distance>
         {
             public int compare(Distance r1, Distance r2)
             {
-                if (ascending)
-                    return r1.getSize() - r2.getSize();
-                else
-                    return r2.getSize() - r1.getSize();
+                if (ascending) return r1.getSize() - r2.getSize();
+                else return r2.getSize() - r1.getSize();
             }
         };
 
@@ -176,8 +152,7 @@ public class DistanceList extends AbstractList<Distance>
     {
         int index = Collections.binarySearch(distances_, d);
 
-        if (index < 0)
-            index = (index + 1) * (-1);
+        if (index < 0) index = (index + 1) * (-1);
 
         return index;
     }
