@@ -37,7 +37,7 @@ public class MenuBarController
     public void showLicense(JFrame frame)
     {
         JComponent aboutTextArea = SwingUtil.createFileTextArea(InfoFiles.LICENSE);
-        showMessageDialog(frame, aboutTextArea, "About", JOptionPane.INFORMATION_MESSAGE);
+        showMessageDialog(frame, aboutTextArea, "License", JOptionPane.INFORMATION_MESSAGE);
     }
 
     public void clear()
@@ -85,6 +85,13 @@ public class MenuBarController
         DistancesLoaderWorker worker = new DistancesLoaderWorker(distanceList_, runnable_, busyDialog);
         worker.execute();
 
+
+    }
+
+    public static void main(String[] args)
+    {
+        JComponent aboutTextArea = SwingUtil.createFileTextArea(InfoFiles.LICENSE);
+        showMessageDialog(null, aboutTextArea);
 
     }
 }

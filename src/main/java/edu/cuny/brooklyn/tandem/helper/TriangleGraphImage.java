@@ -53,12 +53,12 @@ public class TriangleGraphImage
 
         Graphics graphics = grid_.getGraphics();
 
-        distanceList_.setSelected(distanceList_.get(0));
+//        distanceList_.setSelected(distanceList_.get(0));
         for (int i = 0; i < distanceList_.size(); i++)
             drawTriangle(graphics, distanceList_.get(i), range.getMin(), xScale, yScale);
 
-        Distance selectedDistance = distanceList_.getSelected();
-        if (selectedDistance != null) fillTriangle(graphics, selectedDistance, range.getMin(), xScale, yScale);
+//        Distance selectedDistance = distanceList_.getSelected();
+//        if (selectedDistance != null) fillTriangle(graphics, selectedDistance, range.getMin(), xScale, yScale);
         return grid_;
     }
 
@@ -102,25 +102,25 @@ public class TriangleGraphImage
         return grid_.getHeight() - (int) (y / yScale);
     }
 
-    public static void main(String[] args)
-    {
-        JFrame frame = new JFrame("Triangle Graph Image");
-        final DistanceList repeats = new DistanceList();
-        repeats.add(100, 1000);
-        repeats.add(300, 700);
-        repeats.add(500, 1590);
-
-        frame.setSize(500, 500);
-        frame.setVisible(true);
-
-        final TriangleGraphImage image = new TriangleGraphImage(repeats, 300, 300);
-        frame.add(new JPanel()
-        {
-            public void paintComponent(Graphics g)
-            {
-                g.drawImage(image.getGraphImage(repeats.getLimitedRange().getGlobal(), repeats.getMaxRepeatSize()), 70, 0, null);
-            }
-        });
-    }
+//    public static void main(String[] args)
+//    {
+//        JFrame frame = new JFrame("Triangle Graph Image");
+//        final DistanceList repeats = new DistanceList();
+//        repeats.add(100, 1000);
+//        repeats.add(300, 700);
+//        repeats.add(500, 1590);
+//
+//        frame.setSize(500, 500);
+//        frame.setVisible(true);
+//
+//        final TriangleGraphImage image = new TriangleGraphImage(repeats, 300, 300);
+//        frame.add(new JPanel()
+//        {
+//            public void paintComponent(Graphics g)
+//            {
+//                g.drawImage(image.getGraphImage(repeats.getLimitedRange().getGlobal(), repeats.getMaxRepeatSize()), 70, 0, null);
+//            }
+//        });
+//    }
 
 }

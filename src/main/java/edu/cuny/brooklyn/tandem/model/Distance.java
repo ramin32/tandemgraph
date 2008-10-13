@@ -18,17 +18,24 @@ public class Distance extends Range
 {
 
     private final Color color_;
-//	private boolean filledIn_;
+    private final int id_;
 
-    public Distance(int start, int end)
+    public Distance(int start, int end, int id)
     {
         super(start, end);
         color_ = SwingUtil.getRandColor(75);
+        id_ = id;
     }
+
 
     public Color getColor()
     {
         return color_;
+    }
+
+    public int getId()
+    {
+        return id_;
     }
 
     public String toString()
@@ -38,10 +45,10 @@ public class Distance extends Range
 
     public static void main(String[] args)
     {
-        Distance r = new Distance(20, 30);
+        Distance r = new Distance(20, 30,1);
         try
         {
-            new Distance(100, 70);
+            new Distance(100, 70,2);
             // new Distance(100,-10);
         }
         catch (IllegalArgumentException e)
@@ -52,14 +59,6 @@ public class Distance extends Range
         System.out.println(r);
     }
 
-//	public void setFilledIn(boolean filledIn)
-//	{
-//		filledIn_ = filledIn;
-//	}
-//	
-//	public boolean isFilledIn()
-//	{
-//		return filledIn_;
-//	}
+
 
 }

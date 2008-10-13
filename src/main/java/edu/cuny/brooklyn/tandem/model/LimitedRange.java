@@ -76,9 +76,10 @@ public class LimitedRange
             throw new IllegalArgumentException("Range is not within the global range.");
         }
 
-        // Return if localRange about to be set is less than minLocal_
-        if (minLocal_ != null)
-            if (r.getSize() <= minLocal_) throw new IllegalArgumentException("Range is below minimal allowable range!");
+        // TODO uncomment
+//        // Return if localRange about to be set is less than minLocal_
+//        if (minLocal_ != null)
+//            if (r.getSize() <= minLocal_) throw new IllegalArgumentException("Range is below minimal allowable range!");
 
         local_ = r;
     }

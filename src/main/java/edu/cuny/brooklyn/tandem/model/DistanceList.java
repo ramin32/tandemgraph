@@ -22,7 +22,7 @@ public class DistanceList extends AbstractList<Distance>
 
     private String inputId_;
     //	private Scanner inputScanner_;
-    private Distance selected_;
+//    private Distance selected_;
     private Chromosome chromosome_;
 
     public DistanceList()
@@ -32,15 +32,15 @@ public class DistanceList extends AbstractList<Distance>
 
     }
 
-    public Distance getSelected()
-    {
-        return selected_;
-    }
-
-    public void setSelected(Distance selected)
-    {
-        selected_ = selected;
-    }
+//    public Distance getSelected()
+//    {
+//        return selected_;
+//    }
+//
+//    public void setSelected(Distance selected)
+//    {
+//        selected_ = selected;
+//    }
 
 
     public void load()
@@ -88,9 +88,9 @@ public class DistanceList extends AbstractList<Distance>
         return true;
     }
 
-    public void add(int start, int end)
+    public void add(int start, int end, int id)
     {
-        add(new Distance(start, end));
+        add(new Distance(start, end, id));
     }
 
     public void clear()
@@ -156,11 +156,11 @@ public class DistanceList extends AbstractList<Distance>
 
         return index;
     }
-
-    public int findStartPointAt(int n)
-    {
-        return find(new Distance(n, n));
-    }
+//
+//    public int findStartPointAt(int n)
+//    {
+//        return find(new Distance(n, n));
+//    }
 
     public Iterator<Distance> iterator()
     {
@@ -180,20 +180,20 @@ public class DistanceList extends AbstractList<Distance>
         return distances_;
     }
 
-    public static void main(String[] args)
-    {
-
-        DistanceList dl = new DistanceList();
-        System.out.println(dl.isEmpty());
-        dl.add(20, 70);
-        dl.add(25, 26);
-        dl.add(40, 45);
-        dl.add(20, 80);
-        dl.add(60, 90);
-        dl.print();
-        System.out.println(dl.isEmpty());
-
-    }
+//    public static void main(String[] args)
+//    {
+//
+//        DistanceList dl = new DistanceList();
+//        System.out.println(dl.isEmpty());
+//        dl.add(20, 70);
+//        dl.add(25, 26);
+//        dl.add(40, 45);
+//        dl.add(20, 80);
+//        dl.add(60, 90);
+//        dl.print();
+//        System.out.println(dl.isEmpty());
+//
+//    }
 
     public String getInputId()
     {

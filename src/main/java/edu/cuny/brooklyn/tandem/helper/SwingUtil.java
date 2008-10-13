@@ -70,6 +70,7 @@ public class SwingUtil
     {
         String usageString = IOUtil.getStringFromFile(inputFile);
         JTextArea textArea = new JTextArea(usageString);
+        textArea.setSize(500,500);
         textArea.setEditable(false);
         textArea.setBackground(Color.LIGHT_GRAY);
 
@@ -78,7 +79,7 @@ public class SwingUtil
         else
             textArea.setMargin(insets);
 
-        if (scrollable) 
+        if (scrollable)
             return new JScrollPane(textArea);
         return textArea;
 
