@@ -1,0 +1,154 @@
+
+
+
+
+TandemGraph
+By: Ramin Rakhamimov
+Under the Supervision of Professor Sokol
+CIS 88.1/88.2 Research Project
+Brooklyn College
+
+
+
+
+
+
+
+
+
+
+
+TandemGraph
+|-- net
+|   `-- ramrak
+|       `-- applications
+|           `-- tandem
+|               |-- controller
+|               |   |-- TandemMenuBar.java – File menu bar.
+|               |   |-- graph
+|               |   |   |-- GraphRuler.java – Draws rulers for the graph.
+|               |   |   |-- RangeToolBar.java – Draws a toolbar for selecting indexes with a zoom button.
+|               |   |   |-- TandemGraphPanel.java – Main panel on which graph is drawn.
+|               |   |   |-- TriangleClicker.java – Installs a mouse listener to display triangle detail.
+|               |   |   `-- TriangleGraphImage.java – Draws a BufferedImage of the graph.
+|               |   `-- scrollbars
+|               |       |-- ClickBar.java – Draws a horizontal click bar for selecting the range.
+|               |       |-- DragBar.java – Installs a horizontal scrollbar for dragging.
+|               |       |-- GraphScrollBars.java
+|               |       |-- Updater.java – Interface that specifies an action to run upon scrollbar modification.
+|               |       `-- ZoomBar.java – Installs a vertical scrollbar for zooming in and out.
+|               |-- helper
+|               |   |-- IOHelper.java – Provides some IO helper methods.
+|               |   `-- SwingHelper.java – Provides some swing helper methods.
+|               |-- model
+|               |   |-- Distance.java – ADT to represent a distance, extends Range.java.
+|               |   |-- DistanceList.java – An ArrayList of Distance objects.
+|               |   |-- LimitedRange.java – Has two Range objects, a global and a local.
+|               |   `-- Range.java – ADT to represent a range.
+|               `-- view
+|                   `-- TandemUI.java – Has the main method to invoke the application.
+
+
+
+
+
+
+
+
+
+
+The Tandem Graph program is designed to give the end-user a graphical representation of a general and detailed view of tandem repeats occurrences in a given chromosome. The program gets its input from files containing repeat information. Files of this sort can be generated using TRED software1. A more general file containing only starting and ending points per line can be used as well. The application computes various mathematical formulas used for scaling, zooming and dragging the graph with which it later generates the actual graph. 
+The structure of the application has been implemented using the Model-View-Controller (MVC) model. This was done to ensure abstraction of implementation, providing a more intuitive view of the entire program. Aside from the MVC model, a few helper classes have also been incorporated.
+
+Starting with the net.ramrak.applications.tandem.controller package:
+Further into the controller package we have net.ramrak.applications.tandem.controller.graph with graph specific classes:
+GraphRuler.java – Draws rulers for the graph. One vertical ruler with and arbitrary range, and one horizontal ruler with an arbitrary range is drawn on any given JPanel. The default margin is 70 pixels from the bottom and from the left, and the default number of markings as 10. These are generated with the constructor. A more detailed constructor is also included to allow the user to specify the markings and pixels.
+
+RangeToolBar.java – Generates a tool bar with 2 text fields for range starting and ending points and a “Zoom” button. Upon action (user clicks zoom or presses enter at the latter text field), given range is tested against the global range of the repeat list (via a LimitedRange object). If all seems ok, the graph is repainted using the new settings.
+
+TandemGraphPanel.java – Main panel on which graph is drawn, also in charge of repainting the graph, using a GraphRuler and a TriangleGraphImage object. These are invoked at each repaint call.
+
+TriangleClicker.java – Installs a mouse listener to display triangle detail. Upon receiving clicks, location of the click is examined: the x point is un-scaled to match a corresponding triangle (localRange/window width). The class then searches a triangle that corresponds to the location of the click.
+
+TriangleGraphImage.java – Draws a BufferedImage of the graph. The class obtains an ArrayList of Distance objects from the constructor which it then uses as input for the graph. The getGraphImage() method returns a BufferedImage which can be draw using any Graphics object: First, the x and y scales are generated:
+x_scale = repeats range/ grid width
+y_scale = max_height / grid height
+Then foreach Distance in the ArrayList a triangle points are generated:
+x1 = translateXPoint(distance start point) left base
+x2 = translateXPoint(distance mid point);  Peek
+x3 = translateXPoint(distance end point);  right base
+
+y1 = translateYPoint(0);                            Left base
+y2 = translateYPoint(distance size);          Peek
+y3 = y1; 				        right base
+
+translateXPoint(x_point) {
+        return (x_point – range_start) / x_scale;
+}
+
+translateYPoint(y_point) {
+        return grid_height – (y_point / y_scale);
+}
+A polygon is then drawn using these 6 points on the BufferedImage which is sent back to the caller. In our case, TandemGraphPanel.  
+
+The next package within the controller package is the net.ramrak.applications.tandem.controller.scrollbars package which has the scrolling/scaling/zooming classes:
+Note: each class has an Updater object which runs upon receiving an action.
+ClickBar.java – Generates a floating orange rectangle (“range selector”) within its own panel. A mouse listener listens for clicks. At each click a vertical line is drawn within the rectangle. Upon each two clicks an inner rectangle is filled representing the range. The two points are then scaled to represent 2 points in the global range (start, end). The local range is then modified and updater is run.
+scale = global_range / BAR_WIDTH
+start =  first_click*scale + global_minimum
+end = second_click*scale + global_minumum
+
+the global_minimum needs to be added to shift the graph to the beginning the distances.
+
+DragBar.java – Provides a horizontal JScrollBar for dragging the graph left or right. The local range is first obtained and then whether the move was left or right both starting and ending points of the local range are incremented or decremented to an arbitrary multiple of the local range, and the updater is run.
+increment = range / 4
+start_of_range + increment
+end_of_range + increment
+This would happen upon moving the bar right, and if the bar moved left, increment would be subtracted.
+
+GraphScrollBars.java – Abstracts all classes in this package to a single class. Instantiates and add all the objects to some containing frame.
+Updater.java – Extends the Runnable interface. Sent to classes to abstract procedure to run upon receiving an action by invoking the run() method.
+ScrollBar.java – Works similarly to DragBar.java only instead of incrementing or decrementing both at start and end points of the range, points are adjusted inward or outward.
+increment = range / 4
+start_of_range + increment
+end_of_range - increment
+run updater.
+In this case we are adjusting the points inward (zooming in) when the bar is scrolled upward. In the opposite case the class would executed:
+start_of_range - increment
+end_of_range + increment
+Which zooms out the graph when the user drags the bar down.
+
+Finally as the last component of the controller package we have:
+TandemMenuBar.java which installs a various set of menus to add functionality for opening and closing  input files, a help menu, and credits.
+Next we move onto the net.ramrak.applications.tandem.helper which has some simple helper classes.
+IOHelper.java – Parses a line from an input file returning an array containing starting and ending points of an individual repeat.
+SwingHelper.java – Provides various swing utilities. Namely fetching a random color, and and overloaded version of getRandColor() with a threshold value to generate colors.
+
+Following up we have the net.ramrak.applications.tandem.model package which takes care of the state/data representations.
+Distance.java – Which extends Range.java has the following points: start, end midpoint and color.
+DistanceList.java – Provides an ArrayList container for Distances. Allows user to set an input file via a constructor or method call which clears all the Distances and fills it up using the specified input file. Also allows searching. Extreme min and max points are updated upon each new addition. And they are available at all times via get methods. Sorting and other functionality are also available. An iterator implementation is also included for easy iteration using Java’s new for(Distance d: distances) call.
+LimitedRange.java – Contains to Range objects. A local and a global where the local may never exceed the global.
+Range.java – Contains ADT representation of a range. Namely the following points: minPoint, maxPoint and midpoint. Range objects are comparable to each other by implementing the comparable interface. Also, intersects() and isWithin() methods are included as well to allow more specific range comparisons.
+IS_WITHIN:
+if (this.getMin() < r.getMin() || this.getMax() > r.getMax())
+            return false;
+else return true
+
+INTERSECTS:
+if (this.getMin() >= r.getMin() && this.getMin() < r.getMax())
+            return true;
+ if (this.getMax() > r.getMin() && this.getMax() <= r.getMax())
+            return true;
+else
+        return false;
+
+Finally in the net.ramrak.applications.tandem.view package we have 
+TandemUI.java – The main method that invokes TandemGraphPanel along with all the other classes.
+
+
+
+
+
+
+The project has been written using Java along with some of its technologies. Namely, Swing responsible for presenting graphical entities along with the AWT framework, necessary for handling user events. All processing/editing was done in Eclipse2 and IDEA3  integrated development environments under the ArchLinux4 distribution of GNU/Linux. Various other open source software5 were used as well. 
+For more information about Tandem Repeats please visit http://www.sci.brooklyn.cuny.edu/~sokol/tandem/ which is run by Professor Sokol and her students at Brooklyn College6.
