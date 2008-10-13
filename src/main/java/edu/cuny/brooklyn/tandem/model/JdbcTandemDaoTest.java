@@ -10,9 +10,9 @@ import java.util.List;
  * Date: Oct 4, 2008
  * Time: 8:33:20 AM
  */
-public class JdbcTemplateDaoTest extends TestCase
+public class JdbcTandemDaoTest extends TestCase
 {
-    private static final Logger logger_ = Logger.getLogger(JdbcTemplateDaoTest.class);
+    private static final Logger logger_ = Logger.getLogger(JdbcTandemDaoTest.class);
     private JdbcTandemDao jdbcTandemDao_;
 
     public void setUp()
@@ -28,14 +28,23 @@ public class JdbcTemplateDaoTest extends TestCase
         List<Chromosome> chromosomes = jdbcTandemDao_.getAllChromosomes();
         logger_.debug("Obtaining all chromosomes took: " + (System.currentTimeMillis() - start) + "ms");
 
-        assertEquals(chromosomes.size(), 3);
+        assertFalse(chromosomes.size() == 0);
         logger_.debug(chromosomes);
 
+//          TODO Caution below code takes a long time, test only when necessary
         start = System.currentTimeMillis();
         List<Distance> distances = jdbcTandemDao_.getAllDistancesByChromosome(chromosomes.get(0));
         logger_.debug("Obtaining all distances took: " + (System.currentTimeMillis() - start) + "ms");
 
         assertEquals(distances.size(), 224399);
+    }
+
+    public void testGetInputLine()
+    {
+        Chromosome chromosome = new Chromosome(1,"CH1");
+        String expected = "TAACCCTAACCCTAACCCTAACCCTAACCCTAACCCTAACCCTAACCCTAACCCTAACCCTAACCCTAACCCTAACCCTAACCCTAACCCTAACCCTAACCCTAACCCAACCCTAACCCTAACAACCCTAACCCTAACCCTAACCCCTAACCCTAACCCTAACCCTAACCCTAACCTAACCCTAACCCTAACCCTAACCCTAACCCTAACCCTAACCCTAACCCTAACCCCTAACCCTAAC";
+        String actual = jdbcTandemDao_.getInputString(chromosome, 0, 61*4);
+        assertEquals("testGetInputLine", expected, actual);
     }
 
 
