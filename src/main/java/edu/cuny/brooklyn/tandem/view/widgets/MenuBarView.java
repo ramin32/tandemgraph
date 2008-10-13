@@ -29,7 +29,7 @@ public class MenuBarView extends JMenuBar implements ActionListener
     private final JMenu aboutMenu_;
     private final JMenu dbOpen_;
     private final List<JMenuItem> chromosomeMenuItems_;
-    private final Map<String, Chromosome> chromosomes_;
+    private Map<String, Chromosome> chromosomes_;
 
     private final JMenuItem clear_;
     private final JMenuItem exit_;
@@ -41,7 +41,7 @@ public class MenuBarView extends JMenuBar implements ActionListener
     private final JFrame containingFrame_;
     private final MenuBarController menuBarController_;
 
-    private final JdbcTandemDao jdbcTandemDao_;
+    private JdbcTandemDao jdbcTandemDao_;
 
     public MenuBarView(JFrame containingFrame, MenuBarController menuBarController)
     {
@@ -54,17 +54,25 @@ public class MenuBarView extends JMenuBar implements ActionListener
         // Instantiate fileMenu's items
         dbOpen_ = new JMenu("Open Chromosome");
         chromosomeMenuItems_ = new ArrayList<JMenuItem>();
-        jdbcTandemDao_ = JdbcTandemDao.getInstance();
-        chromosomes_ = new HashMap<String, Chromosome>();
 
-        for (Chromosome chromosome : jdbcTandemDao_.getAllChromosomes())
+        new Thread(new Runnable()
         {
-            chromosomes_.put(chromosome.getName(), chromosome);
-            JMenuItem menuItem = new JMenuItem(chromosome.getName());
-            chromosomeMenuItems_.add(menuItem);
-            menuItem.addActionListener(this);
-            dbOpen_.add(menuItem);
-        }
+            public void run()
+            {
+                jdbcTandemDao_ = JdbcTandemDao.getInstance();
+                chromosomes_ = new HashMap<String, Chromosome>();
+
+                for (Chromosome chromosome : jdbcTandemDao_.getAllChromosomes())
+                {
+                    chromosomes_.put(chromosome.getName(), chromosome);
+                    JMenuItem menuItem = new JMenuItem(chromosome.getName());
+                    chromosomeMenuItems_.add(menuItem);
+                    menuItem.addActionListener(MenuBarView.this);
+                    dbOpen_.add(menuItem);
+                }
+            }
+        });
+
 
         clear_ = new JMenuItem("Clear");
         exit_ = new JMenuItem("Exit");
