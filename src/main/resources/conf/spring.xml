@@ -8,7 +8,7 @@
     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
         <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
         <property name="url" value="jdbc:mysql://tandem.sci.brooklyn.cuny.edu/tandem"/>
-        <property name="username" value="client"/>
+        <property name="username" value="tandemgraph"/>
         <property name="password" value="client"/>
         <property name="initialSize" value="5"/>
         <property name="maxActive" value="10"/>

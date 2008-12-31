@@ -55,23 +55,17 @@ public class MenuBarView extends JMenuBar implements ActionListener
         dbOpen_ = new JMenu("Open Chromosome");
         chromosomeMenuItems_ = new ArrayList<JMenuItem>();
 
-        new Thread(new Runnable()
-        {
-            public void run()
-            {
-                jdbcTandemDao_ = JdbcTandemDao.getInstance();
-                chromosomes_ = new HashMap<String, Chromosome>();
+        jdbcTandemDao_ = JdbcTandemDao.getInstance();
+        chromosomes_ = new HashMap<String, Chromosome>();
 
-                for (Chromosome chromosome : jdbcTandemDao_.getAllChromosomes())
-                {
-                    chromosomes_.put(chromosome.getName(), chromosome);
-                    JMenuItem menuItem = new JMenuItem(chromosome.getName());
-                    chromosomeMenuItems_.add(menuItem);
-                    menuItem.addActionListener(MenuBarView.this);
-                    dbOpen_.add(menuItem);
-                }
-            }
-        });
+        for (Chromosome chromosome : jdbcTandemDao_.getAllChromosomes())
+        {
+            chromosomes_.put(chromosome.getName(), chromosome);
+            JMenuItem menuItem = new JMenuItem(chromosome.getName());
+            chromosomeMenuItems_.add(menuItem);
+            menuItem.addActionListener(MenuBarView.this);
+            dbOpen_.add(menuItem);
+        }
 
 
         clear_ = new JMenuItem("Clear");
