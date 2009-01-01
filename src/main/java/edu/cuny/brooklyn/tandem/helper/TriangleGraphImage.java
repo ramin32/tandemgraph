@@ -26,7 +26,6 @@ import edu.cuny.brooklyn.tandem.model.Distance;
 import edu.cuny.brooklyn.tandem.model.DistanceList;
 import edu.cuny.brooklyn.tandem.model.Range;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 

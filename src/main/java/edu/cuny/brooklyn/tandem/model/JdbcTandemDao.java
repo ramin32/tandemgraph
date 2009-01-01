@@ -1,9 +1,9 @@
 package edu.cuny.brooklyn.tandem.model;
 
+import org.apache.log4j.Logger;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.jdbc.core.simple.ParameterizedRowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcDaoSupport;
-import org.apache.log4j.Logger;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -21,11 +21,11 @@ public class JdbcTandemDao extends SimpleJdbcDaoSupport
 
     private static final String SELECT_ALL_CHROMOSOMES =
             "SELECT chromosome_id, name " +
-            "FROM chromosome";
+            "FROM chromosome_filter";
 
     private static final String SELECT_ALL_DISTANCES_BY_CHROMOSOME_ID =
             "SELECT start, end, edit_distance_id " +
-            "FROM edit_distance " +
+            "FROM edit_distance_filter " +
             "WHERE chromosome_id = ?";
 
     private static final String SELECT_LENGHT_OF_INPUT_LINE =
@@ -40,13 +40,13 @@ public class JdbcTandemDao extends SimpleJdbcDaoSupport
             "LIMIT 1";
 
     private static final String SELECT_INPUT_LINE_BY_INPUT_ID =
-            "SELECT line " +
+            "SELECT line " +                                                        
             "FROM input " +
             "WHERE input_id = ?";
 
      private static final String SELECT_ALIGNMENT_BY_EDIT_DISTANCE_ID =
              "SELECT group_concat(txt SEPARATOR '') " +
-             "FROM alignment " +
+             "FROM alignment_filter " +
              "WHERE edit_distance_id = ? " +
              "GROUP BY edit_distance_id " +
              "LIMIT 1";

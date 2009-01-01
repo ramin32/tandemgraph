@@ -49,7 +49,6 @@ public class DistanceList extends AbstractList<Distance>
 
         distances_.clear();
         addAll(JdbcTandemDao.getInstance().getAllDistancesByChromosome(chromosome_));
-        print();
     }
 
     /**
