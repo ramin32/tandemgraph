@@ -94,8 +94,8 @@ public class TandemGraphView implements Runnable
                 }
                 else
                 {
-                    if (distanceList_.getInputId() != null)
-                        frame_.setTitle(FRAME_TITLE + " - " + distanceList_.getInputId());
+                    if (distanceList_.getChromosome() != null)
+                        frame_.setTitle(FRAME_TITLE + " - " + distanceList_.getChromosome().getName());
 
 
                     if (zoomSliderView_ != null)

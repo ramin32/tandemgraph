@@ -80,7 +80,7 @@ public class MenuBarController
     public void openChromosome(JFrame frame, Chromosome chromosome)
     {
 
-        distanceList_.setChromosomeName(chromosome);
+        distanceList_.setChromosome(chromosome);
         BusyDialog busyDialog = new BusyDialog(frame, InfoFiles.LOADING);
         DistancesLoaderWorker worker = new DistancesLoaderWorker(distanceList_, runnable_, busyDialog);
         worker.execute();
