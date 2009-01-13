@@ -15,7 +15,7 @@ package edu.cuny.brooklyn.tandem.view;
 import edu.cuny.brooklyn.tandem.controller.graph.GraphRangeSelector;
 import edu.cuny.brooklyn.tandem.controller.widgets.GraphShifterController;
 import edu.cuny.brooklyn.tandem.helper.GraphRuler;
-import edu.cuny.brooklyn.tandem.helper.TriangleGraphImage;
+import edu.cuny.brooklyn.tandem.helper.TrapezoidGraphImage;
 import edu.cuny.brooklyn.tandem.model.DistanceList;
 import edu.cuny.brooklyn.tandem.model.Range;
 
@@ -29,7 +29,7 @@ public class GraphPanelView extends JPanel
     public static final int SELECTOR_HEIGHT = 20;
 
     private final DistanceList distances_;
-    private TriangleGraphImage graphImage_;
+    private TrapezoidGraphImage graphImage_;
     private GraphRuler graphRuler_;
     private GraphRangeSelector graphicalRangeSelector_;
     private final Runnable runnable_;
@@ -79,7 +79,7 @@ public class GraphPanelView extends JPanel
         else
         {
             // Get the actual graph image and draw it.
-            graphImage_ = new TriangleGraphImage(distances_, getWidth() - MARGIN, getHeight() - MARGIN);
+            graphImage_ = new TrapezoidGraphImage(distances_, getWidth() - MARGIN, getHeight() - MARGIN);
             Image img = graphImage_.getGraphImage(distances_.getLimitedRange().getLocal(), distances_.getMaxRepeatSize());
             g.drawImage(img, MARGIN + 1, 0, null);
 
