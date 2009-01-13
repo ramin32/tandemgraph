@@ -80,12 +80,12 @@ public class GraphPanelView extends JPanel
         {
             // Get the actual graph image and draw it.
             graphImage_ = new TrapezoidGraphImage(distances_, getWidth() - MARGIN, getHeight() - MARGIN);
-            Image img = graphImage_.getGraphImage(distances_.getLimitedRange().getLocal(), distances_.getMaxRepeatSize());
+            Image img = graphImage_.getGraphImage(distances_.getLimitedRange().getLocal(), distances_.getIntLogMaxSize());
             g.drawImage(img, MARGIN + 1, 0, null);
 
             // draw the ruler
             g.setColor(Color.gray);
-            graphRuler_.drawRuler(g, distances_.getLimitedRange().getLocal(), new Range(0, distances_.getMaxRepeatSize()));
+            graphRuler_.drawRuler(g, distances_.getLimitedRange().getLocal(), new Range(0, distances_.getIntLogMaxSize()));
 
             // Get the range selector and draw it
             int x = MARGIN;

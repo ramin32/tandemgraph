@@ -177,5 +177,15 @@ public class DistanceList extends AbstractList<Distance>
     {
         return chromosome_;
     } 
+  
+    public int getIntLogMaxSize()
+    {
+      return (int) Math.log10(getMaxRepeatSize());
+    }
+
+    public double getDoubleLogMaxSize()
+    {
+      return (int) Math.log10(getMaxRepeatSize());
+    }
 }
 
