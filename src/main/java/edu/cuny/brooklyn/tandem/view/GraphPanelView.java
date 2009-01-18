@@ -85,7 +85,7 @@ public class GraphPanelView extends JPanel
 
             // draw the ruler
             g.setColor(Color.gray);
-            graphRuler_.drawRuler(g, distances_.getLimitedRange().getLocal(), new Range(0, distances_.getIntLogMaxSize()));
+            graphRuler_.drawRuler(g, distances_.getLimitedRange().getLocal(), new Range(0, distances_.getMaxRepeatSize()));
 
             // Get the range selector and draw it
             int x = MARGIN;
