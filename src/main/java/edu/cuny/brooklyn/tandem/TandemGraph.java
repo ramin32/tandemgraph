@@ -28,16 +28,13 @@ import org.apache.log4j.Logger;
 
 public class TandemGraph
 {
-	private final static Logger logger_ = Logger.getLogger(TandemGraph.class);
-    public static void main(final String[] args)
-    {
-
-        DistanceList distanceList = new DistanceList();
-        TandemGraphView tandemGraphView = new TandemGraphView(distanceList);
-        logger_.debug("Obtaining instance of TandemGraphView...");
-        SwingUtilities.invokeLater(tandemGraphView);
-        logger_.debug("Invoking view...");
-
-
-    }
+  private final static Logger logger_ = Logger.getLogger(TandemGraph.class);
+  public static void main(final String[] args)
+  {
+    DistanceList distanceList = new DistanceList();
+    TandemGraphView tandemGraphView = new TandemGraphView(distanceList);
+    logger_.debug("Obtaining instance of TandemGraphView...");
+    SwingUtilities.invokeLater(tandemGraphView);
+    logger_.debug("Invoking view...");
+  }
 }

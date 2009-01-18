@@ -13,10 +13,11 @@ package edu.cuny.brooklyn.tandem.helper;
 import javax.swing.*;
 import java.awt.*;
 import java.net.URL;
+import org.apache.log4j.Logger;
 
 public class SwingUtil
 {
-
+    private static final Logger logger_ = Logger.getLogger(SwingUtil.class);
     private static final boolean DEFAULT_SCROLLABLE = true;
     private static final Insets DEFAULT_INSETS = new Insets(20, 20, 20, 20);
 
@@ -44,6 +45,8 @@ public class SwingUtil
         {
             public void uncaughtException(Thread t, Throwable ex)
             {
+                logger_.error(ex.getMessage(), ex);
+
                 if (ex.getMessage() == null) ex.printStackTrace();
                     // JOptionPane.showMessageDialog(frame,
                     // ex.getStackTrace(), "Warning!",
