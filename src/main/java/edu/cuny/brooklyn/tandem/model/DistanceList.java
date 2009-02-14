@@ -111,37 +111,37 @@ public class DistanceList extends AbstractList<Distance>
         return limitedRange_;
     }
 
-    /**
-     * Sorts the DistanceList by natural order--ascending starting points.
-     */
-    public void sort()
-    {
-        Collections.sort(distances_);
-    }
+//    /**
+//     * Sorts the DistanceList by natural order--ascending starting points.
+//     */
+//    public void sort()
+//    {
+//        Collections.sort(distances_);
+//    }
+//
+//    public void sortBySize(final boolean ascending)
+//    {
+//        // Create a comparator to sort by size instead of starting location
+//        Comparator<Distance> c = new Comparator<Distance>()
+//        {
+//            public int compare(Distance r1, Distance r2)
+//            {
+//                if (ascending) return r1.getSize() - r2.getSize();
+//                else return r2.getSize() - r1.getSize();
+//            }
+//        };
+//
+//        Collections.sort(distances_, c);
+//    }
 
-    public void sortBySize(final boolean ascending)
-    {
-        // Create a comparator to sort by size instead of starting location
-        Comparator<Distance> c = new Comparator<Distance>()
-        {
-            public int compare(Distance r1, Distance r2)
-            {
-                if (ascending) return r1.getSize() - r2.getSize();
-                else return r2.getSize() - r1.getSize();
-            }
-        };
-
-        Collections.sort(distances_, c);
-    }
-
-    public int find(Distance d)
-    {
-        int index = Collections.binarySearch(distances_, d);
-
-        if (index < 0) index = (index + 1) * (-1);
-
-        return index;
-    }
+//    public int find(Distance d)
+//    {
+//        int index = Collections.binarySearch(distances_, d);
+//
+//        if (index < 0) index = (index + 1) * (-1);
+//
+//        return index;
+//    }
 
     public Iterator<Distance> iterator()
     {

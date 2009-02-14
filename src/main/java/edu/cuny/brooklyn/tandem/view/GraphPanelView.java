@@ -13,6 +13,7 @@
 package edu.cuny.brooklyn.tandem.view;
 
 import edu.cuny.brooklyn.tandem.controller.graph.GraphRangeSelector;
+import edu.cuny.brooklyn.tandem.controller.graph.RepeatClickListener;
 import edu.cuny.brooklyn.tandem.controller.widgets.GraphShifterController;
 import edu.cuny.brooklyn.tandem.helper.GraphRuler;
 import edu.cuny.brooklyn.tandem.helper.TrapezoidGraphImage;
@@ -34,6 +35,7 @@ public class GraphPanelView extends JPanel
     private GraphRangeSelector graphicalRangeSelector_;
     private final Runnable runnable_;
     private static final int defaultValue = 5;
+    private final RepeatClickListener triangleClickListener_;
 
 //	public final static String SEQUENCE_STRING = "SJKDHFDSLKAJSLKDHFJKLASDHFJKLHHSDJKFGSAGFSDAGFSADJKSAHFJSHAASDLJGHASJKLHFJKASDFHLJKASHDFJKHSADFJKHASJKDHFJLKA";
 
@@ -48,6 +50,7 @@ public class GraphPanelView extends JPanel
         setLayout(new BorderLayout());
 
         GraphShifterController controller = new GraphShifterController(rl.getLimitedRange(), runnable);
+        triangleClickListener_ = new RepeatClickListener(distances_);
     }
 
     public GraphRangeSelector getGraphicalRangeSelector()
@@ -62,14 +65,6 @@ public class GraphPanelView extends JPanel
 
         g.setColor(Color.gray);
 
-//		if (distances_.isLoading())
-//		{
-//			graphRuler_.drawLines(g);
-//			g.setFont(new Font("Sans Serif", Font.BOLD, 24));
-//			g.drawString("Loading...", getWidth() / 2, getHeight() / 2);
-//
-//		}
-//		else 
         if (distances_.isEmpty())
         {
             graphRuler_.drawLines(g);
@@ -78,6 +73,7 @@ public class GraphPanelView extends JPanel
         }
         else
         {
+        	triangleClickListener_.install(this);
             // Get the actual graph image and draw it.
             graphImage_ = new TrapezoidGraphImage(distances_, getWidth() - MARGIN, getHeight() - MARGIN);
             Image img = graphImage_.getGraphImage(distances_.getLimitedRange().getLocal(), distances_.getDoubleLogMaxSize());

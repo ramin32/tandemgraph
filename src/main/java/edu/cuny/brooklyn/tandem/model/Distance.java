@@ -40,7 +40,7 @@ public class Distance extends Range
 
     public String toString()
     {
-        return super.toString() + " " + color_.toString();
+        return super.toString();
     }
 
     public static void main(String[] args)

@@ -9,11 +9,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-/**
- * User: ramin
- * Date: Oct 2, 2008
- * Time: 8:36:12 PM
- */
 public class JdbcTandemDao extends SimpleJdbcDaoSupport
 {
     private static final Logger logger_ = Logger.getLogger(JdbcTandemDao.class);
@@ -26,7 +21,8 @@ public class JdbcTandemDao extends SimpleJdbcDaoSupport
     private static final String SELECT_ALL_DISTANCES_BY_CHROMOSOME_ID =
             "SELECT start, end, edit_distance_id " +
             "FROM edit_distance_filter " +
-            "WHERE chromosome_id = ?";
+            "WHERE chromosome_id = ? " +
+            "ORDER BY start, end";
 
     private static final String SELECT_LENGHT_OF_INPUT_LINE =
             "SELECT length(line) " +

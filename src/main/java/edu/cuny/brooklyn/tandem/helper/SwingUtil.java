@@ -68,12 +68,10 @@ public class SwingUtil
         return new JButton(icon);
     }
 
-
-    public static JComponent createFileTextArea(String inputFile, Insets insets, boolean scrollable)
+    public static JComponent createStringTextArea(String string, Insets insets, boolean scrollable)
     {
-        String usageString = IOUtil.getStringFromFile(inputFile);
-        JTextArea textArea = new JTextArea(usageString);
-        textArea.setSize(500,500);
+    	JTextArea textArea = new JTextArea(string);
+        textArea.setPreferredSize(new Dimension(100, 50));
         textArea.setEditable(false);
         textArea.setBackground(Color.LIGHT_GRAY);
 
@@ -85,7 +83,17 @@ public class SwingUtil
         if (scrollable)
             return new JScrollPane(textArea);
         return textArea;
-
+    }
+    
+    public static JComponent createStringTextArea(String string)
+    {
+        return createStringTextArea(string, DEFAULT_INSETS, DEFAULT_SCROLLABLE);
+    }
+    
+    public static JComponent createFileTextArea(String inputFile, Insets insets, boolean scrollable)
+    {
+        String usageString = IOUtil.getStringFromFile(inputFile);
+        return createStringTextArea(usageString, insets, scrollable);
     }
 
     public static JComponent createFileTextArea(String inputFile)
