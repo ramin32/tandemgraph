@@ -4,23 +4,27 @@
 
 package edu.cuny.brooklyn.tandem.controller.graph;
 
+import edu.cuny.brooklyn.tandem.helper.SwingUtil;
 import edu.cuny.brooklyn.tandem.model.Distance;
 import edu.cuny.brooklyn.tandem.model.DistanceList;
+import edu.cuny.brooklyn.tandem.model.JdbcTandemDao;
 import edu.cuny.brooklyn.tandem.view.GraphPanelView;
 
 import javax.swing.*;
+
+import org.apache.log4j.Logger;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class TriangleClickListener extends MouseAdapter
+public class RepeatClickListener extends MouseAdapter
 {
+	private static final Logger logger_ = Logger.getLogger(RepeatClickListener.class);
     private GraphPanelView containingPanelView_;
     private final DistanceList distances_;
+    private JComponent currentAlignmentArea;
 
-    private Integer startIndex_;
-    private Integer endIndex_;
-
-    public TriangleClickListener(DistanceList distances)
+    public RepeatClickListener(DistanceList distances)
     {
         distances_ = distances;
     }
@@ -29,34 +33,12 @@ public class TriangleClickListener extends MouseAdapter
     {
         containingPanelView_ = panelView;
         containingPanelView_.addMouseListener(this);
-        Thread t = new Thread(new Runnable()
-        {
-            public void run()
-            {
-                while (true)
-                {
-                    try
-                    {
-                        distances_.sort();
-                    }
-                    catch (Exception e)
-                    {
-                        startIndex_ = 0;
-                        endIndex_ = distances_.getSize() - 1;
-                        break;
-                    }
-                }
-
-            }
-        });
-
-        t.start();
-
     }
 
-    public void mouseMoved(MouseEvent e)
+    public void mouseClicked(MouseEvent e)
     {
-        if (distances_ == null || containingPanelView_ == null) return;
+        if (distances_ == null || containingPanelView_ == null || currentAlignmentArea != null) 
+        	return;
         int adjustedHeight = containingPanelView_.getHeight() - containingPanelView_.MARGIN;
         int adjustedWidth = containingPanelView_.getWidth() - containingPanelView_.MARGIN;
 
@@ -83,9 +65,16 @@ public class TriangleClickListener extends MouseAdapter
 
         }
 
-        if (correspondingDist == null) return;
+        if (correspondingDist == null) 
+        	return;
 
-        JOptionPane.showMessageDialog(containingPanelView_, correspondingDist + "\n Alignment goes here...");
+        String alignment = JdbcTandemDao.getInstance().getAlignmentByDistance(correspondingDist);
+        currentAlignmentArea = SwingUtil.createStringTextArea(correspondingDist + 
+        														  "\nAlignment:\n" + 
+        														  alignment);
+        
+        JOptionPane.showMessageDialog(containingPanelView_, currentAlignmentArea);
+        currentAlignmentArea = null;
 
     }
 }
