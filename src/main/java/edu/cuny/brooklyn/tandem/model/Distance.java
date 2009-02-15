@@ -13,7 +13,7 @@ public class Distance extends Range
 {
     
     private final Color color_;
-    private final int   id_;
+    private final int id_;
     
     public Distance(int start, int end, int id)
     {

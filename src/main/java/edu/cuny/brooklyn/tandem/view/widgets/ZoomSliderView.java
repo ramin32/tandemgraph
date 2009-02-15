@@ -20,11 +20,11 @@ import edu.cuny.brooklyn.tandem.helper.SwingUtil;
 
 public class ZoomSliderView extends JPanel implements ChangeListener, ActionListener
 {
-    private final JSlider                slider_;
-    private final ZoomSliderController   zoomSliderController_;
+    private final JSlider slider_;
+    private final ZoomSliderController zoomSliderController_;
     
-    private final JButton                zoomInButton_;
-    private final JButton                zoomOutButton_;
+    private final JButton zoomInButton_;
+    private final JButton zoomOutButton_;
     private final GraphShifterController graphShifterController_;
     
     public ZoomSliderView(ZoomSliderController zoomSliderController, GraphShifterController navigatorController)

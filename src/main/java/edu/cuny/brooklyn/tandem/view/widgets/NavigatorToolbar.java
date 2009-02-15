@@ -16,7 +16,7 @@ public class NavigatorToolbar extends JToolBar implements ActionListener
 {
     
     private final TextRangeSelectorView textRangeSelectorView_;
-    private final GraphRangeSelector    graphRangeSelector_;
+    private final GraphRangeSelector graphRangeSelector_;
     
     public NavigatorToolbar(TextRangeSelectorController textRangeSelectorController, GraphRangeSelector graphRangeSelector, GraphShifterView shifterView)
     {

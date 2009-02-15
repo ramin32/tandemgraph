@@ -12,7 +12,7 @@ import org.apache.log4j.Logger;
 public class JdbcTandemDaoTest extends TestCase
 {
     private static final Logger logger_ = Logger.getLogger(JdbcTandemDaoTest.class);
-    private JdbcTandemDao       jdbcTandemDao_;
+    private JdbcTandemDao jdbcTandemDao_;
     
     public void setUp()
     {

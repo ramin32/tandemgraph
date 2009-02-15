@@ -9,8 +9,8 @@ package edu.cuny.brooklyn.tandem.model;
 public class LimitedRange
 {
     
-    private Range   local_;
-    private Range   global_;
+    private Range local_;
+    private Range global_;
     private Integer minLocal_;
     
     public LimitedRange()

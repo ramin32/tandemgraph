@@ -8,8 +8,8 @@ public class DistancesLoaderWorker extends SwingWorker<Void, Void>
 {
     
     private final DistanceList distanceList_;
-    private final Runnable     runnable_;
-    private final BusyDialog   busyDialog_;
+    private final Runnable runnable_;
+    private final BusyDialog busyDialog_;
     
     public DistancesLoaderWorker(DistanceList distanceList, Runnable runnable, BusyDialog busyDialog)
     {

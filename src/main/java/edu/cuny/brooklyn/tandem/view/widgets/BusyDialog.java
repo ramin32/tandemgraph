@@ -20,9 +20,9 @@ import edu.cuny.brooklyn.tandem.helper.SwingUtil;
 
 public class BusyDialog extends JDialog implements ActionListener, FocusListener
 {
-    private final Component    busyComponent_;
+    private final Component busyComponent_;
     private final JProgressBar progressBar_;
-    private final JButton      closeButton_;
+    private final JButton closeButton_;
     
     public BusyDialog(Component busyComponent, String messageFileName)
     {

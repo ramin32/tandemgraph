@@ -5,7 +5,7 @@ package edu.cuny.brooklyn.tandem.model;
  */
 public class Chromosome implements Comparable<Chromosome>
 {
-    private final int    id_;
+    private final int id_;
     private final String name_;
     private final String string_;
     

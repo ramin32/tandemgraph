@@ -11,20 +11,35 @@ import org.springframework.jdbc.core.simple.SimpleJdbcDaoSupport;
 
 public class JdbcTandemDao extends SimpleJdbcDaoSupport
 {
-    private static final Logger  logger_                                       = Logger.getLogger(JdbcTandemDao.class);
-    private static Integer       inputSingleLineSize_                          = null;
+    private static final Logger logger_ = Logger.getLogger(JdbcTandemDao.class);
+    private static Integer inputSingleLineSize_ = null;
     
-    private static final String  SELECT_ALL_CHROMOSOMES                        = "SELECT chromosome_id, name " + "FROM chromosome_filter";
+    private static final String SELECT_ALL_CHROMOSOMES = "SELECT chromosome_id, name " + 
+                                                         "FROM chromosome_filter";
     
-    private static final String  SELECT_ALL_DISTANCES_BY_CHROMOSOME_ID         = "SELECT start, end, edit_distance_id " + "FROM edit_distance_filter " + "WHERE chromosome_id = ? " + "ORDER BY start, end";
+    private static final String SELECT_ALL_DISTANCES_BY_CHROMOSOME_ID = "SELECT start, end, edit_distance_id " +
+                                                                        "FROM edit_distance_filter " + 
+                                                                        "WHERE chromosome_id = ? " + 
+                                                                        "ORDER BY start, end";
     
-    private static final String  SELECT_LENGHT_OF_INPUT_LINE                   = "SELECT length(line) " + "FROM input " + "LIMIT 1";
+    private static final String SELECT_LENGTH_OF_INPUT_LINE = "SELECT length(line) " + 
+                                                               "FROM input " + 
+                                                               "LIMIT 1";
+                                                                
+    private static final String SELECT_FIRST_ID_OF_INPUT_LINE_WITH_CHROMOSOME = "SELECT input_id " + 
+                                                                                "FROM input " + 
+                                                                                "WHERE chromosome_id = ? " + 
+                                                                                "LIMIT 1";
     
-    private static final String  SELECT_FIRST_ID_OF_INPUT_LINE_WITH_CHROMOSOME = "SELECT input_id " + "FROM input " + "WHERE chromosome_id = ? " + "LIMIT 1";
+    private static final String SELECT_INPUT_LINE_BY_INPUT_ID = "SELECT line " + 
+                                                                "FROM input " + 
+                                                                "WHERE input_id = ?";
     
-    private static final String  SELECT_INPUT_LINE_BY_INPUT_ID                 = "SELECT line " + "FROM input " + "WHERE input_id = ?";
-    
-    private static final String  SELECT_ALIGNMENT_BY_EDIT_DISTANCE_ID          = "SELECT group_concat(txt SEPARATOR '') " + "FROM alignment_filter " + "WHERE edit_distance_id = ? " + "GROUP BY edit_distance_id " + "LIMIT 1";
+    private static final String SELECT_ALIGNMENT_BY_EDIT_DISTANCE_ID = "SELECT group_concat(txt SEPARATOR '') " + 
+                                                                        "FROM alignment_filter " + 
+                                                                        "WHERE edit_distance_id = ? " + 
+                                                                        "GROUP BY edit_distance_id " + 
+                                                                        "LIMIT 1";
     
     private static JdbcTandemDao jdbcTandemDaoInstance_;
     
@@ -62,7 +77,7 @@ public class JdbcTandemDao extends SimpleJdbcDaoSupport
     public String getInputString(Chromosome chromosome, int start, int length)
     {
         if (inputSingleLineSize_ == null)
-            inputSingleLineSize_ = getSimpleJdbcTemplate().queryForInt(SELECT_LENGHT_OF_INPUT_LINE);
+            inputSingleLineSize_ = getSimpleJdbcTemplate().queryForInt(SELECT_LENGTH_OF_INPUT_LINE);
         
         int lineId = start / inputSingleLineSize_;
         int linePos = start % inputSingleLineSize_;

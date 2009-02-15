@@ -4,10 +4,10 @@ import edu.cuny.brooklyn.tandem.model.LimitedRange;
 
 public class GraphShifterController
 {
-    private static final double DIVEDEND             = 4;
-    private static final int    LEAST_VISIBLE_PIXELS = 10;
-    private final LimitedRange  limitedRange_;
-    private final Runnable      runnable_;
+    private static final double DIVEDEND = 4;
+    private static final int LEAST_VISIBLE_PIXELS = 10;
+    private final LimitedRange limitedRange_;
+    private final Runnable runnable_;
     
     public GraphShifterController(LimitedRange limitedRange, Runnable runnable)
     {

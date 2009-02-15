@@ -21,15 +21,15 @@ import javax.swing.JPopupMenu;
 public class EditPopupMenu
 {
     private final static String SELECT_ALL_STRING = "Select All";
-    private final static String COPY_STRING       = "Copy";
-    private final static String PASTE_STRING      = "Paste";
+    private final static String COPY_STRING = "Copy";
+    private final static String PASTE_STRING = "Paste";
     
-    private final JPopupMenu    editPopupMenu_;
-    private final JMenuItem     selectAllMenuItem_;
-    private final JMenuItem     copyMenuItem_;
-    private final JMenuItem     pasteMenuItem_;
-    private final MouseListener popupListener     = new MouseAdapter()
-                                                  {};
+    private final JPopupMenu editPopupMenu_;
+    private final JMenuItem selectAllMenuItem_;
+    private final JMenuItem copyMenuItem_;
+    private final JMenuItem pasteMenuItem_;
+    private final MouseListener popupListener = new MouseAdapter()
+    {};
     
     public EditPopupMenu()
     {

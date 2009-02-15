@@ -16,7 +16,7 @@ import edu.cuny.brooklyn.tandem.view.widgets.BusyDialog;
 public class MenuBarController
 {
     private final DistanceList distanceList_;
-    private final Runnable     runnable_;
+    private final Runnable runnable_;
     
     public MenuBarController(DistanceList distanceList, Runnable runnable)
     {

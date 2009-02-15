@@ -5,8 +5,8 @@ import edu.cuny.brooklyn.tandem.view.widgets.TextRangeSelectorView;
 
 public class ZoomSliderController
 {
-    private final LimitedRange          limitedRange_;
-    private final Runnable              runnable_;
+    private final LimitedRange limitedRange_;
+    private final Runnable runnable_;
     private final TextRangeSelectorView textRangeSelectorView_;
     
     public ZoomSliderController(LimitedRange limitedRange, Runnable runnable, TextRangeSelectorView textRangeSelectorView)

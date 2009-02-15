@@ -23,23 +23,23 @@ import edu.cuny.brooklyn.tandem.model.JdbcTandemDao;
 
 public class MenuBarView extends JMenuBar implements ActionListener
 {
-    private final JMenu             fileMenu_;
-    private final JMenu             aboutMenu_;
-    private final JMenu             dbOpen_;
-    private final List<JMenuItem>   chromosomeMenuItems_;
+    private final JMenu fileMenu_;
+    private final JMenu aboutMenu_;
+    private final JMenu dbOpen_;
+    private final List<JMenuItem> chromosomeMenuItems_;
     private Map<String, Chromosome> chromosomes_;
     
-    private final JMenuItem         clear_;
-    private final JMenuItem         exit_;
+    private final JMenuItem clear_;
+    private final JMenuItem exit_;
     
-    private final JMenuItem         usage_;
-    private final JMenuItem         license_;
-    private final JMenuItem         about_;
+    private final JMenuItem usage_;
+    private final JMenuItem license_;
+    private final JMenuItem about_;
     
-    private final JFrame            containingFrame_;
+    private final JFrame containingFrame_;
     private final MenuBarController menuBarController_;
     
-    private JdbcTandemDao           jdbcTandemDao_;
+    private JdbcTandemDao jdbcTandemDao_;
     
     public MenuBarView(JFrame containingFrame, MenuBarController menuBarController)
     {

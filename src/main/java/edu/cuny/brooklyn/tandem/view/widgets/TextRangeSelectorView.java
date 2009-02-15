@@ -22,14 +22,14 @@ import edu.cuny.brooklyn.tandem.model.Range;
 
 public class TextRangeSelectorView extends JPanel implements ActionListener
 {
-    public static final int                   COLUMNS = 10;
-    private final JTextField                  startField_;
-    private final JTextField                  endField_;
-    private final JButton                     zoomButton_;
-    private final LimitedRange                limitedRange_;
+    public static final int COLUMNS = 10;
+    private final JTextField startField_;
+    private final JTextField endField_;
+    private final JButton zoomButton_;
+    private final LimitedRange limitedRange_;
     
     private final TextRangeSelectorController rangeSelectorController_;
-    private final JButton                     clearButton_;
+    private final JButton clearButton_;
     
     public TextRangeSelectorView(LimitedRange range, TextRangeSelectorController textualRangeSelectorController)
     {

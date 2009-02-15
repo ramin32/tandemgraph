@@ -11,15 +11,15 @@ import edu.cuny.brooklyn.tandem.helper.SwingUtil;
 public class DraggerListener extends MouseInputAdapter
 {
     
-    private Integer      x1;
-    private Integer      x2;
+    private Integer x1;
+    private Integer x2;
     
-    private int          xMin;
-    private int          xMax;
-    private int          yMin;
-    private int          yMax;
+    private int xMin;
+    private int xMax;
+    private int yMin;
+    private int yMax;
     
-    private boolean      mouseIsPressed = false;
+    private boolean mouseIsPressed = false;
     private final JPanel panel_;
     
     public DraggerListener(JPanel panel)

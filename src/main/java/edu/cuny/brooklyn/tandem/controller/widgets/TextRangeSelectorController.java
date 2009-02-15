@@ -5,7 +5,7 @@ import edu.cuny.brooklyn.tandem.model.LimitedRange;
 public class TextRangeSelectorController
 {
     private final LimitedRange limitedRange_;
-    private final Runnable     runnable_;
+    private final Runnable runnable_;
     
     public TextRangeSelectorController(LimitedRange limitedRange, Runnable runnable)
     {

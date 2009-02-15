@@ -24,9 +24,9 @@ public class GraphScrollBar extends JScrollBar implements AdjustmentListener
 {
     private final GraphShifterController graphShifterController_;
     
-    private static final int             interval = 100 / 7;     // 6 Intervals
+    private static final int interval = 100 / 7; // 6 Intervals
     // plus 1 for
-    private int                          center_;
+    private int center_;
     
     // neutral
     

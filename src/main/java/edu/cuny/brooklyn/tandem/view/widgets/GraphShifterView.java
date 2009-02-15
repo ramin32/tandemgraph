@@ -20,8 +20,8 @@ import edu.cuny.brooklyn.tandem.helper.SwingUtil;
 
 public class GraphShifterView extends JPanel implements ActionListener
 {
-    private final JButton                shiftLeft_;
-    private final JButton                shiftRight_;
+    private final JButton shiftLeft_;
+    private final JButton shiftRight_;
     
     private final GraphShifterController shifterController_;
     

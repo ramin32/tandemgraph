@@ -11,12 +11,12 @@ import java.sql.Statement;
 public class SqlConnectionFactory
 {
     
-    private static final String HOST     = "jdbc:mysql://tandem.sci.brooklyn.cuny.edu/tandem";
+    private static final String HOST = "jdbc:mysql://tandem.sci.brooklyn.cuny.edu/tandem";
     private static final String USERNAME = "client";
     private static final String PASSWORD = "client";
     
-    private static Connection   connection_;
-    private static Statement    statement_;
+    private static Connection connection_;
+    private static Statement statement_;
     
     static
     {

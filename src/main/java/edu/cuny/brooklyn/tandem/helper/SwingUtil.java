@@ -28,9 +28,9 @@ import org.apache.log4j.Logger;
 
 public class SwingUtil
 {
-    private static final Logger logger_            = Logger.getLogger(SwingUtil.class);
-    public static final int     DEFAULT_INSET_SIZE = 20;
-    public static final Insets  DEFAULT_INSETS     = new Insets(DEFAULT_INSET_SIZE, DEFAULT_INSET_SIZE, DEFAULT_INSET_SIZE, DEFAULT_INSET_SIZE);
+    private static final Logger logger_ = Logger.getLogger(SwingUtil.class);
+    public static final int DEFAULT_INSET_SIZE = 20;
+    public static final Insets DEFAULT_INSETS = new Insets(DEFAULT_INSET_SIZE, DEFAULT_INSET_SIZE, DEFAULT_INSET_SIZE, DEFAULT_INSET_SIZE);
     public static final boolean DEFAULT_SCROLLABLE = true;
     
     /**

@@ -22,9 +22,9 @@ import edu.cuny.brooklyn.tandem.model.Range;
 public class TrapezoidGraphImage
 {
     
-    private BufferedImage       grid_;
-    private final DistanceList  distanceList_;
-    private final static double LEFT_SIDE_SLOPE  = 2;
+    private BufferedImage grid_;
+    private final DistanceList distanceList_;
+    private final static double LEFT_SIDE_SLOPE = 2;
     private final static double RIGHT_SIDE_SLOPE = -2;
     
     public TrapezoidGraphImage(DistanceList distanceList, int width, int height)
@@ -48,16 +48,16 @@ public class TrapezoidGraphImage
         
         // distanceList_.setSelected(distanceList_.get(0));
         for (int i = 0; i < distanceList_.size(); i++)
-            drawTrapezoid(graphics, distanceList_.get(i), range.getMin(), xScale, yScale);
+            drawTrapezoid(graphics, distanceList_.get(i), range.getMin(), xScale, yScale, false);
         
-        // Distance selectedDistance = distanceList_.getSelected();
-        // if (selectedDistance != null) fillTriangle(graphics,
-        // selectedDistance, range.getMin(), xScale, yScale);
+         Distance selectedDistance = distanceList_.getSelectedDistance();
+         if (selectedDistance != null) 
+             drawTrapezoid(graphics, selectedDistance, range.getMin(), xScale, yScale, true);
         return grid_;
     }
     
     private void drawTrapezoid(Graphics g, Distance distance,
-            double startPoint, double xScale, double yScale)
+            double startPoint, double xScale, double yScale, boolean fill)
     {
         
         double log10y = Math.log10(distance.getSize());
@@ -76,7 +76,10 @@ public class TrapezoidGraphImage
         double y4 = y1;
         
         g.setColor(distance.getColor());
-        g.drawPolygon(new int[] { (int) Math.round(x1), (int) Math.round(x2), (int) Math.round(x3), (int) Math.round(x4) }, new int[] { (int) Math.round(y1), (int) Math.round(y2), (int) Math.round(y3), (int) Math.round(y4) }, 4);
+        if(fill)
+            g.fillPolygon(new int[] { (int) Math.round(x1), (int) Math.round(x2), (int) Math.round(x3), (int) Math.round(x4) }, new int[] { (int) Math.round(y1), (int) Math.round(y2), (int) Math.round(y3), (int) Math.round(y4) }, 4);
+        else
+            g.drawPolygon(new int[] { (int) Math.round(x1), (int) Math.round(x2), (int) Math.round(x3), (int) Math.round(x4) }, new int[] { (int) Math.round(y1), (int) Math.round(y2), (int) Math.round(y3), (int) Math.round(y4) }, 4);
     }
     
     public static double translateXPoint(double x, double startPoint,

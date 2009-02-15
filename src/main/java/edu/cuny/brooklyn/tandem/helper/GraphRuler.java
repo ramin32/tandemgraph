@@ -11,17 +11,20 @@ import java.awt.Graphics;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import org.apache.log4j.Logger;
+
 import edu.cuny.brooklyn.tandem.model.Range;
 
 public class GraphRuler
 {
-    private final JPanel    containingPanel_;
-    private final int       MARGIN, MARKINGS;
+    private final static Logger logger_ = Logger.getLogger(GraphRuler.class);
+    private final JPanel containingPanel_;
+    private final int MARGIN, MARKINGS;
     
     public static final int DEFAULT_TICK_SIZE = 10;
     
-    private int             xAxisTickSize;
-    private int             yAxisTickSize;
+    private int xAxisTickSize;
+    private int yAxisTickSize;
     
     public GraphRuler(JPanel panel, int margin, int markings)
     {
@@ -52,13 +55,14 @@ public class GraphRuler
     
     public void drawMarkings(Graphics g, Range horRange, Range verRange)
     {
+        logger_.debug("Vertical ruler range: " + verRange);
         int horizontalScale = horRange.getSize() / MARKINGS;
-        int verticalScale = verRange.getSize() / MARKINGS;
+        int verticalScale = verRange.getSize();
         
         int bottomMarginPos = containingPanel_.getHeight() - MARGIN;
         
         int xScale = (containingPanel_.getWidth() - MARGIN) / MARKINGS;
-        int yScale = (containingPanel_.getHeight() - MARGIN) / MARKINGS;
+        int yScale = (containingPanel_.getHeight() - MARGIN) / verticalScale;
         
         // Draw horizontal markings and labels5
         for (int mark = 1, horLabel = horRange.getMin(); mark < MARKINGS; mark++)
@@ -73,9 +77,9 @@ public class GraphRuler
         }
         
         // Draw vertical markings and labels
-        for (int mark = 1; mark < MARKINGS; mark++)
+        for (int mark = 0; mark < verticalScale; mark++)
         {
-            String label = ((MARKINGS - mark) * verticalScale + verRange.getMin()) + "";
+            String label = Math.round(Math.pow(10, verticalScale - mark)) + "";
             label = commanize(label);
             
             int yPos = mark * yScale;

@@ -18,19 +18,19 @@ import edu.cuny.brooklyn.tandem.view.widgets.ZoomSliderView;
 
 public class TandemGraphView implements Runnable
 {
-    private final JFrame                      frame_;
-    private final MenuBarView                 menuBarView_;
-    private final GraphPanelView              graphPanelView_;
-    private final ZoomSliderView              zoomSliderView_;
+    private final JFrame frame_;
+    private final MenuBarView menuBarView_;
+    private final GraphPanelView graphPanelView_;
+    private final ZoomSliderView zoomSliderView_;
     
-    private final DistanceList                distanceList_;
+    private final DistanceList distanceList_;
     
-    private final NavigatorToolbar            navigatorToolbar_;
-    private final GraphShifterController      graphShifterController_;
+    private final NavigatorToolbar navigatorToolbar_;
+    private final GraphShifterController graphShifterController_;
     private final TextRangeSelectorController textRangeSelectorController_;
-    private final ZoomSliderController        zoomSliderController_;
+    private final ZoomSliderController zoomSliderController_;
     
-    private final String                      FRAME_TITLE = "Tandem Repeats Grapher";
+    private final String FRAME_TITLE = "Tandem Repeats Grapher";
     
     public TandemGraphView(DistanceList distanceList)
     {

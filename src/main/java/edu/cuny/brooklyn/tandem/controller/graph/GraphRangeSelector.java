@@ -20,23 +20,23 @@ import edu.cuny.brooklyn.tandem.view.widgets.TextRangeSelectorView;
 
 public class GraphRangeSelector extends MouseAdapter implements MouseMotionListener
 {
-    private Runnable              updater_;
-    private LimitedRange          limitedRange_;
-    private int                   barWidth_;
-    private int                   barHeight_;
-    private int                   barX1_;
-    private int                   barX2_;
-    private int                   barY1_;
-    private int                   barY2_;
+    private Runnable updater_;
+    private LimitedRange limitedRange_;
+    private int barWidth_;
+    private int barHeight_;
+    private int barX1_;
+    private int barX2_;
+    private int barY1_;
+    private int barY2_;
     
     // Points where user clicks inside the RangeSelector
-    private Integer               startPoint_;
-    private Integer               scaledStartPoint_;
-    private Integer               endPoint_;
-    private Integer               scaledEndPoint_;
+    private Integer startPoint_;
+    private Integer scaledStartPoint_;
+    private Integer endPoint_;
+    private Integer scaledEndPoint_;
     
-    private boolean               mouseIsPressed_;
-    private JPanel                panel_;
+    private boolean mouseIsPressed_;
+    private JPanel panel_;
     
     private TextRangeSelectorView textRangeSelectorView_;
     
