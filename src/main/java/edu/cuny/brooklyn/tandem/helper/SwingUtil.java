@@ -1,26 +1,38 @@
 /************************************************************************
- * SwingHelper.java
- *
- * Helper class for various miscellaneous Swing/AWT functionality
- *
- * Author:
- * Ramin Rakhamimov
- * Brooklyn College Research Project
+ * SwingHelper.java Helper class for various miscellaneous Swing/AWT
+ * functionality Author: Ramin Rakhamimov Brooklyn College Research Project
  * Under the supervision of Professor Sokol
  ************************************************************************/
 package edu.cuny.brooklyn.tandem.helper;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.Insets;
+import java.awt.Point;
 import java.net.URL;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JSeparator;
+import javax.swing.JTextArea;
+import javax.swing.SwingUtilities;
+
 import org.apache.log4j.Logger;
 
 public class SwingUtil
 {
-    private static final Logger logger_ = Logger.getLogger(SwingUtil.class);
-    private static final boolean DEFAULT_SCROLLABLE = true;
-    private static final Insets DEFAULT_INSETS = new Insets(20, 20, 20, 20);
-
+    private static final Logger logger_            = Logger.getLogger(SwingUtil.class);
+    public static final int     DEFAULT_INSET_SIZE = 20;
+    public static final Insets  DEFAULT_INSETS     = new Insets(DEFAULT_INSET_SIZE, DEFAULT_INSET_SIZE, DEFAULT_INSET_SIZE, DEFAULT_INSET_SIZE);
+    public static final boolean DEFAULT_SCROLLABLE = true;
+    
     /**
      * Returns a random color.
      */
@@ -28,7 +40,7 @@ public class SwingUtil
     {
         return new Color((int) (Math.random() * 255), (int) (Math.random() * 255), (int) (Math.random() * 255));
     }
-
+    
     public static Color getRandColor(int threashold)
     {
         if (threashold < 0 || threashold > 255)
@@ -36,8 +48,9 @@ public class SwingUtil
         int secondOperand = 255 - threashold;
         return new Color((int) (Math.random() * secondOperand) + threashold, (int) (Math.random() * secondOperand) + threashold, (int) (Math.random() * secondOperand) + threashold);
     }
-
-    public static void showDialogsforUncaughtExceptionsInFrame(final JFrame frame)
+    
+    public static void showDialogsforUncaughtExceptionsInFrame(
+            final JFrame frame)
     {
         // Handle all uncaught exceptions, displaying errors with Message
         // Dialogs...
@@ -46,43 +59,56 @@ public class SwingUtil
             public void uncaughtException(Thread t, Throwable ex)
             {
                 logger_.error(ex.getMessage(), ex);
-
-                if (ex.getMessage() == null) ex.printStackTrace();
-                    // JOptionPane.showMessageDialog(frame,
-                    // ex.getStackTrace(), "Warning!",
-                    // JOptionPane.ERROR_MESSAGE);
+                
+                if (ex.getMessage() == null)
+                    ex.printStackTrace();
                 else
-                {
                     JOptionPane.showMessageDialog(frame, ex.getMessage(), "Warning!", JOptionPane.ERROR_MESSAGE);
-
-                }
             }
-
+            
         });
     }
-
+    
     public static JButton createJButtonfromImgUrl(URL imgUrl)
     {
-        if (imgUrl == null) throw new NullPointerException("imgUrl is null");
+        if (imgUrl == null)
+            throw new NullPointerException("imgUrl is null");
         ImageIcon icon = new ImageIcon(imgUrl);
         return new JButton(icon);
     }
-
-    public static JComponent createStringTextArea(String string, Insets insets, boolean scrollable)
+    
+    public static JComponent createStringTextArea(String string, Insets insets,
+            boolean scrollable)
     {
-    	JTextArea textArea = new JTextArea(string);
-        textArea.setPreferredSize(new Dimension(100, 50));
+        JTextArea textArea = new JTextArea();
+        textArea.setText(string);
         textArea.setEditable(false);
         textArea.setBackground(Color.LIGHT_GRAY);
-
+        
         if (insets == null)
             textArea.setMargin(DEFAULT_INSETS);
         else
             textArea.setMargin(insets);
-
+        
         if (scrollable)
-            return new JScrollPane(textArea);
+        {
+            int scrollPaneHeight = Math.min(500, getTextableHeight(textArea));
+            JScrollPane scrollPane = new JScrollPane(textArea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+            scrollPane.setPreferredSize(new Dimension(500, scrollPaneHeight));
+            scrollPane.getViewport().setViewPosition(new Point(0, 0));
+            return scrollPane;
+        }
         return textArea;
+    }
+    
+    public static int getTextableHeight(JTextArea textArea)
+    {
+        int textableHeight = textArea.getLineCount() * textArea.getFontMetrics(textArea.getFont()).getHeight();
+        Insets insets = textArea.getInsets();
+        if (insets != null)
+            textableHeight += insets.top + insets.bottom;
+        
+        return textableHeight;
     }
     
     public static JComponent createStringTextArea(String string)
@@ -90,54 +116,56 @@ public class SwingUtil
         return createStringTextArea(string, DEFAULT_INSETS, DEFAULT_SCROLLABLE);
     }
     
-    public static JComponent createFileTextArea(String inputFile, Insets insets, boolean scrollable)
+    public static JComponent createFileTextArea(String inputFile,
+            Insets insets, boolean scrollable)
     {
         String usageString = IOUtil.getStringFromFile(inputFile);
         return createStringTextArea(usageString, insets, scrollable);
     }
-
-    public static JComponent createFileTextArea(String inputFile)
+    
+    public static JComponent createFileTextArea(String string)
     {
-        return createFileTextArea(inputFile, DEFAULT_INSETS, DEFAULT_SCROLLABLE);
+        return createFileTextArea(string, DEFAULT_INSETS, DEFAULT_SCROLLABLE);
     }
-
-
+    
     public static void setBusyCursor(Component component, boolean isBusy)
     {
-        if (isBusy) component.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-        else component.setCursor(Cursor.getDefaultCursor());
+        if (isBusy)
+            component.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        else
+            component.setCursor(Cursor.getDefaultCursor());
     }
-
+    
     public static JSeparator getVerticalSeparator()
     {
         JSeparator separator = new JSeparator(JSeparator.VERTICAL);
         separator.setSize(5, 25);
         return separator;
     }
-
+    
     public static JSeparator getHorizontalSeparator()
     {
         JSeparator separator = new JSeparator(JSeparator.HORIZONTAL);
         separator.setSize(10, 10);
         return separator;
     }
-
-    public static JFrame createAndShowTestFrame(final JPanel panel)
+    
+    public static JFrame createAndShowTestFrame(final JComponent jComponent)
     {
         final JFrame frame = new JFrame("Test");
-
+        
         SwingUtilities.invokeLater(new Runnable()
         {
             public void run()
             {
-                panel.setPreferredSize(new Dimension(500, 500));
-                frame.add(panel);
-                frame.pack();
+                frame.setLayout(new BorderLayout());
+                frame.add(jComponent, BorderLayout.CENTER);
+                frame.setSize(500, 500);
                 frame.setVisible(true);
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             }
         });
-
+        
         return frame;
     }
 }

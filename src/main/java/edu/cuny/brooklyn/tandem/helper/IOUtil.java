@@ -19,19 +19,19 @@ public class IOUtil
             points[2] = scanner.nextInt();
         }
         catch (Exception e)
-        {
-        }
+        {}
         return points;
     }
-
+    
     public static String getStringFromFile(String inputFile)
     {
         InputStream input = SwingUtil.class.getClassLoader().getResourceAsStream(inputFile);
         String fileString = new Scanner(input).useDelimiter("\\Z").next();
         return fileString;
     }
-
-    public static String getStringFromFile(String inputFile, int offset, int length) throws IOException
+    
+    public static String getStringFromFile(String inputFile, int offset,
+            int length) throws IOException
     {
         FileReader reader = new FileReader(inputFile);
         char[] cbuf = new char[length];
