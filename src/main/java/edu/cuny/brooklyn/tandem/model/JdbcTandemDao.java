@@ -54,8 +54,7 @@ public class JdbcTandemDao extends SimpleJdbcDaoSupport
     {
         return getSimpleJdbcTemplate().query(SELECT_ALL_CHROMOSOMES, new ParameterizedRowMapper<Chromosome>()
         {
-            public Chromosome mapRow(ResultSet resultSet, int i)
-                    throws SQLException
+            public Chromosome mapRow(ResultSet resultSet, int i) throws SQLException
             {
                 return new Chromosome(resultSet.getInt("chromosome_id"), resultSet.getString("name"));
             }
@@ -66,8 +65,7 @@ public class JdbcTandemDao extends SimpleJdbcDaoSupport
     {
         return getSimpleJdbcTemplate().query(SELECT_ALL_DISTANCES_BY_CHROMOSOME_ID, new ParameterizedRowMapper<Distance>()
         {
-            public Distance mapRow(ResultSet resultSet, int i)
-                    throws SQLException
+            public Distance mapRow(ResultSet resultSet, int i) throws SQLException
             {
                 return new Distance(resultSet.getInt("start"), resultSet.getInt("end"), resultSet.getInt("edit_distance_id"));
             }

@@ -10,6 +10,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Insets;
 import java.awt.Point;
 import java.net.URL;
@@ -77,8 +78,7 @@ public class SwingUtil
         return new JButton(icon);
     }
     
-    public static JComponent createStringTextArea(String string, Insets insets,
-            boolean scrollable)
+    public static JComponent createStringTextArea(String string, Insets insets, boolean scrollable)
     {
         JTextArea textArea = new JTextArea();
         textArea.setText(string);

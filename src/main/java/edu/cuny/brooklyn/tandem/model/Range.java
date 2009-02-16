@@ -119,7 +119,7 @@ public class Range implements Comparable<Distance>
     
     public String toString()
     {
-        return "Start: " + min_ + ", End: " + getMax() + ", Size: " + size_;
+        return "Start: " + min_ + ", End: " + getMax() + ", Length: " + size_;
     }
     
     public static void main(String[] args)

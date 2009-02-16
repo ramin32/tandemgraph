@@ -4,11 +4,13 @@
 
 package edu.cuny.brooklyn.tandem.controller.graph;
 
+import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
 
 import org.apache.log4j.Logger;
 
@@ -63,7 +65,7 @@ public class RepeatClickListener extends MouseAdapter
         int actualPoint = (int) ((e.getX() - containingPanelView_.MARGIN) * xUnScale) + rangeStart;
         
         Distance correspondingDist = null;
-        for (int i = distances_.getStartIndex(); i <= distances_.getEndIndex(); i++)
+        for (int i = distances_.getLocalStartIndex(); i <= distances_.getLocalEndIndex(); i++)
         {
             int start = distances_.get(i).getMin();
             int end = distances_.get(i).getMax();
@@ -88,8 +90,10 @@ public class RepeatClickListener extends MouseAdapter
             return;
         
         String alignment = JdbcTandemDao.getInstance().getAlignmentByDistance(selectedDistance);
-        JComponent currentAlignmentArea = SwingUtil.createStringTextArea("Repeat:\n" + selectedDistance + "\nAlignment:\n" + alignment);
+        JComponent currentAlignmentArea = SwingUtil.createStringTextArea(selectedDistance + "\n\nAlignment:\n" + alignment);
         
+        // Set text area's font to Courier to properly align text.
+        ((JScrollPane) currentAlignmentArea).getViewport().getView().setFont(new Font("Courier", Font.PLAIN, 12));
         JOptionPane.showMessageDialog(null, currentAlignmentArea);
     }
 }

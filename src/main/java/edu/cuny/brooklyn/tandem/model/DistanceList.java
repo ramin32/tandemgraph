@@ -13,6 +13,8 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 public class DistanceList extends AbstractList<Distance>
 {
     private final List<Distance> distances_;
@@ -36,6 +38,12 @@ public class DistanceList extends AbstractList<Distance>
     private Chromosome chromosome_;
 
     private Distance selectedDistance_;
+    
+    private Integer cachedLocalStartIndex_;
+    private Integer cachedLocalStart_;
+
+    private Integer cachedLocalEndIndex_;
+    private Integer cachedLocalEnd_;
     
     public DistanceList()
     {
@@ -161,18 +169,26 @@ public class DistanceList extends AbstractList<Distance>
         return index;
     }
     
-    public int getStartIndex()
+    public int getLocalStartIndex()
     {
         int localStart = getLimitedRange().getLocalMin();
+        if(cachedLocalStartIndex_ != null && cachedLocalStart_ != null && cachedLocalStart_ == localStart)
+            return cachedLocalStartIndex_;
+        cachedLocalStart_ = localStart;
         Distance d = new Distance(localStart,localStart,0);
-        return find(d);
+        cachedLocalStartIndex_ = find(d);
+        return cachedLocalStartIndex_;
     }
     
-    public int getEndIndex()
+    public int getLocalEndIndex()
     {
         int localEnd = getLimitedRange().getLocalMax();
+        if(cachedLocalEndIndex_ != null && cachedLocalEnd_ != null && cachedLocalEnd_ == localEnd)
+            return cachedLocalEndIndex_;
+        cachedLocalEnd_ = localEnd;
         Distance d = new Distance(localEnd,localEnd,0);
-        return find(d);
+        cachedLocalEndIndex_ = find(d);
+        return cachedLocalEndIndex_;
     }
     
     public Iterator<Distance> iterator()

@@ -1,6 +1,7 @@
 package edu.cuny.brooklyn.tandem.view;
 
 import java.awt.BorderLayout;
+import java.awt.Toolkit;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -18,6 +19,19 @@ import edu.cuny.brooklyn.tandem.view.widgets.ZoomSliderView;
 
 public class TandemGraphView implements Runnable
 {
+
+    private static final int FRAME_WIDTH;
+    private static final int FRAME_HEIGHT;
+    private final String FRAME_TITLE = "Tandem Repeats Grapher V2.0";
+    
+    // Set frame size to 3/4th height and width of client monitor.
+    static
+    {
+        FRAME_WIDTH = (int) Math.round(Toolkit.getDefaultToolkit().getScreenSize().width* (3/4.0));
+        FRAME_HEIGHT = (int) Math.round(Toolkit.getDefaultToolkit().getScreenSize().height * (3/4.0));
+    }
+    
+    
     private final JFrame frame_;
     private final MenuBarView menuBarView_;
     private final GraphPanelView graphPanelView_;
@@ -30,7 +44,6 @@ public class TandemGraphView implements Runnable
     private final TextRangeSelectorController textRangeSelectorController_;
     private final ZoomSliderController zoomSliderController_;
     
-    private final String FRAME_TITLE = "Tandem Repeats Grapher";
     
     public TandemGraphView(DistanceList distanceList)
     {
@@ -58,7 +71,8 @@ public class TandemGraphView implements Runnable
     {
         frame_.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         SwingUtil.showDialogsforUncaughtExceptionsInFrame(frame_);
-        frame_.setSize(1024, 768);
+        
+        frame_.setSize(FRAME_WIDTH, FRAME_HEIGHT);
         frame_.setJMenuBar(menuBarView_);
         
         JPanel southPanel = new JPanel(new BorderLayout());
