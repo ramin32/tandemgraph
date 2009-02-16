@@ -55,7 +55,6 @@ public class GraphRuler
     
     public void drawMarkings(Graphics g, Range horRange, Range verRange)
     {
-        logger_.debug("Vertical ruler range: " + verRange);
         int horizontalScale = horRange.getSize() / MARKINGS;
         int verticalScale = verRange.getSize();
         
