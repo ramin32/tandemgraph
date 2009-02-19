@@ -6,6 +6,7 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+import edu.cuny.brooklyn.tandem.TandemGraph;
 import edu.cuny.brooklyn.tandem.helper.InfoFiles;
 import edu.cuny.brooklyn.tandem.helper.SwingUtil;
 import edu.cuny.brooklyn.tandem.model.Chromosome;
@@ -33,8 +34,7 @@ public class MenuBarController
     
     public void showAbout(JFrame frame)
     {
-        JComponent aboutTextArea = SwingUtil.createFileTextArea(InfoFiles.ABOUT, SwingUtil.DEFAULT_INSETS, true);
-        showMessageDialog(frame, aboutTextArea, "About", JOptionPane.INFORMATION_MESSAGE);
+        showMessageDialog(frame, TandemGraph.getAboutButton(), "About", JOptionPane.INFORMATION_MESSAGE);
     }
     
     public void showLicense(JFrame frame)

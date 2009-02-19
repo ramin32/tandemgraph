@@ -49,6 +49,18 @@ public class TandemGraph
     private static void initializeTandemDao()
     {
         JPanel loadingPanel = new JPanel();
+        
+        loadingPanel.add(getAboutButton(), BorderLayout.CENTER);
+        
+        boolean undecorated = true;
+        BusyDialog busyDialog = new BusyDialog(null, loadingPanel, undecorated);
+        busyDialog.setLoading(true);
+        JdbcTandemDao.getInstance().initialize();
+        busyDialog.dispose();
+    }
+    
+    public static JButton getAboutButton()
+    {
         JButton dnaButton = SwingUtil.createJButtonfromImgUrl("images/start-screen.gif");  
         dnaButton.addActionListener(new ActionListener()
         {
@@ -64,12 +76,6 @@ public class TandemGraph
             }
             
         });
-        loadingPanel.add(dnaButton, BorderLayout.CENTER);
-        
-        boolean undecorated = true;
-        BusyDialog busyDialog = new BusyDialog(null, loadingPanel, undecorated);
-        busyDialog.setLoading(true);
-        JdbcTandemDao.getInstance().initialize();
-        busyDialog.dispose();
+        return dnaButton;
     }
 }
