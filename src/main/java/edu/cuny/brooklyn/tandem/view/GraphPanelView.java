@@ -91,8 +91,9 @@ public class GraphPanelView extends JPanel
             // Get the range selector and draw it
             int x = MARGIN;
             int y = getHeight() - MARGIN + 1;
-//            TODO FIX THIS, IT CRASHES!
-//            drawSequence(g, x, y);
+           
+            // TODO fix to properly size alignments with respect to current range
+            // drawSequence(g, x, y);
             
             Point point = new Point(x, y);
             Dimension dimension = new Dimension(getWidth() - MARGIN - 1, SELECTOR_HEIGHT);
@@ -105,7 +106,7 @@ public class GraphPanelView extends JPanel
     private void drawSequence(Graphics g, int x, int y)
     {
         Range localRange = distances_.getLimitedRange().getLocal();
-        int sequenceStringWidth = localRange.getSize() * SEQUENCE_FONT_SIZE;
+        long sequenceStringWidth = ((long) localRange.getSize());
         if(sequenceStringWidth > getWidth())
             return;
         

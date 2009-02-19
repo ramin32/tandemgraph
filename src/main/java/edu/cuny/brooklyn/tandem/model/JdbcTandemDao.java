@@ -1,8 +1,11 @@
 package edu.cuny.brooklyn.tandem.model;
 
+import java.io.IOException;
+import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Scanner;
 
 import org.apache.log4j.Logger;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -40,6 +43,7 @@ public class JdbcTandemDao extends SimpleJdbcDaoSupport
                                                                         "WHERE edit_distance_id = ? " + 
                                                                         "GROUP BY edit_distance_id " + 
                                                                         "LIMIT 1";
+    private static final String INPUT_URL = "http://tandem.sci.brooklyn.cuny.edu/GetInput.do?chromosome=%s&offset=%s&length=%s";
     
     private static JdbcTandemDao jdbcTandemDaoInstance_;
     
@@ -72,26 +76,44 @@ public class JdbcTandemDao extends SimpleJdbcDaoSupport
         }, chromosome.getId());
     }
     
-    public String getInputString(Chromosome chromosome, int start, int length)
+    public String getInputString(Chromosome chromosome, int offset, int length)
     {
-        if (inputSingleLineSize_ == null)
-            inputSingleLineSize_ = getSimpleJdbcTemplate().queryForInt(SELECT_LENGTH_OF_INPUT_LINE);
+//        BELOW COMMENTED CODE IS FOR DB ACCESS
+//        if (inputSingleLineSize_ == null)
+//            inputSingleLineSize_ = getSimpleJdbcTemplate().queryForInt(SELECT_LENGTH_OF_INPUT_LINE);
+//        
+//        int lineId = start / inputSingleLineSize_;
+//        int linePos = start % inputSingleLineSize_;
+//        if (linePos > 0)
+//            lineId++;
+//        
+//        lineId += getSimpleJdbcTemplate().queryForInt(SELECT_FIRST_ID_OF_INPUT_LINE_WITH_CHROMOSOME, chromosome.getId());
+//        
+//        StringBuilder result = new StringBuilder(getSimpleJdbcTemplate().queryForObject(SELECT_INPUT_LINE_BY_INPUT_ID, String.class, lineId).substring(linePos).trim());
+//        while (result.length() < length)
+//        {
+//            lineId++;
+//            result.append(getSimpleJdbcTemplate().queryForObject(SELECT_INPUT_LINE_BY_INPUT_ID, String.class, lineId).trim());
+//        }
+//        
+//        return result.substring(0, length);
         
-        int lineId = start / inputSingleLineSize_;
-        int linePos = start % inputSingleLineSize_;
-        if (linePos > 0)
-            lineId++;
-        
-        lineId += getSimpleJdbcTemplate().queryForInt(SELECT_FIRST_ID_OF_INPUT_LINE_WITH_CHROMOSOME, chromosome.getId());
-        
-        StringBuilder result = new StringBuilder(getSimpleJdbcTemplate().queryForObject(SELECT_INPUT_LINE_BY_INPUT_ID, String.class, lineId).substring(linePos).trim());
-        while (result.length() < length)
+        String result = "";
+        try
         {
-            lineId++;
-            result.append(getSimpleJdbcTemplate().queryForObject(SELECT_INPUT_LINE_BY_INPUT_ID, String.class, lineId).trim());
+            String formattedUrlString = String.format(INPUT_URL, chromosome.getId(), offset, length);
+            URL getInputUrl = new URL(formattedUrlString);
+       
+            Scanner scanner = new Scanner(getInputUrl.openStream()).useDelimiter("\\Z+|\\s+");
+            result = scanner.next();
+        }
+        catch (IOException e)
+        {
+            logger_.error(e.getMessage(), e);
         }
         
-        return result.substring(0, length);
+        return result;
+      
     }
     
     public String getAlignmentByDistance(Distance distance)

@@ -23,9 +23,11 @@ import edu.cuny.brooklyn.tandem.view.GraphPanelView;
 public class RepeatClickListener extends MouseAdapter
 {
     private static final Logger logger_ = Logger.getLogger(RepeatClickListener.class);
-    private static final int MAX_FUNCTIONING_SIZE = 20;
+    private static final int MAX_FUNCTIONING_SIZE = 100;
+    private static final int MOTION_RADIUS = 20;
     private GraphPanelView containingPanelView_;
     private final DistanceList distances_;
+    private Integer previousX;
     
     
     public RepeatClickListener(DistanceList distances)
@@ -46,6 +48,14 @@ public class RepeatClickListener extends MouseAdapter
     {
         if (distances_ == null || containingPanelView_ == null)
             return;
+        
+        if(previousX == null || Math.abs(previousX - e.getX()) < MOTION_RADIUS)
+        {
+            previousX = e.getX();
+            return;
+        }
+        
+        
         int adjustedHeight = containingPanelView_.getHeight() - containingPanelView_.MARGIN;
         int adjustedWidth = containingPanelView_.getWidth() - containingPanelView_.MARGIN;
         
@@ -53,6 +63,7 @@ public class RepeatClickListener extends MouseAdapter
         if (distances_.isEmpty() || e.getY() > adjustedHeight || e.getX() < containingPanelView_.MARGIN)
             return;
         
+        logger_.debug((containingPanelView_.getWidth() * MAX_FUNCTIONING_SIZE));
         // Skip click if local range is too large to discern between individual repeats
         if(distances_.getLimitedRange().getLocalSize() > (containingPanelView_.getWidth() * MAX_FUNCTIONING_SIZE))
             return;
@@ -79,6 +90,7 @@ public class RepeatClickListener extends MouseAdapter
             return;
         distances_.setSelectedDistance(correspondingDist);
         containingPanelView_.repaint();
+        logger_.debug("Processed.");
         
     }
     
