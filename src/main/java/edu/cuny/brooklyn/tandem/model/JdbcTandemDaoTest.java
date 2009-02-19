@@ -29,19 +29,12 @@ public class JdbcTandemDaoTest extends TestCase
         
         assertFalse(chromosomes.size() == 0);
         logger_.debug(chromosomes);
-        
-        // TODO Caution below code takes a long time, test only when necessary
-        start = System.currentTimeMillis();
-        List<Distance> distances = jdbcTandemDao_.getAllDistancesByChromosome(chromosomes.get(0));
-        logger_.debug("Obtaining all distances took: " + (System.currentTimeMillis() - start) + "ms");
-        
-        assertEquals(distances.size(), 224399);
     }
     
     public void testGetInputLine()
     {
         Chromosome chromosome = new Chromosome(1, "CH1");
-        String expected = "TAACCCTAACCCTAACCCTAACCCTAACCCTAACCCTAACCCTAACCCTAACCCTAACCCTAACCCTAACCCTAACCCTAACCCTAACCCTAACCCTAACCCTAACCCAACCCTAACCCTAACAACCCTAACCCTAACCCTAACCCCTAACCCTAACCCTAACCCTAACCCTAACCTAACCCTAACCCTAACCCTAACCCTAACCCTAACCCTAACCCTAACCCTAACCCCTAACCCTAAC";
+        String expected = "TAACCCTAACCCTAACCCTAACCCTAACCCTAACCCTAACCCTAACCCTAACCCTAACCCTAACCCTAACCCTAACCCTAACCCTAACCCTAACCCTAACCCTAACCCAACCCTAACCCTAACCCTAACCCTAACCCTAACCCTAACCCCTAACCCTAACCCTAACCCTAACCCTAACCTAACCCTAACCCTAACCCTAACCCTAACCCTAACCCTAACCCTAACCCTAACCCCTAACCCTAAC";
         String actual = jdbcTandemDao_.getInputString(chromosome, 0, 61 * 4);
         assertEquals("testGetInputLine", expected, actual);
     }

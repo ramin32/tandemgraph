@@ -6,4 +6,5 @@ public interface InfoFiles
     String LOADING = "docs/LOADING.TXT";
     String USAGE = "docs/USAGE.TXT";
     String LICENSE = "docs/LICENCE.TXT";
+    String STARTUP = "docs/LICENCE.TXT";
 }

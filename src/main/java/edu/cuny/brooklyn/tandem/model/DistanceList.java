@@ -13,8 +13,6 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
-import org.apache.log4j.Logger;
-
 public class DistanceList extends AbstractList<Distance>
 {
     private final List<Distance> distances_;

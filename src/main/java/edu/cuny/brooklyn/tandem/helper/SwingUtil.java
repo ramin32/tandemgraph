@@ -10,10 +10,11 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dimension;
-import java.awt.Font;
+import java.awt.Image;
 import java.awt.Insets;
 import java.awt.Point;
-import java.net.URL;
+import java.awt.Rectangle;
+import java.awt.Toolkit;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -33,6 +34,7 @@ public class SwingUtil
     public static final int DEFAULT_INSET_SIZE = 20;
     public static final Insets DEFAULT_INSETS = new Insets(DEFAULT_INSET_SIZE, DEFAULT_INSET_SIZE, DEFAULT_INSET_SIZE, DEFAULT_INSET_SIZE);
     public static final boolean DEFAULT_SCROLLABLE = true;
+    public static final double HALF = 2.0;
     
     /**
      * Returns a random color.
@@ -70,8 +72,9 @@ public class SwingUtil
         });
     }
     
-    public static JButton createJButtonfromImgUrl(URL imgUrl)
+    public static JButton createJButtonfromImgUrl(String imagePath)
     {
+        Image imgUrl = Toolkit.getDefaultToolkit().getImage(SwingUtil.class.getClassLoader().getResource(imagePath));
         if (imgUrl == null)
             throw new NullPointerException("imgUrl is null");
         ImageIcon icon = new ImageIcon(imgUrl);
@@ -95,7 +98,7 @@ public class SwingUtil
             int scrollPaneHeight = Math.min(500, getTextableHeight(textArea));
             JScrollPane scrollPane = new JScrollPane(textArea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
             scrollPane.setPreferredSize(new Dimension(500, scrollPaneHeight));
-            scrollPane.getViewport().setViewPosition(new Point(0, 0));
+            scrollPane.scrollRectToVisible(new Rectangle(0,0));
             return scrollPane;
         }
         return textArea;
@@ -167,5 +170,25 @@ public class SwingUtil
         });
         
         return frame;
+    }
+    
+    public static void centralizeComponent(Component component, Component otherComponent)
+    {
+        
+        Dimension othersDimension = null;
+        Point othersLocation = null;
+        if (otherComponent == null)
+        {
+            othersDimension = Toolkit.getDefaultToolkit().getScreenSize();
+            othersLocation = new Point(0,0);
+        }
+        else
+        {
+            othersDimension = otherComponent.getSize();
+            othersLocation = otherComponent.getLocation();
+        }   
+        Point centerPoint = new Point((int) Math.round(othersDimension.width / HALF  - component.getWidth() / HALF) + othersLocation.x,
+                                      (int) Math.round(othersDimension.height / HALF  - component.getHeight() / HALF)  + othersLocation.y);
+        component.setLocation(centerPoint);
     }
 }

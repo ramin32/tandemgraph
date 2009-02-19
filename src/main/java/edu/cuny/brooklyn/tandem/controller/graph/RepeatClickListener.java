@@ -63,8 +63,7 @@ public class RepeatClickListener extends MouseAdapter
         if (distances_.isEmpty() || e.getY() > adjustedHeight || e.getX() < containingPanelView_.MARGIN)
             return;
         
-        logger_.debug((containingPanelView_.getWidth() * MAX_FUNCTIONING_SIZE));
-        // Skip click if local range is too large to discern between individual repeats
+       // Skip click if local range is too large to discern between individual repeats
         if(distances_.getLimitedRange().getLocalSize() > (containingPanelView_.getWidth() * MAX_FUNCTIONING_SIZE))
             return;
         

@@ -2,7 +2,6 @@ package edu.cuny.brooklyn.tandem.view.widgets;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
-import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
@@ -22,41 +21,48 @@ public class BusyDialog extends JDialog implements ActionListener, FocusListener
 {
     private final Component busyComponent_;
     private final JProgressBar progressBar_;
-    private final JButton closeButton_;
+    private JButton closeButton_;
     
-    public BusyDialog(Component busyComponent, String messageFileName)
+    public BusyDialog(Component busyComponent, JComponent message, boolean unDecorated)
     {
+        setUndecorated(unDecorated);
         busyComponent_ = busyComponent;
-        JComponent messageTextArea = SwingUtil.createFileTextArea(messageFileName);
         progressBar_ = new JProgressBar();
         progressBar_.setStringPainted(true);
         
-        closeButton_ = new JButton("Close");
-        closeButton_.setEnabled(false);
-        closeButton_.addActionListener(this);
+        if(!unDecorated)
+        {
+            closeButton_ = new JButton("Close");
+            closeButton_.setEnabled(false);
+            closeButton_.addActionListener(this);
+        }
         
         JPanel southPanel = new JPanel();
         southPanel.setLayout(new BoxLayout(southPanel, BoxLayout.LINE_AXIS));
         southPanel.add(progressBar_);
-        southPanel.add(closeButton_);
+        if(!unDecorated)
+            southPanel.add(closeButton_);
         
-        add(messageTextArea, BorderLayout.CENTER);
+        add(message, BorderLayout.CENTER);
         add(southPanel, BorderLayout.SOUTH);
         pack();
+        setTitle("Loading...");
         
     }
     
     public void setLoading(boolean isLoading)
     {
+
+        SwingUtil.centralizeComponent(this, busyComponent_);
         setVisible(true);
         
-        centralizeDialog();
         progressBar_.setIndeterminate(isLoading);
         
         String progressBarString = isLoading ? "Loading..." : "Done!";
         progressBar_.setString(progressBarString);
         
-        closeButton_.setEnabled(!isLoading);
+        if(closeButton_ != null)
+            closeButton_.setEnabled(!isLoading);
         
         SwingUtil.setBusyCursor(this, isLoading);
         
@@ -69,25 +75,27 @@ public class BusyDialog extends JDialog implements ActionListener, FocusListener
         }
     }
     
-    private void centralizeDialog()
-    {
-        if (busyComponent_ == null)
-            return;
-        Point framePoint = busyComponent_.getLocationOnScreen();
-        Point busyDialogPoint = new Point(framePoint.x + busyComponent_.getWidth() / 2 - getWidth() / 2, framePoint.y + busyComponent_.getHeight() / 2);
-        
-        setLocation(busyDialogPoint);
-    }
+   
     
     @Override public void actionPerformed(ActionEvent e)
     {
         setVisible(false);
     }
     
+
+    
+    @Override public void focusGained(FocusEvent e){}
+    
+    @Override public void focusLost(FocusEvent e)
+    {
+        requestFocus();
+    }
+    
+    
     public static void main(String[] args)
     {
         
-        BusyDialog busyDialog = new BusyDialog(null, InfoFiles.LOADING);
+        BusyDialog busyDialog = new BusyDialog(null, SwingUtil.createFileTextArea(InfoFiles.LOADING),true);
         busyDialog.setVisible(true);
         busyDialog.setLoading(true);
         
@@ -105,13 +113,4 @@ public class BusyDialog extends JDialog implements ActionListener, FocusListener
         }
         
     }
-    
-    @Override public void focusGained(FocusEvent e)
-    {}
-    
-    @Override public void focusLost(FocusEvent e)
-    {
-        requestFocus();
-    }
-    
 }

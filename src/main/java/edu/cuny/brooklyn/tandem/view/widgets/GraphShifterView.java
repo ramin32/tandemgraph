@@ -30,8 +30,8 @@ public class GraphShifterView extends JPanel implements ActionListener
         setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
         shifterController_ = graphShifterController;
         
-        shiftRight_ = SwingUtil.createJButtonfromImgUrl(getClass().getClassLoader().getResource("images/Forward24.gif"));
-        shiftLeft_ = SwingUtil.createJButtonfromImgUrl(getClass().getClassLoader().getResource("images/Back24.gif"));
+        shiftRight_ = SwingUtil.createJButtonfromImgUrl("images/Forward24.gif");
+        shiftLeft_ = SwingUtil.createJButtonfromImgUrl("images/Back24.gif");
         
         shiftLeft_.setToolTipText("Shift Left");
         shiftRight_.setToolTipText("Shift Right");

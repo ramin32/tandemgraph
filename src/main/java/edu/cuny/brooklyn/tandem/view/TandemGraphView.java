@@ -28,7 +28,7 @@ public class TandemGraphView implements Runnable
     static
     {
         FRAME_WIDTH = (int) Math.round(Toolkit.getDefaultToolkit().getScreenSize().width* (3/4.0));
-        FRAME_HEIGHT = (int) Math.round(Toolkit.getDefaultToolkit().getScreenSize().height * (3/4.0));
+        FRAME_HEIGHT = (int) Math.round(Toolkit.getDefaultToolkit().getScreenSize().height/2.0);
     }
     
     
@@ -50,6 +50,7 @@ public class TandemGraphView implements Runnable
         Runnable runnable = getViewUpdaterRunnable();
         distanceList_ = distanceList;
         frame_ = new JFrame(FRAME_TITLE);
+        frame_.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getClassLoader().getResource("images/dna.gif")));
         graphPanelView_ = new GraphPanelView(distanceList, runnable);
         
         menuBarView_ = new MenuBarView(frame_, new MenuBarController(distanceList, runnable));
@@ -83,6 +84,7 @@ public class TandemGraphView implements Runnable
         frame_.add(zoomSliderView_, BorderLayout.EAST);
         frame_.add(navigatorToolbar_, BorderLayout.SOUTH);
         
+        SwingUtil.centralizeComponent(frame_, null);
         frame_.setVisible(true);
         getViewUpdaterRunnable().run();
         

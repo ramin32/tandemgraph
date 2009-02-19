@@ -46,8 +46,8 @@ public class ZoomSliderView extends JPanel implements ChangeListener, ActionList
         slider_.addChangeListener(this);
         
         // Create zoom icons
-        zoomInButton_ = SwingUtil.createJButtonfromImgUrl(getClass().getClassLoader().getResource("images/ZoomIn24.gif"));
-        zoomOutButton_ = SwingUtil.createJButtonfromImgUrl(getClass().getClassLoader().getResource("images/ZoomOut24.gif"));
+        zoomInButton_ = SwingUtil.createJButtonfromImgUrl("images/ZoomIn24.gif");
+        zoomOutButton_ = SwingUtil.createJButtonfromImgUrl("images/ZoomOut24.gif");
         
         zoomInButton_.addActionListener(this);
         zoomOutButton_.addActionListener(this);

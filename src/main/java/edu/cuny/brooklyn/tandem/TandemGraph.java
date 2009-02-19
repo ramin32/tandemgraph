@@ -11,12 +11,22 @@
 
 package edu.cuny.brooklyn.tandem;
 
+import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.net.URI;
+
+import javax.swing.JButton;
+import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 import org.apache.log4j.Logger;
 
+import edu.cuny.brooklyn.tandem.helper.SwingUtil;
 import edu.cuny.brooklyn.tandem.model.DistanceList;
+import edu.cuny.brooklyn.tandem.model.JdbcTandemDao;
 import edu.cuny.brooklyn.tandem.view.TandemGraphView;
+import edu.cuny.brooklyn.tandem.view.widgets.BusyDialog;
 
 public class TandemGraph
 {
@@ -25,9 +35,41 @@ public class TandemGraph
     public static void main(final String[] args)
     {
         DistanceList distanceList = new DistanceList();
-        TandemGraphView tandemGraphView = new TandemGraphView(distanceList);
+       
+        logger_.debug("Initializing JdbcTandemDao...");
+        initializeTandemDao();
+        
         logger_.debug("Obtaining instance of TandemGraphView...");
-        SwingUtilities.invokeLater(tandemGraphView);
+        TandemGraphView tandemGraphView = new TandemGraphView(distanceList);
+
         logger_.debug("Invoking view...");
+        SwingUtilities.invokeLater(tandemGraphView);
+    }
+    
+    private static void initializeTandemDao()
+    {
+        JPanel loadingPanel = new JPanel();
+        JButton dnaButton = SwingUtil.createJButtonfromImgUrl("images/start-screen.gif");  
+        dnaButton.addActionListener(new ActionListener()
+        {
+
+            @Override 
+            public void actionPerformed(ActionEvent e)
+            {
+                try
+                {
+                    java.awt.Desktop.getDesktop().browse(new URI("http://tandem.sci.brooklyn.cuny.edu/")); 
+                }
+                catch(Exception ex){}
+            }
+            
+        });
+        loadingPanel.add(dnaButton, BorderLayout.CENTER);
+        
+        boolean undecorated = true;
+        BusyDialog busyDialog = new BusyDialog(null, loadingPanel, undecorated);
+        busyDialog.setLoading(true);
+        JdbcTandemDao.getInstance().initialize();
+        busyDialog.dispose();
     }
 }

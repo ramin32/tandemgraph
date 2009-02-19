@@ -64,7 +64,8 @@ public class MenuBarController
     {
         
         distanceList_.setChromosome(chromosome);
-        BusyDialog busyDialog = new BusyDialog(frame, InfoFiles.LOADING);
+        boolean undecorated = false;
+        BusyDialog busyDialog = new BusyDialog(frame, SwingUtil.createFileTextArea(InfoFiles.LOADING), undecorated);
         DistancesLoaderWorker worker = new DistancesLoaderWorker(distanceList_, runnable_, busyDialog);
         worker.execute();
         

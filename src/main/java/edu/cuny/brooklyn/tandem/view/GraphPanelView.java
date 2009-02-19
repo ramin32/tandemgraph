@@ -18,12 +18,10 @@ import javax.swing.JPanel;
 
 import edu.cuny.brooklyn.tandem.controller.graph.GraphRangeSelector;
 import edu.cuny.brooklyn.tandem.controller.graph.RepeatClickListener;
-import edu.cuny.brooklyn.tandem.controller.widgets.GraphShifterController;
 import edu.cuny.brooklyn.tandem.helper.GraphRuler;
 import edu.cuny.brooklyn.tandem.helper.TrapezoidGraphImage;
 import edu.cuny.brooklyn.tandem.model.DistanceList;
 import edu.cuny.brooklyn.tandem.model.JdbcTandemDao;
-import edu.cuny.brooklyn.tandem.model.LimitedRange;
 import edu.cuny.brooklyn.tandem.model.Range;
 
 public class GraphPanelView extends JPanel
