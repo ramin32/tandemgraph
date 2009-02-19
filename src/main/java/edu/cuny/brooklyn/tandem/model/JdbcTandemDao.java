@@ -38,11 +38,12 @@ public class JdbcTandemDao extends SimpleJdbcDaoSupport
     "FROM input " + 
     "WHERE input_id = ?";
     
-    private static final String SELECT_ALIGNMENT_BY_EDIT_DISTANCE_ID = "SELECT group_concat(txt SEPARATOR '') " + 
+    private static final String SELECT_GROUPED_ALIGNMENT_BY_EDIT_DISTANCE_ID = "SELECT group_concat(txt SEPARATOR '') " + 
     "FROM alignment_filter " + 
     "WHERE edit_distance_id = ? " + 
     "GROUP BY edit_distance_id " + 
     "LIMIT 1";
+  
     private static final String INPUT_URL = "http://tandem.sci.brooklyn.cuny.edu/GetInput.do?chromosome=%s&offset=%s&length=%s";
     
     private static JdbcTandemDao jdbcTandemDaoInstance_;
@@ -129,6 +130,6 @@ public class JdbcTandemDao extends SimpleJdbcDaoSupport
     
     public String getAlignmentByDistance(Distance distance)
     {
-        return getSimpleJdbcTemplate().queryForObject(SELECT_ALIGNMENT_BY_EDIT_DISTANCE_ID, String.class, distance.getId());
+        return getSimpleJdbcTemplate().queryForObject(SELECT_GROUPED_ALIGNMENT_BY_EDIT_DISTANCE_ID, String.class, distance.getId());
     }
 }

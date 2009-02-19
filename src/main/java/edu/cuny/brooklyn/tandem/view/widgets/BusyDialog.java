@@ -25,6 +25,7 @@ public class BusyDialog extends JDialog implements ActionListener, FocusListener
     
     public BusyDialog(Component busyComponent, JComponent message, boolean unDecorated)
     {
+        setIconImage(SwingUtil.getImage("images/dna-icon.gif"));
         setUndecorated(unDecorated);
         busyComponent_ = busyComponent;
         progressBar_ = new JProgressBar();
@@ -77,16 +78,19 @@ public class BusyDialog extends JDialog implements ActionListener, FocusListener
     
    
     
-    @Override public void actionPerformed(ActionEvent e)
+    @Override 
+    public void actionPerformed(ActionEvent e)
     {
         setVisible(false);
     }
     
 
     
-    @Override public void focusGained(FocusEvent e){}
+    @Override 
+    public void focusGained(FocusEvent e){}
     
-    @Override public void focusLost(FocusEvent e)
+    @Override 
+    public void focusLost(FocusEvent e)
     {
         requestFocus();
     }

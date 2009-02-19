@@ -14,6 +14,7 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Point;
 
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import edu.cuny.brooklyn.tandem.controller.graph.GraphRangeSelector;
@@ -42,7 +43,7 @@ public class GraphPanelView extends JPanel
     private final RepeatClickListener triangleClickListener_;
     
     
-    public GraphPanelView(DistanceList rl, Runnable runnable)
+    public GraphPanelView(DistanceList rl, Runnable runnable, JFrame frame)
     {
         runnable_ = runnable;
         distances_ = rl;
@@ -52,7 +53,7 @@ public class GraphPanelView extends JPanel
         graphicalRangeSelector_ = new GraphRangeSelector(this, runnable, distances_.getLimitedRange());
         setLayout(new BorderLayout());
         
-        triangleClickListener_ = new RepeatClickListener(distances_);
+        triangleClickListener_ = new RepeatClickListener(distances_, frame);
         triangleClickListener_.install(this);
         
     }
@@ -79,12 +80,12 @@ public class GraphPanelView extends JPanel
         {
             // Get the actual graph image and draw it.
             graphImage_ = new TrapezoidGraphImage(distances_, getWidth() - MARGIN, getHeight() - MARGIN);
-            Image img = graphImage_.getGraphImage(distances_.getLimitedRange().getLocal(), distances_.getDoubleLogMaxSize());
+            Image img = graphImage_.getGraphImage(distances_.getLimitedRange().getLocal(), distances_.getDoubleLogMaxSize() + 1);
             g.drawImage(img, MARGIN + 1, 0, null);
             
             // draw the ruler
             g.setColor(Color.gray);
-            graphRuler_.drawRuler(g, distances_.getLimitedRange().getLocal(), new Range(0, distances_.getIntLogMaxSize()));
+            graphRuler_.drawRuler(g, distances_.getLimitedRange().getLocal(), new Range(0, distances_.getIntLogMaxSize() + 1));
             
             // Get the range selector and draw it
             int x = MARGIN;

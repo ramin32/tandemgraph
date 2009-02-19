@@ -4,13 +4,15 @@
 
 package edu.cuny.brooklyn.tandem.controller.graph;
 
-import java.awt.Font;
+import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-import javax.swing.JComponent;
-import javax.swing.JOptionPane;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
 
 import org.apache.log4j.Logger;
 
@@ -28,11 +30,13 @@ public class RepeatClickListener extends MouseAdapter
     private GraphPanelView containingPanelView_;
     private final DistanceList distances_;
     private Integer previousX;
+    private final JFrame frame_;
     
     
-    public RepeatClickListener(DistanceList distances)
+    public RepeatClickListener(DistanceList distances, JFrame frame)
     {
         distances_ = distances;
+        frame_ = frame;
     }
     
     public void install(final GraphPanelView panelView)
@@ -89,7 +93,6 @@ public class RepeatClickListener extends MouseAdapter
             return;
         distances_.setSelectedDistance(correspondingDist);
         containingPanelView_.repaint();
-        logger_.debug("Processed.");
         
     }
     
@@ -100,11 +103,34 @@ public class RepeatClickListener extends MouseAdapter
         if(selectedDistance == null)
             return;
         
-        String alignment = JdbcTandemDao.getInstance().getAlignmentByDistance(selectedDistance);
-        JComponent currentAlignmentArea = SwingUtil.createStringTextArea(selectedDistance + "\n\nAlignment:\n" + alignment);
+        JTable alignmentTable = getAlignmentTable(selectedDistance);
+        alignmentTable.setPreferredScrollableViewportSize(new Dimension(500, 70));
+        JScrollPane scrollPane = new JScrollPane(alignmentTable, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        JDialog dialog = new JDialog();
+        dialog.add(scrollPane);
+        dialog.pack();
+        SwingUtil.centralizeComponent(dialog, frame_);
+        dialog.setTitle(selectedDistance.toString());
+        dialog.setIconImage(SwingUtil.getImage("images/dna-icon.gif"));
+        dialog.setVisible(true);
         
-        // Set text area's font to Courier to properly align text.
-        ((JScrollPane) currentAlignmentArea).getViewport().getView().setFont(new Font("Courier", Font.PLAIN, 12));
-        JOptionPane.showMessageDialog(null, currentAlignmentArea);
+    }
+    
+    private final JTable getAlignmentTable(Distance selectedDistance)
+    {        
+        String[] headers = {"Start","Match","End"};
+        String alignment = JdbcTandemDao.getInstance().getAlignmentByDistance(selectedDistance);
+        String[] alignmentLines = alignment.split("\n");
+        String[][] alignmentTokens = new String[alignmentLines.length][];
+        
+        for(int i = 0; i < alignmentLines.length; i++)
+        {
+            alignmentTokens[i] = new String[3];
+            String[] tokens =  alignmentLines[i].split("\\s+");
+            for(int j = 0; j < tokens.length; j++)
+                alignmentTokens[i][j] = tokens[j];
+        }
+        
+        return new JTable(alignmentTokens, headers);
     }
 }

@@ -191,4 +191,9 @@ public class SwingUtil
                                       (int) Math.round(othersDimension.height / HALF  - component.getHeight() / HALF)  + othersLocation.y);
         component.setLocation(centerPoint);
     }
+    
+    public static Image getImage(String path)
+    {
+        return Toolkit.getDefaultToolkit().getImage(SwingUtil.class.getClassLoader().getResource(path));
+    }
 }

@@ -50,8 +50,8 @@ public class TandemGraphView implements Runnable
         Runnable runnable = getViewUpdaterRunnable();
         distanceList_ = distanceList;
         frame_ = new JFrame(FRAME_TITLE);
-        frame_.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getClassLoader().getResource("images/dna-icon.gif")));
-        graphPanelView_ = new GraphPanelView(distanceList, runnable);
+        frame_.setIconImage(SwingUtil.getImage("images/dna-icon.gif"));
+        graphPanelView_ = new GraphPanelView(distanceList, runnable, frame_);
         
         menuBarView_ = new MenuBarView(frame_, new MenuBarController(distanceList, runnable));
         
