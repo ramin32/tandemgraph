@@ -42,6 +42,7 @@ public class DistanceList extends AbstractList<Distance>
 
     private Integer cachedLocalEndIndex_;
     private Integer cachedLocalEnd_;
+	private DrawType drawType_ = DrawType.TRIANGLE;   // To prevent null pointer exception
     
     public DistanceList()
     {
@@ -242,4 +243,14 @@ public class DistanceList extends AbstractList<Distance>
     {
         return selectedDistance_;
     }
+
+	public void setDrawType(DrawType drawType) 
+	{
+		drawType_ = drawType;
+	}
+	
+	public DrawType getDrawType()
+	{
+		return drawType_;
+	}
 }

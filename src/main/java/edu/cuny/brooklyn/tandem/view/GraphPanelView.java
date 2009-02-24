@@ -20,8 +20,9 @@ import javax.swing.JPanel;
 import edu.cuny.brooklyn.tandem.controller.graph.GraphRangeSelector;
 import edu.cuny.brooklyn.tandem.controller.graph.RepeatClickListener;
 import edu.cuny.brooklyn.tandem.helper.GraphRuler;
-import edu.cuny.brooklyn.tandem.helper.TrapezoidGraphImage;
+import edu.cuny.brooklyn.tandem.helper.GraphImageDrawer;
 import edu.cuny.brooklyn.tandem.model.DistanceList;
+import edu.cuny.brooklyn.tandem.model.DrawType;
 import edu.cuny.brooklyn.tandem.model.JdbcTandemDao;
 import edu.cuny.brooklyn.tandem.model.Range;
 
@@ -36,7 +37,7 @@ public class GraphPanelView extends JPanel
     private static final int defaultValue = 5;
     
     private final DistanceList distances_;
-    private TrapezoidGraphImage graphImage_;
+    private GraphImageDrawer graphImage_;
     private GraphRuler graphRuler_;
     private GraphRangeSelector graphicalRangeSelector_;
     private final Runnable runnable_;
@@ -79,13 +80,14 @@ public class GraphPanelView extends JPanel
         else
         {
             // Get the actual graph image and draw it.
-            graphImage_ = new TrapezoidGraphImage(distances_, getWidth() - MARGIN, getHeight() - MARGIN);
-            Image img = graphImage_.getGraphImage(distances_.getLimitedRange().getLocal(), distances_.getDoubleLogMaxSize() + 1);
+            graphImage_ = new GraphImageDrawer(distances_, getWidth() - MARGIN, getHeight() - MARGIN);
+            Image img = graphImage_.getGraphImage(distances_.getLimitedRange().getLocal(), distances_.getMaxRepeatSize());
             g.drawImage(img, MARGIN + 1, 0, null);
             
             // draw the ruler
             g.setColor(Color.gray);
-            graphRuler_.drawRuler(g, distances_.getLimitedRange().getLocal(), new Range(0, distances_.getIntLogMaxSize() + 1));
+            boolean isLogGraph = distances_.getDrawType() == DrawType.TRAPEZOID;
+            graphRuler_.drawRuler(g, distances_.getLimitedRange().getLocal(), new Range(0, distances_.getMaxRepeatSize()), isLogGraph);
             
             // Get the range selector and draw it
             int x = MARGIN;

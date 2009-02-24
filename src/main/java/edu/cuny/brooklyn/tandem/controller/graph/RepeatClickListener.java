@@ -113,6 +113,7 @@ public class RepeatClickListener extends MouseAdapter
         dialog.setTitle(selectedDistance.toString());
         dialog.setIconImage(SwingUtil.getImage("images/dna-icon.gif"));
         dialog.setVisible(true);
+        alignmentTable.doLayout();
         
     }
     

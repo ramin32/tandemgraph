@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 import edu.cuny.brooklyn.tandem.controller.widgets.GraphShifterController;
 import edu.cuny.brooklyn.tandem.controller.widgets.MenuBarController;
 import edu.cuny.brooklyn.tandem.controller.widgets.TextRangeSelectorController;
+import edu.cuny.brooklyn.tandem.controller.widgets.TriangleTrapezoidSelectorController;
 import edu.cuny.brooklyn.tandem.controller.widgets.ZoomSliderController;
 import edu.cuny.brooklyn.tandem.helper.SwingUtil;
 import edu.cuny.brooklyn.tandem.model.DistanceList;
@@ -37,33 +38,38 @@ public class TandemGraphView implements Runnable
     private final GraphPanelView graphPanelView_;
     private final ZoomSliderView zoomSliderView_;
     
-    private final DistanceList distanceList_;
+    private final DistanceList distances_;
     
     private final NavigatorToolbar navigatorToolbar_;
     private final GraphShifterController graphShifterController_;
     private final TextRangeSelectorController textRangeSelectorController_;
     private final ZoomSliderController zoomSliderController_;
+	private final TriangleTrapezoidSelectorController triangleTrapezoidSelectorController_;
     
     
-    public TandemGraphView(DistanceList distanceList)
+    public TandemGraphView(DistanceList distances)
     {
         Runnable runnable = getViewUpdaterRunnable();
-        distanceList_ = distanceList;
+        distances_ = distances;
         frame_ = new JFrame(FRAME_TITLE);
         frame_.setIconImage(SwingUtil.getImage("images/dna-icon.gif"));
-        graphPanelView_ = new GraphPanelView(distanceList, runnable, frame_);
+        graphPanelView_ = new GraphPanelView(distances, runnable, frame_);
         
-        menuBarView_ = new MenuBarView(frame_, new MenuBarController(distanceList, runnable));
+        menuBarView_ = new MenuBarView(frame_, new MenuBarController(distances, runnable));
         
         // Controllers
-        textRangeSelectorController_ = new TextRangeSelectorController(distanceList.getLimitedRange(), runnable);
-        graphShifterController_ = new GraphShifterController(distanceList.getLimitedRange(), runnable);
+        textRangeSelectorController_ = new TextRangeSelectorController(distances.getLimitedRange(), runnable);
+        graphShifterController_ = new GraphShifterController(distances.getLimitedRange(), runnable);
         
         GraphShifterView graphShifterView_ = new GraphShifterView(graphShifterController_);
         
-        navigatorToolbar_ = new NavigatorToolbar(textRangeSelectorController_, graphPanelView_.getGraphicalRangeSelector(), graphShifterView_);
+        triangleTrapezoidSelectorController_ = new TriangleTrapezoidSelectorController(distances, runnable);
+        navigatorToolbar_ = new NavigatorToolbar(textRangeSelectorController_, 
+        		graphPanelView_.getGraphicalRangeSelector(), 
+        		graphShifterView_, 
+        		triangleTrapezoidSelectorController_);
         
-        zoomSliderController_ = new ZoomSliderController(distanceList.getLimitedRange(), runnable, navigatorToolbar_.getTextRangeSelectorView());
+        zoomSliderController_ = new ZoomSliderController(distances.getLimitedRange(), runnable, navigatorToolbar_.getTextRangeSelectorView());
         
         zoomSliderView_ = new ZoomSliderView(zoomSliderController_, graphShifterController_);
     }
@@ -88,12 +94,12 @@ public class TandemGraphView implements Runnable
         frame_.setVisible(true);
         getViewUpdaterRunnable().run();
         
-        navigatorToolbar_.getTextRangeSelectorView().setFields(distanceList_.getLimitedRange().getLocal());
+        navigatorToolbar_.getTextRangeSelectorView().setFields(distances_.getLimitedRange().getLocal());
         
         // set minimal size of local range by font size
         int fontWidth = graphPanelView_.getGraphics().getFontMetrics().charWidth('A');
         int minLocalRange = graphPanelView_.getWidth() * fontWidth;
-        distanceList_.getLimitedRange().setMinLocalRange(minLocalRange);
+        distances_.getLimitedRange().setMinLocalRange(minLocalRange);
     }
     
     public Runnable getViewUpdaterRunnable()
@@ -103,7 +109,7 @@ public class TandemGraphView implements Runnable
             public void run()
             {
                 
-                if (distanceList_.isEmpty())
+                if (distances_.isEmpty())
                 {
                     if (zoomSliderView_ != null)
                         zoomSliderView_.setVisible(false);
@@ -114,13 +120,13 @@ public class TandemGraphView implements Runnable
                 }
                 else
                 {
-                    if (distanceList_.getChromosome() != null)
-                        frame_.setTitle(FRAME_TITLE + " - " + distanceList_.getChromosome().getName());
+                    if (distances_.getChromosome() != null)
+                        frame_.setTitle(FRAME_TITLE + " - " + distances_.getChromosome().getName());
                     
                     if (zoomSliderView_ != null)
                     {
                         zoomSliderView_.setVisible(true);
-                        int percentage = distanceList_.getLimitedRange().getLocalRangePercentage();
+                        int percentage = distances_.getLimitedRange().getLocalRangePercentage();
                         zoomSliderView_.removeListener();
                         zoomSliderView_.setSliderValue(percentage);
                         zoomSliderView_.installListener();

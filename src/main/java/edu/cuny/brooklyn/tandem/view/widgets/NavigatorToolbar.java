@@ -6,10 +6,13 @@ import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 
+import javax.swing.JPanel;
 import javax.swing.JToolBar;
 
 import edu.cuny.brooklyn.tandem.controller.graph.GraphRangeSelector;
 import edu.cuny.brooklyn.tandem.controller.widgets.TextRangeSelectorController;
+import edu.cuny.brooklyn.tandem.controller.widgets.TriangleTrapezoidSelectorController;
+import edu.cuny.brooklyn.tandem.model.DistanceList;
 import edu.cuny.brooklyn.tandem.model.Range;
 
 public class NavigatorToolbar extends JToolBar implements ActionListener
@@ -17,8 +20,12 @@ public class NavigatorToolbar extends JToolBar implements ActionListener
     
     private final TextRangeSelectorView textRangeSelectorView_;
     private final GraphRangeSelector graphRangeSelector_;
+    private final TriangleTrapezoidSelector trapezoidTriangleSelector_;
     
-    public NavigatorToolbar(TextRangeSelectorController textRangeSelectorController, GraphRangeSelector graphRangeSelector, GraphShifterView shifterView)
+    public NavigatorToolbar(TextRangeSelectorController textRangeSelectorController, 
+    						GraphRangeSelector graphRangeSelector, 
+    						GraphShifterView shifterView,
+    						TriangleTrapezoidSelectorController triangleTrapezoidSelectorController_)
     {
         graphRangeSelector_ = graphRangeSelector;
         
@@ -27,10 +34,16 @@ public class NavigatorToolbar extends JToolBar implements ActionListener
         textRangeSelectorView_ = new TextRangeSelectorView(textRangeSelectorController.getLimitedRange(), textRangeSelectorController);
         textRangeSelectorView_.getClearButton().addActionListener(this);
         textRangeSelectorView_.getZoomButton().addActionListener(this);
+        trapezoidTriangleSelector_ = new TriangleTrapezoidSelector(triangleTrapezoidSelectorController_);
         
         add(shifterView.getLeftButton(), BorderLayout.WEST);
-        add(textRangeSelectorView_, BorderLayout.CENTER);
+        
+        JPanel centerPanel = new JPanel();
+        centerPanel.add(textRangeSelectorView_);
+        centerPanel.add(trapezoidTriangleSelector_);
+        add(centerPanel, BorderLayout.CENTER);
         add(shifterView.getRightButton(), BorderLayout.EAST);
+        
         
         graphRangeSelector.setTextRangeSelectorView(textRangeSelectorView_);
         
