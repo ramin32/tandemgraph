@@ -7,7 +7,7 @@ import edu.cuny.brooklyn.tandem.model.Distance;
 
 public class TriangleShapeDrawer extends ShapeDrawer
 {
-	public final int DEFAULT_THICKNESS = 50;
+	public final int DEFAULT_THICKNESS = 5;
 	private final BufferedImage grid_;
 
 
@@ -36,26 +36,29 @@ public class TriangleShapeDrawer extends ShapeDrawer
 
 	private void drawTriangle(Graphics g, int[] xPoints, int[] yPoints, int thickness, boolean fill)
 	{
-//		for(int i = 0; i < thickness; i++)
-//		{
+		for(int i = 0; i < thickness; i++)
+		{
 			if(fill)
+			{
 				g.fillPolygon(xPoints, yPoints, 3);
-//				g.fillPolygon(shrinkXPoints(xPoints, i), shrinkYPoints(yPoints, i), 3);
+				g.fillPolygon(shrinkXPoints(xPoints, i), shrinkYPoints(yPoints, i), 3);
+			}
 			else
+			{
 				g.drawPolygon(xPoints, yPoints, 3);
-//				g.drawPolygon(shrinkXPoints(xPoints, i), shrinkYPoints(yPoints, i), 3);	
-//		}
+				g.drawPolygon(shrinkXPoints(xPoints, i), shrinkYPoints(yPoints, i), 3);
+			}
+		}
 	}
-// TODO to slow for now, draw only one line
-//	private int[] shrinkXPoints(int[] points, int amount)
-//	{
-//		return new int[]{points[0] + 1, points[1] - 1, points[2] - 1};
-//	}
-//
-//	private int[] shrinkYPoints(int[] points, int amount)
-//	{
-//		return new int[]{points[0] - 1, points[1] + 1, points[2] - 1};
-//	}
+	private int[] shrinkXPoints(int[] points, int amount)
+	{
+		return new int[]{points[0] + 1, points[1], points[2] - 1};
+	}
+
+	private int[] shrinkYPoints(int[] points, int amount)
+	{
+		return new int[]{points[0] - 1, points[1] + 1, points[2] - 1};
+	}
 
 
 }
