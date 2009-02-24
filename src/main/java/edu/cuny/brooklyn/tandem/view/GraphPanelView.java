@@ -87,7 +87,7 @@ public class GraphPanelView extends JPanel
             // draw the ruler
             g.setColor(Color.gray);
             boolean isLogGraph = distances_.getDrawType() == DrawType.TRAPEZOID;
-            graphRuler_.drawRuler(g, distances_.getLimitedRange().getLocal(), new Range(0, distances_.getMaxRepeatSize()), isLogGraph);
+            graphRuler_.drawRuler(g, distances_.getLimitedRange().getLocal(), distances_.getMaxRepeatSize(), isLogGraph);
             
             // Get the range selector and draw it
             int x = MARGIN;

@@ -53,24 +53,24 @@ public class GraphRuler
 
 	}
 
-	public void drawMarkings(Graphics g, Range horRange, Range verRange, boolean trapezoid)
+	public void drawMarkings(Graphics g, Range horRange, int height, boolean isLogGraph)
 	{
 		int horizontalScale = horRange.getSize() / MARKINGS;
-		int verticalScale = verRange.getSize();
-		if(trapezoid)
+		int verticalScale = height;
+		if(!isLogGraph)
 			verticalScale /= MARKINGS;
 
 		int bottomMarginPos = containingPanel_.getHeight() - MARGIN;
 
 		int xScale = (containingPanel_.getWidth() - MARGIN) / MARKINGS;
-		int yScale = (containingPanel_.getHeight() - MARGIN) / (trapezoid? verticalScale: MARKINGS);
+		int yScale = (containingPanel_.getHeight() - MARGIN) / (isLogGraph? verticalScale: MARKINGS);
 
 		drawHorizontalLabels(g, horRange, xScale, horizontalScale, bottomMarginPos);
 		
-		if(trapezoid)
-			drawVerticalTrapezoidLabels(g, verticalScale, yScale);
+		if(isLogGraph)
+			drawVerticalLogGraphLabels(g, verticalScale, yScale);
 		else
-			drawVerticalTriangleLabels(g, verticalScale, yScale, verRange);
+			drawVerticalLabels(g, verticalScale, yScale);
 
 
 	}
@@ -91,11 +91,11 @@ public class GraphRuler
 		}	
 	}
 
-	private final void drawVerticalTriangleLabels(Graphics g, int verticalScale, int yScale, Range verRange)
+	private final void drawVerticalLabels(Graphics g, int verticalScale, int yScale)
 	{
 		for (int mark = 1; mark < MARKINGS; mark++)
 		{
-			String label = ((MARKINGS - mark) * verticalScale + verRange.getMin())
+			String label = ((MARKINGS - mark) * verticalScale)
 			+ "";
 			label = commanize(label);
 
@@ -105,7 +105,7 @@ public class GraphRuler
 		}
 	}
 
-	private final void drawVerticalTrapezoidLabels(Graphics g, int verticalScale, int yScale)
+	private final void drawVerticalLogGraphLabels(Graphics g, int verticalScale, int yScale)
 	{
 		for (int mark = 0; mark < verticalScale; mark++)
 		{
@@ -127,18 +127,15 @@ public class GraphRuler
 
 	}
 
-	public void drawRuler(Graphics g, Range horRange, Range verRange, boolean trapezoid)
-	{
-		drawLines(g);
-		drawMarkings(g, horRange, verRange, trapezoid);
-	}
-
-	public void drawRuler(Graphics g, Range horRange, int maxHeight, boolean isLogGraph)
+	public void drawRuler(Graphics g, Range horRange, int height, boolean isLogGraph)
 	{
 		if(isLogGraph)
-			maxHeight = (int) Math.round(Math.log10(maxHeight));
-		drawRuler(g, horRange, new Range(0, maxHeight), isLogGraph);
+			height = (int) Math.round(Math.log10(height));
+		drawLines(g);
+		drawMarkings(g, horRange, height, isLogGraph);
 	}
+
+	
 
 	public void setXAxisTickSize(int n)
 	{
