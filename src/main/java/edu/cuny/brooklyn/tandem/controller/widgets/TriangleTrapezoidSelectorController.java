@@ -22,5 +22,10 @@ public class TriangleTrapezoidSelectorController
 		runnable_.run();
 		
 	}
+	
+	public DistanceList getDistances()
+	{
+		return distances_;
+	}
 
 }

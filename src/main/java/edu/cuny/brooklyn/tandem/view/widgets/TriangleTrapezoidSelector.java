@@ -30,6 +30,12 @@ public class TriangleTrapezoidSelector extends JPanel implements ActionListener
 		triangleButton_.addActionListener(this);
 		trapezoidButton_.addActionListener(this);
 		
+		if(controller_.getDistances().getDrawType() == DrawType.TRIANGLE)
+			triangleButton_.setSelected(true);
+		else
+			trapezoidButton_.setSelected(true);
+		
+		
 		buttonGroup_.add(triangleButton_);
 		buttonGroup_.add(trapezoidButton_);
 
