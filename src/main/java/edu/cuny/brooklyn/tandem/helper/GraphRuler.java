@@ -13,6 +13,7 @@ import javax.swing.JPanel;
 
 import org.apache.log4j.Logger;
 
+import edu.cuny.brooklyn.tandem.model.DistanceList;
 import edu.cuny.brooklyn.tandem.model.Range;
 
 public class GraphRuler
@@ -130,7 +131,7 @@ public class GraphRuler
 	public void drawRuler(Graphics g, Range horRange, int height, boolean isLogGraph)
 	{
 		if(isLogGraph)
-			height = (int) Math.round(Math.log10(height));
+			height = (int) Math.round(Math.log10(height)) + DistanceList.PY_GRAPH_SUPPLEMENT;
 		drawLines(g);
 		drawMarkings(g, horRange, height, isLogGraph);
 	}

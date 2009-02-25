@@ -15,6 +15,8 @@ import java.util.List;
 
 public class DistanceList extends AbstractList<Distance>
 {
+	public static final int PY_GRAPH_SUPPLEMENT = 1;
+	
     private final List<Distance> distances_;
     private final Comparator<Distance> distanceComparator;
     {
