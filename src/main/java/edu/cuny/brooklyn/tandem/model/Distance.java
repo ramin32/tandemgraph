@@ -6,6 +6,8 @@
 package edu.cuny.brooklyn.tandem.model;
 
 import java.awt.Color;
+import java.util.HashMap;
+import java.util.Map;
 
 import edu.cuny.brooklyn.tandem.helper.SwingUtil;
 
@@ -14,6 +16,12 @@ public class Distance extends Range
     
     private final Color color_;
     private final int id_;
+    
+    private final static Map<Integer, DistanceInformation> informationCache_;
+    static
+    {
+    	informationCache_ = new HashMap<Integer, DistanceInformation>();
+    }
     
     public Distance(int start, int end, int id)
     {
@@ -51,5 +59,16 @@ public class Distance extends Range
         }
         
         System.out.println(r);
-    }    
+    }
+
+	public DistanceInformation getDistanceInformation()
+	{
+		DistanceInformation info = informationCache_.get(id_);
+		if(info == null)
+		{			
+			info = JdbcTandemDao.getInstance().getDistanceInformationByDistance(this);
+			informationCache_.put(id_, info);
+		}
+		return info;
+	}    
 }

@@ -96,13 +96,13 @@ public class JdbcTandemDao extends SimpleJdbcDaoSupport
     	}, chromosome.getId());
     }
     
-    public DistanceInformation getDistanceInformationByDistance(Distance distance)
+    public DistanceInformation getDistanceInformationByDistance(final Distance distance)
     {
     	return getSimpleJdbcTemplate().queryForObject(SELECT_DISTANCE_INFORAMTION_BY_EDIT_DISTANCE_ID, new ParameterizedRowMapper<DistanceInformation>()
     	    	{
     	    		public DistanceInformation mapRow(ResultSet resultSet, int i) throws SQLException
     	    		{
-    	    			return new DistanceInformation(resultSet.getInt("period"), resultSet.getInt("errs"));
+    	    			return new DistanceInformation(resultSet.getInt("period"), resultSet.getInt("errs"), distance.getId());
     	    			
     	    		}
     	    	}, distance.getId());

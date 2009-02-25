@@ -36,6 +36,12 @@ public class RepeatClickListener extends MouseAdapter
     private final JFrame frame_;
     private final JPanel mainPanel_;
     
+    private static final int TABLE = 0;
+    private static final int MATCH = 1;
+	private static final int TABLE_HEIGHT = 500;
+	private static final int TABLE_WIDTH = 500;
+	private static final int WIDTH_SUPPLEMENT = 5;
+    
     public RepeatClickListener(DistanceList distances, JFrame frame, JPanel mainPanel)
     {
         distances_ = distances;
@@ -98,8 +104,8 @@ public class RepeatClickListener extends MouseAdapter
         distances_.setSelectedDistance(correspondingDist);
         containingPanelView_.repaint();
         
-        DistanceInformation distanceInformation = JdbcTandemDao.getInstance().getDistanceInformationByDistance(correspondingDist);
-        
+        DistanceInformation distanceInformation = correspondingDist.getDistanceInformation();
+
         String tipText = "Period Size: " + distanceInformation.getPeriod() + ", Errors: " + distanceInformation.getErrors();
         mainPanel_.setToolTipText(tipText);
         
@@ -112,7 +118,11 @@ public class RepeatClickListener extends MouseAdapter
         if(selectedDistance == null)
             return;
         
-        JTable alignmentTable = getAlignmentTable(selectedDistance);
+        Object[] alignmentTableAndMaxMatch = getAlignmentTableAndMaxMatch(selectedDistance);
+        JTable alignmentTable = (JTable) alignmentTableAndMaxMatch[TABLE];
+        String maxMatch = (String) alignmentTableAndMaxMatch[MATCH];
+        
+        
         JScrollPane scrollPane = new JScrollPane(alignmentTable, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
         JDialog dialog = new JDialog();
         dialog.add(scrollPane);
@@ -120,32 +130,37 @@ public class RepeatClickListener extends MouseAdapter
         SwingUtil.centralizeComponent(dialog, frame_);
         dialog.setTitle(selectedDistance.toString());
         dialog.setIconImage(SwingUtil.getImage("images/dna-icon.gif"));
+        
+        alignmentTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        int width = alignmentTable.getGraphics().getFontMetrics().stringWidth(maxMatch)  + WIDTH_SUPPLEMENT;
+        alignmentTable.getColumnModel().getColumn(1).setPreferredWidth(width);
+        
+        int tableWidth = Math.min(TABLE_WIDTH, alignmentTable.getWidth());
+        int tableHeight = Math.min(TABLE_HEIGHT, alignmentTable.getHeight());
+        alignmentTable.setPreferredScrollableViewportSize(new Dimension(tableWidth, tableHeight));
+        dialog.pack();
         dialog.setVisible(true);
         
     }
     
-    private final JTable getAlignmentTable(Distance selectedDistance)
+    private final Object[] getAlignmentTableAndMaxMatch(Distance selectedDistance)
     {        
         String[] headers = {"Start","Match","End"};
         String alignment = JdbcTandemDao.getInstance().getAlignmentByDistance(selectedDistance);
         String[] alignmentLines = alignment.split("\n");
         String[][] alignmentTokens = new String[alignmentLines.length][];
+        String maxMatch = "";
         
         for(int i = 0; i < alignmentLines.length; i++)
         {
             alignmentTokens[i] = new String[3];
             String[] tokens =  alignmentLines[i].split("\\s+");
+            if(tokens.length > 1 && tokens[1].length() > maxMatch.length())
+            	maxMatch = tokens[1];
             for(int j = 0; j < tokens.length; j++)
-                alignmentTokens[i][j] = tokens[j];
+            	alignmentTokens[i][j] = tokens[j];
+            
         }
-        
-        
-        JTable alignmentTable = new JTable(alignmentTokens, headers);
-        alignmentTable.setPreferredScrollableViewportSize(new Dimension(500, 70));
-        alignmentTable.setAutoscrolls(true);
-        alignmentTable.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
-
-        alignmentTable.sizeColumnsToFit(-1);
-        return alignmentTable;
+        return new Object[]{new JTable(alignmentTokens, headers), maxMatch};
     }
 }
