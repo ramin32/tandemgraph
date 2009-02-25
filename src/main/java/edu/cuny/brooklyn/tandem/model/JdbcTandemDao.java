@@ -47,7 +47,7 @@ public class JdbcTandemDao extends SimpleJdbcDaoSupport
     
     private static final String SELECT_DISTANCE_INFORAMTION_BY_EDIT_DISTANCE_ID = 
     	"SELECT period, errs " +
-    	"FROM edit_distance " +
+    	"FROM edit_distance_filter " +
     	"WHERE edit_distance_id = ?";
   
     private static final String INPUT_URL = "http://tandem.sci.brooklyn.cuny.edu/GetInput.do?chromosome=%s&offset=%s&length=%s";
