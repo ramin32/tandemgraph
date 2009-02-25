@@ -20,6 +20,7 @@ import org.apache.log4j.Logger;
 
 import edu.cuny.brooklyn.tandem.helper.SwingUtil;
 import edu.cuny.brooklyn.tandem.model.Distance;
+import edu.cuny.brooklyn.tandem.model.DistanceInformation;
 import edu.cuny.brooklyn.tandem.model.DistanceList;
 import edu.cuny.brooklyn.tandem.model.JdbcTandemDao;
 import edu.cuny.brooklyn.tandem.view.GraphPanelView;
@@ -97,7 +98,9 @@ public class RepeatClickListener extends MouseAdapter
         distances_.setSelectedDistance(correspondingDist);
         containingPanelView_.repaint();
         
-        String tipText = "Period Size: " + correspondingDist.getPeriod() + ", Errors: " + correspondingDist.getErrors();
+        DistanceInformation distanceInformation = JdbcTandemDao.getInstance().getDistanceInformationByDistance(correspondingDist);
+        
+        String tipText = "Period Size: " + distanceInformation.getPeriod() + ", Errors: " + distanceInformation.getErrors();
         mainPanel_.setToolTipText(tipText);
         
     }
@@ -110,7 +113,6 @@ public class RepeatClickListener extends MouseAdapter
             return;
         
         JTable alignmentTable = getAlignmentTable(selectedDistance);
-        alignmentTable.setPreferredScrollableViewportSize(new Dimension(500, 70));
         JScrollPane scrollPane = new JScrollPane(alignmentTable, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
         JDialog dialog = new JDialog();
         dialog.add(scrollPane);
@@ -119,7 +121,6 @@ public class RepeatClickListener extends MouseAdapter
         dialog.setTitle(selectedDistance.toString());
         dialog.setIconImage(SwingUtil.getImage("images/dna-icon.gif"));
         dialog.setVisible(true);
-        alignmentTable.doLayout();
         
     }
     
@@ -138,6 +139,13 @@ public class RepeatClickListener extends MouseAdapter
                 alignmentTokens[i][j] = tokens[j];
         }
         
-        return new JTable(alignmentTokens, headers);
+        
+        JTable alignmentTable = new JTable(alignmentTokens, headers);
+        alignmentTable.setPreferredScrollableViewportSize(new Dimension(500, 70));
+        alignmentTable.setAutoscrolls(true);
+        alignmentTable.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+
+        alignmentTable.sizeColumnsToFit(-1);
+        return alignmentTable;
     }
 }

@@ -44,8 +44,14 @@ public class JdbcTandemDao extends SimpleJdbcDaoSupport
     "WHERE edit_distance_id = ? " + 
     "GROUP BY edit_distance_id " + 
     "LIMIT 1";
+    
+    private static final String SELECT_DISTANCE_INFORAMTION_BY_EDIT_DISTANCE_ID = 
+    	"SELECT period, errs " +
+    	"FROM edit_distance " +
+    	"WHERE edit_distance_id = ?";
   
     private static final String INPUT_URL = "http://tandem.sci.brooklyn.cuny.edu/GetInput.do?chromosome=%s&offset=%s&length=%s";
+	
     
     private static JdbcTandemDao jdbcTandemDaoInstance_;
     private List<Chromosome> chromosomes_;
@@ -84,12 +90,22 @@ public class JdbcTandemDao extends SimpleJdbcDaoSupport
     	{
     		public Distance mapRow(ResultSet resultSet, int i) throws SQLException
     		{
-    			Distance distance =  new Distance(resultSet.getInt("start"), resultSet.getInt("end"), resultSet.getInt("edit_distance_id"));
-    			distance.setPeriod(resultSet.getInt("period"));
-    			distance.setErrors(resultSet.getInt("errs"));
-    			return distance;
+    			return new Distance(resultSet.getInt("start"), resultSet.getInt("end"), resultSet.getInt("edit_distance_id"));
+    			
     		}
     	}, chromosome.getId());
+    }
+    
+    public DistanceInformation getDistanceInformationByDistance(Distance distance)
+    {
+    	return getSimpleJdbcTemplate().queryForObject(SELECT_DISTANCE_INFORAMTION_BY_EDIT_DISTANCE_ID, new ParameterizedRowMapper<DistanceInformation>()
+    	    	{
+    	    		public DistanceInformation mapRow(ResultSet resultSet, int i) throws SQLException
+    	    		{
+    	    			return new DistanceInformation(resultSet.getInt("period"), resultSet.getInt("errs"));
+    	    			
+    	    		}
+    	    	}, distance.getId());
     }
     
     public String getInputString(Chromosome chromosome, int offset, int length)
