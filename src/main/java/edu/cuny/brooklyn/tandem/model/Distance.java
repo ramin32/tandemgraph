@@ -14,6 +14,8 @@ public class Distance extends Range
     
     private final Color color_;
     private final int id_;
+	private int period_;
+	private int errors_;
     
     public Distance(int start, int end, int id)
     {
@@ -52,5 +54,25 @@ public class Distance extends Range
         
         System.out.println(r);
     }
+
+	public void setPeriod(int period) 
+	{
+		period_ = period;		
+	}
+	
+	public int getPeriod()
+	{
+		return period_;
+	}
+	
+	public void setErrors(int errors) 
+	{
+		errors_ = errors;		
+	}
+	
+	public int getErrors()
+	{
+		return errors_;
+	}
     
 }

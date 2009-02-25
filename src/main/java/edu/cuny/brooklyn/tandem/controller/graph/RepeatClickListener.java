@@ -13,6 +13,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JToolBar;
+import javax.swing.JToolTip;
 
 import org.apache.log4j.Logger;
 
@@ -31,12 +33,13 @@ public class RepeatClickListener extends MouseAdapter
     private final DistanceList distances_;
     private Integer previousX;
     private final JFrame frame_;
+    private final JPanel mainPanel_;
     
-    
-    public RepeatClickListener(DistanceList distances, JFrame frame)
+    public RepeatClickListener(DistanceList distances, JFrame frame, JPanel mainPanel)
     {
         distances_ = distances;
         frame_ = frame;
+        mainPanel_ = mainPanel;
     }
     
     public void install(final GraphPanelView panelView)
@@ -93,6 +96,9 @@ public class RepeatClickListener extends MouseAdapter
             return;
         distances_.setSelectedDistance(correspondingDist);
         containingPanelView_.repaint();
+        
+        String tipText = "Period Size: " + correspondingDist.getPeriod() + ", Errors: " + correspondingDist.getErrors();
+        mainPanel_.setToolTipText(tipText);
         
     }
     

@@ -20,7 +20,8 @@ public class JdbcTandemDao extends SimpleJdbcDaoSupport
     private static final String SELECT_ALL_CHROMOSOMES = "SELECT chromosome_id, name " + 
     "FROM chromosome_filter";
     
-    private static final String SELECT_ALL_DISTANCES_BY_CHROMOSOME_ID = "SELECT start, end, edit_distance_id " +
+    private static final String SELECT_ALL_DISTANCES_BY_CHROMOSOME_ID = "SELECT " +
+    "start, end, edit_distance_id, period, errs " +
     "FROM edit_distance_filter " + 
     "WHERE chromosome_id = ? " + 
     "ORDER BY start, end";
@@ -79,13 +80,16 @@ public class JdbcTandemDao extends SimpleJdbcDaoSupport
     
     public List<Distance> getAllDistancesByChromosome(Chromosome chromosome)
     {
-        return getSimpleJdbcTemplate().query(SELECT_ALL_DISTANCES_BY_CHROMOSOME_ID, new ParameterizedRowMapper<Distance>()
-                {
-            public Distance mapRow(ResultSet resultSet, int i) throws SQLException
-            {
-                return new Distance(resultSet.getInt("start"), resultSet.getInt("end"), resultSet.getInt("edit_distance_id"));
-            }
-                }, chromosome.getId());
+    	return getSimpleJdbcTemplate().query(SELECT_ALL_DISTANCES_BY_CHROMOSOME_ID, new ParameterizedRowMapper<Distance>()
+    	{
+    		public Distance mapRow(ResultSet resultSet, int i) throws SQLException
+    		{
+    			Distance distance =  new Distance(resultSet.getInt("start"), resultSet.getInt("end"), resultSet.getInt("edit_distance_id"));
+    			distance.setPeriod(resultSet.getInt("period"));
+    			distance.setErrors(resultSet.getInt("errs"));
+    			return distance;
+    		}
+    	}, chromosome.getId());
     }
     
     public String getInputString(Chromosome chromosome, int offset, int length)

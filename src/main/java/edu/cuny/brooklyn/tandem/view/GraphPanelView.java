@@ -54,7 +54,7 @@ public class GraphPanelView extends JPanel
         graphicalRangeSelector_ = new GraphRangeSelector(this, runnable, distances_.getLimitedRange());
         setLayout(new BorderLayout());
         
-        triangleClickListener_ = new RepeatClickListener(distances_, frame);
+        triangleClickListener_ = new RepeatClickListener(distances_, frame, this);
         triangleClickListener_.install(this);
         
     }
