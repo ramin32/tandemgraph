@@ -65,7 +65,7 @@ public class RepeatClickListener extends MouseAdapter
         
         if(previousX == null || Math.abs(previousX - e.getX()) < MOTION_RADIUS)
         {
-            previousX = e.getX();
+        	 previousX = e.getX();
             return;
         }
         
@@ -79,7 +79,11 @@ public class RepeatClickListener extends MouseAdapter
         
        // Skip click if local range is too large to discern between individual repeats
         if(distances_.getLimitedRange().getLocalSize() > (containingPanelView_.getWidth() * MAX_FUNCTIONING_SIZE))
-            return;
+        {   
+        	distances_.setSelectedDistance(null);
+        	mainPanel_.setToolTipText(null);  // Clear the tool tip since listener is not currently active
+        	return;
+        }
         
         int rangeStart = distances_.getLimitedRange().getLocalMin();
         
@@ -116,8 +120,8 @@ public class RepeatClickListener extends MouseAdapter
     {
         Distance selectedDistance = distances_.getSelectedDistance();
         if(selectedDistance == null)
-            return;
-        
+        	return;
+      
         Object[] alignmentTableAndMaxMatch = getAlignmentTableAndMaxMatch(selectedDistance);
         JTable alignmentTable = (JTable) alignmentTableAndMaxMatch[TABLE];
         String maxMatch = (String) alignmentTableAndMaxMatch[MATCH];
