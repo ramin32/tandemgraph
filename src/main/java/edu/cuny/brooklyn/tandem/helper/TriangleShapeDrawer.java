@@ -40,12 +40,10 @@ public class TriangleShapeDrawer extends ShapeDrawer
 		{
 			if(fill)
 			{
-				g.fillPolygon(xPoints, yPoints, 3);
 				g.fillPolygon(shrinkXPoints(xPoints, i), shrinkYPoints(yPoints, i), 3);
 			}
 			else
 			{
-				g.drawPolygon(xPoints, yPoints, 3);
 				g.drawPolygon(shrinkXPoints(xPoints, i), shrinkYPoints(yPoints, i), 3);
 			}
 		}

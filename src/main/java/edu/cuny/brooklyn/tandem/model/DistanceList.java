@@ -15,7 +15,9 @@ import java.util.List;
 
 public class DistanceList extends AbstractList<Distance>
 {
-	public static final int PY_GRAPH_SUPPLEMENT = 1;
+	private static final int TRAPEZOID_SUPPLEMENT = 1;
+
+	private static final int TRIANGLE_SUPPLEMENT = 1000;
 	
     private final List<Distance> distances_;
     private final Comparator<Distance> distanceComparator;
@@ -123,9 +125,19 @@ public class DistanceList extends AbstractList<Distance>
         return distances_.get(index);
     }
     
-    public int getMaxRepeatSize()
+    public int getAdjustedMaxRepeatSize()
     {
-        return maxSize_;
+    	if(drawType_ == DrawType.TRIANGLE)
+    	{
+    		int amountToAdd = TRIANGLE_SUPPLEMENT - (maxSize_ % TRIANGLE_SUPPLEMENT);
+    		return maxSize_ + amountToAdd;
+    	}
+    	else if(drawType_ == DrawType.TRAPEZOID)
+    	{
+    		return (int) Math.round(Math.log10(maxSize_) + TRAPEZOID_SUPPLEMENT);
+    	}
+    	
+    	return maxSize_;
     }
     
     public int getSize()
@@ -227,12 +239,12 @@ public class DistanceList extends AbstractList<Distance>
     
     public int getIntLogMaxSize()
     {
-        return (int) Math.round(Math.log10(getMaxRepeatSize()));
+        return (int) Math.round(Math.log10(getAdjustedMaxRepeatSize()));
     }
     
     public double getDoubleLogMaxSize()
     {
-        return Math.log10(getMaxRepeatSize());
+        return Math.log10(getAdjustedMaxRepeatSize());
     }
 
     public void setSelectedDistance(Distance selectedDistance)

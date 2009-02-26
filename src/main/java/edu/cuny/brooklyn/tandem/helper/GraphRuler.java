@@ -130,8 +130,6 @@ public class GraphRuler
 
 	public void drawRuler(Graphics g, Range horRange, int height, boolean isLogGraph)
 	{
-		if(isLogGraph)
-			height = (int) Math.round(Math.log10(height)) + DistanceList.PY_GRAPH_SUPPLEMENT;
 		drawLines(g);
 		drawMarkings(g, horRange, height, isLogGraph);
 	}

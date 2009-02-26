@@ -10,6 +10,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Image;
 import java.awt.Insets;
 import java.awt.Point;
@@ -35,6 +36,7 @@ public class SwingUtil
     public static final Insets DEFAULT_INSETS = new Insets(DEFAULT_INSET_SIZE, DEFAULT_INSET_SIZE, DEFAULT_INSET_SIZE, DEFAULT_INSET_SIZE);
     public static final boolean DEFAULT_SCROLLABLE = true;
     public static final double HALF = 2.0;
+	public static final Font courierFont_ = new Font("Courier", Font.PLAIN, 12);
     
     /**
      * Returns a random color.
@@ -42,6 +44,11 @@ public class SwingUtil
     public static Color getRandColor()
     {
         return new Color((int) (Math.random() * 255), (int) (Math.random() * 255), (int) (Math.random() * 255));
+    }
+    
+    public static Font getCourierFont()
+    {
+    	return courierFont_ ;
     }
     
     public static Color getRandColor(int threashold)

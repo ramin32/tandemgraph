@@ -45,7 +45,6 @@ public class GraphImageDrawer
         if(distanceList_.getDrawType() == DrawType.TRAPEZOID)
         {
         	shapeDrawer = new TrapezoidShapeDrawer(grid_);
-        	height = Math.log10(height) + DistanceList.PY_GRAPH_SUPPLEMENT;
         }
         else if(distanceList_.getDrawType() == DrawType.TRIANGLE)
         	shapeDrawer = new TriangleShapeDrawer(grid_);

@@ -122,7 +122,7 @@ public class RepeatClickListener extends MouseAdapter
         JTable alignmentTable = (JTable) alignmentTableAndMaxMatch[TABLE];
         String maxMatch = (String) alignmentTableAndMaxMatch[MATCH];
         
-        
+        alignmentTable.setFont(SwingUtil.getCourierFont());
         JScrollPane scrollPane = new JScrollPane(alignmentTable, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
         JDialog dialog = new JDialog();
         dialog.add(scrollPane);

@@ -81,13 +81,13 @@ public class GraphPanelView extends JPanel
         {
             // Get the actual graph image and draw it.
             graphImage_ = new GraphImageDrawer(distances_, getWidth() - MARGIN, getHeight() - MARGIN);
-            Image img = graphImage_.getGraphImage(distances_.getLimitedRange().getLocal(), distances_.getMaxRepeatSize());
+            Image img = graphImage_.getGraphImage(distances_.getLimitedRange().getLocal(), distances_.getAdjustedMaxRepeatSize());
             g.drawImage(img, MARGIN + 1, 0, null);
             
             // draw the ruler
             g.setColor(Color.gray);
             boolean isLogGraph = distances_.getDrawType() == DrawType.TRAPEZOID;
-            graphRuler_.drawRuler(g, distances_.getLimitedRange().getLocal(), distances_.getMaxRepeatSize(), isLogGraph);
+            graphRuler_.drawRuler(g, distances_.getLimitedRange().getLocal(), distances_.getAdjustedMaxRepeatSize(), isLogGraph);
             
             // Get the range selector and draw it
             int x = MARGIN;
