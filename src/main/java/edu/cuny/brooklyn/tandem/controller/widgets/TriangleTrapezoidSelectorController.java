@@ -2,7 +2,6 @@ package edu.cuny.brooklyn.tandem.controller.widgets;
 
 import edu.cuny.brooklyn.tandem.model.DistanceList;
 import edu.cuny.brooklyn.tandem.model.DrawType;
-import edu.cuny.brooklyn.tandem.model.LimitedRange;
 
 public class TriangleTrapezoidSelectorController 
 {

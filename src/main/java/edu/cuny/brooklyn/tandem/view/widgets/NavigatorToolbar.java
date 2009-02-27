@@ -12,7 +12,6 @@ import javax.swing.JToolBar;
 import edu.cuny.brooklyn.tandem.controller.graph.GraphRangeSelector;
 import edu.cuny.brooklyn.tandem.controller.widgets.TextRangeSelectorController;
 import edu.cuny.brooklyn.tandem.controller.widgets.TriangleTrapezoidSelectorController;
-import edu.cuny.brooklyn.tandem.model.DistanceList;
 import edu.cuny.brooklyn.tandem.model.Range;
 
 public class NavigatorToolbar extends JToolBar implements ActionListener

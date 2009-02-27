@@ -4,16 +4,12 @@
  **************************************************************/
 package edu.cuny.brooklyn.tandem.helper;
 
-import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics;
 
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import org.apache.log4j.Logger;
 
-import edu.cuny.brooklyn.tandem.model.DistanceList;
 import edu.cuny.brooklyn.tandem.model.Range;
 
 public class GraphRuler

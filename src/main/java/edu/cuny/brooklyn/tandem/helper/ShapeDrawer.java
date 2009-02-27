@@ -1,7 +1,6 @@
 package edu.cuny.brooklyn.tandem.helper;
 
 import java.awt.Graphics;
-import java.awt.image.BufferedImage;
 
 import edu.cuny.brooklyn.tandem.model.Distance;
 

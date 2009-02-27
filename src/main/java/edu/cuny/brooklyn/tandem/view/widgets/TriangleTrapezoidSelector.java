@@ -7,10 +7,7 @@ import javax.swing.ButtonGroup;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
-import com.sun.org.apache.xerces.internal.util.DraconianErrorHandler;
-
 import edu.cuny.brooklyn.tandem.controller.widgets.TriangleTrapezoidSelectorController;
-import edu.cuny.brooklyn.tandem.model.DistanceList;
 import edu.cuny.brooklyn.tandem.model.DrawType;
 
 public class TriangleTrapezoidSelector extends JPanel implements ActionListener
