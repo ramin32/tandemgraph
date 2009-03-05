@@ -6,6 +6,7 @@
  ************************************************************************/
 package edu.cuny.brooklyn.tandem.model;
 
+import java.awt.Component;
 import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -13,8 +14,13 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.swing.JPanel;
+
+import org.apache.log4j.Logger;
+
 public class DistanceList extends AbstractList<Distance>
 {
+	private final static Logger logger_ = Logger.getLogger(DistanceList.class);
 	private static final int TRAPEZOID_SUPPLEMENT = 1;
 
 	private static final int TRIANGLE_SUPPLEMENT = 1000;
@@ -39,7 +45,7 @@ public class DistanceList extends AbstractList<Distance>
     private String inputId_;
     private Chromosome chromosome_;
 
-    private Distance selectedDistance_;
+    private Integer selectedIndex_;
     
     private Integer cachedLocalStartIndex_;
     private Integer cachedLocalStart_;
@@ -247,15 +253,21 @@ public class DistanceList extends AbstractList<Distance>
         return Math.log10(getAdjustedMaxRepeatSize());
     }
 
-    public void setSelectedDistance(Distance selectedDistance)
+    public void setSelectedIndex(Integer index)
     {
-        selectedDistance_ = selectedDistance;
+    	if(index != null && (index < 0 || index >= distances_.size()))
+    	{
+    		logger_.debug("Not setting index!");
+    		
+    		return;
+    	}
+        selectedIndex_ = index;
         
     }
-
-    public Distance getSelectedDistance()
+    
+    public Integer getSelectedIndex()
     {
-        return selectedDistance_;
+        return selectedIndex_;
     }
 
 	public void setDrawType(DrawType drawType) 
@@ -266,5 +278,16 @@ public class DistanceList extends AbstractList<Distance>
 	public DrawType getDrawType()
 	{
 		return drawType_;
+	}
+
+	public Distance getSelectedDistance()
+	{
+		if(selectedIndex_ == null)
+			return null;
+		return distances_.get(selectedIndex_);
+	}
+
+	public boolean withinMaxFunctioningArea(Component component) {
+		return getLimitedRange().withinMaxFunctioningArea(component);
 	}
 }

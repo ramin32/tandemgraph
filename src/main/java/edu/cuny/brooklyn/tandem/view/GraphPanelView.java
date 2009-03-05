@@ -18,7 +18,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import edu.cuny.brooklyn.tandem.controller.graph.GraphRangeSelector;
-import edu.cuny.brooklyn.tandem.controller.graph.RepeatClickListener;
+import edu.cuny.brooklyn.tandem.controller.graph.listener.RepeatClickListener;
+import edu.cuny.brooklyn.tandem.controller.graph.listener.RepeatListenerDelegator;
 import edu.cuny.brooklyn.tandem.helper.GraphImageDrawer;
 import edu.cuny.brooklyn.tandem.helper.GraphRuler;
 import edu.cuny.brooklyn.tandem.model.DistanceList;
@@ -32,7 +33,7 @@ public class GraphPanelView extends JPanel
     public final int MARGIN = 70;
     public static final int SELECTOR_HEIGHT = 20;
     private static final Font PANEL_FONT = new Font("Sans Serif", Font.BOLD, 24);
-    private static final int SEQUENCE_FONT_SIZE = 14;
+    private static final int SEQUENCE_FONT_SIZE = 10;
     private static final Font SEQUENCE_FONT = new Font("Sans Serif", Font.BOLD, SEQUENCE_FONT_SIZE);
     private static final int defaultValue = 5;
     
@@ -41,7 +42,6 @@ public class GraphPanelView extends JPanel
     private GraphRuler graphRuler_;
     private GraphRangeSelector graphicalRangeSelector_;
     private final Runnable runnable_;
-    private final RepeatClickListener triangleClickListener_;
     
     
     public GraphPanelView(DistanceList rl, Runnable runnable, JFrame frame)
@@ -53,9 +53,6 @@ public class GraphPanelView extends JPanel
         
         graphicalRangeSelector_ = new GraphRangeSelector(this, runnable, distances_.getLimitedRange());
         setLayout(new BorderLayout());
-        
-        triangleClickListener_ = new RepeatClickListener(distances_, frame, this);
-        triangleClickListener_.install(this);
         
     }
     
@@ -93,8 +90,7 @@ public class GraphPanelView extends JPanel
             int x = MARGIN;
             int y = getHeight() - MARGIN + 1;
            
-            // TODO fix to properly size alignments with respect to current range
-            // drawSequence(g, x, y);
+            drawSequence(g, x, y);
             
             Point point = new Point(x, y);
             Dimension dimension = new Dimension(getWidth() - MARGIN - 1, SELECTOR_HEIGHT);

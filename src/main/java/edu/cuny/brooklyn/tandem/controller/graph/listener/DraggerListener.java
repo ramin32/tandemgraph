@@ -1,4 +1,4 @@
-package edu.cuny.brooklyn.tandem.controller.graph;
+package edu.cuny.brooklyn.tandem.controller.graph.listener;
 
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;

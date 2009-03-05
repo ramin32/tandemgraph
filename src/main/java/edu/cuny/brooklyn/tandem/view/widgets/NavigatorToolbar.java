@@ -20,6 +20,7 @@ public class NavigatorToolbar extends JToolBar implements ActionListener
     private final TextRangeSelectorView textRangeSelectorView_;
     private final GraphRangeSelector graphRangeSelector_;
     private final TriangleTrapezoidSelector trapezoidTriangleSelector_;
+    private final GraphShifterView shifterView_;
     
     public NavigatorToolbar(TextRangeSelectorController textRangeSelectorController, 
     						GraphRangeSelector graphRangeSelector, 
@@ -27,6 +28,7 @@ public class NavigatorToolbar extends JToolBar implements ActionListener
     						TriangleTrapezoidSelectorController triangleTrapezoidSelectorController_)
     {
         graphRangeSelector_ = graphRangeSelector;
+        shifterView_ = shifterView;
         
         setLayout(new BorderLayout());
         
@@ -56,7 +58,7 @@ public class NavigatorToolbar extends JToolBar implements ActionListener
         });
         
     }
-    
+        
     public TextRangeSelectorView getTextRangeSelectorView()
     {
         return textRangeSelectorView_;

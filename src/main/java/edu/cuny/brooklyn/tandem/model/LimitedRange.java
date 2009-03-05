@@ -6,9 +6,12 @@
 
 package edu.cuny.brooklyn.tandem.model;
 
+import java.awt.Component;
+
 public class LimitedRange
 {
-    
+
+    private static final int MAX_FUNCTIONING_SIZE = 100;
     private Range local_;
     private Range global_;
     private Integer minLocal_;
@@ -202,6 +205,13 @@ public class LimitedRange
     public int getLocalSize()
     {
         return local_.getSize();
+    }
+    
+    public boolean withinMaxFunctioningArea(Component component)
+    {
+    	if(local_ == null)
+    		return false;
+    	return local_.getSize() > (component.getWidth() * MAX_FUNCTIONING_SIZE);
     }
     
     public static void main(String[] args)

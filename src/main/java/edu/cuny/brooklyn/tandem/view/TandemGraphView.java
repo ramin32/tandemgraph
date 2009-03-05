@@ -1,11 +1,13 @@
 package edu.cuny.brooklyn.tandem.view;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Toolkit;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import edu.cuny.brooklyn.tandem.controller.graph.listener.RepeatListenerDelegator;
 import edu.cuny.brooklyn.tandem.controller.widgets.GraphShifterController;
 import edu.cuny.brooklyn.tandem.controller.widgets.MenuBarController;
 import edu.cuny.brooklyn.tandem.controller.widgets.TextRangeSelectorController;
@@ -45,6 +47,8 @@ public class TandemGraphView implements Runnable
     private final TextRangeSelectorController textRangeSelectorController_;
     private final ZoomSliderController zoomSliderController_;
 	private final TriangleTrapezoidSelectorController triangleTrapezoidSelectorController_;
+	private final RepeatListenerDelegator listenerDelegator_;
+	
     
     
     public TandemGraphView(DistanceList distances)
@@ -72,6 +76,9 @@ public class TandemGraphView implements Runnable
         zoomSliderController_ = new ZoomSliderController(distances.getLimitedRange(), runnable, navigatorToolbar_.getTextRangeSelectorView());
         
         zoomSliderView_ = new ZoomSliderView(zoomSliderController_, graphShifterController_);
+        
+
+        listenerDelegator_ = new RepeatListenerDelegator(distances_, frame_, graphPanelView_);
     }
     
     public void run()
@@ -100,6 +107,8 @@ public class TandemGraphView implements Runnable
         int fontWidth = graphPanelView_.getGraphics().getFontMetrics().charWidth('A');
         int minLocalRange = graphPanelView_.getWidth() * fontWidth;
         distances_.getLimitedRange().setMinLocalRange(minLocalRange);
+
+        listenerDelegator_.installListeners(graphPanelView_);
     }
     
     public Runnable getViewUpdaterRunnable()
@@ -140,6 +149,7 @@ public class TandemGraphView implements Runnable
                 {
                     frame_.repaint();
                     frame_.setVisible(true); // Refreshes all widgets
+                    frame_.requestFocus();
                 }
             }
         };
