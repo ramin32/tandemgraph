@@ -52,7 +52,7 @@ public class DistanceList extends AbstractList<Distance>
 
     private Integer cachedLocalEndIndex_;
     private Integer cachedLocalEnd_;
-	private DrawType drawType_ = DrawType.TRIANGLE;   // To prevent null pointer exception
+	private static DrawType drawType_ = DrawType.TRIANGLE;   // To prevent null pointer exception
     
     public DistanceList()
     {
@@ -102,8 +102,7 @@ public class DistanceList extends AbstractList<Distance>
         }
         catch (NullPointerException ex)
         {
-            System.out.println("Null " + ex.getMessage() + " " + distance + " " + limitedRange_ + " " + maxSize_);
-            ex.printStackTrace();
+            logger_.error("Null " + ex.getMessage() + " " + distance + " " + limitedRange_ + " " + maxSize_, ex);
         }
         
         return true;
@@ -219,7 +218,7 @@ public class DistanceList extends AbstractList<Distance>
     {
         for (Distance r : this)
         {
-            System.out.println(r);
+            logger_.debug(r);
         }
     }
     
@@ -270,12 +269,12 @@ public class DistanceList extends AbstractList<Distance>
         return selectedIndex_;
     }
 
-	public void setDrawType(DrawType drawType) 
+	public static void setDrawType(DrawType drawType) 
 	{
 		drawType_ = drawType;
 	}
 	
-	public DrawType getDrawType()
+	public static DrawType getDrawType()
 	{
 		return drawType_;
 	}

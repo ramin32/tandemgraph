@@ -8,9 +8,11 @@ package edu.cuny.brooklyn.tandem.model;
 
 import java.awt.Component;
 
+import org.apache.log4j.Logger;
+
 public class LimitedRange
 {
-
+	private static final Logger logger_ = Logger.getLogger(LimitedRange.class);
     private static final int MAX_FUNCTIONING_SIZE = 100;
     private Range local_;
     private Range global_;
@@ -218,7 +220,7 @@ public class LimitedRange
     {
         LimitedRange lr = new LimitedRange(55, 53424);
         lr.setLocalRangePercentage(50);
-        System.out.println(lr + "\nLocal" + lr.getLocalRangePercentage());
+        logger_.debug(lr + "\nLocal" + lr.getLocalRangePercentage());
         
     }
 }

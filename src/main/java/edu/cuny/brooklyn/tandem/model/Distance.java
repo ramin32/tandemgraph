@@ -9,11 +9,13 @@ import java.awt.Color;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
+
 import edu.cuny.brooklyn.tandem.helper.SwingUtil;
 
 public class Distance extends Range
 {
-    
+    private static final Logger logger_ = Logger.getLogger(Distance.class);
     private final Color color_;
     private final int id_;
     
@@ -45,6 +47,12 @@ public class Distance extends Range
         return super.toString();
     }
     
+    public double getAdjustedSize()
+    {
+    	if(DistanceList.getDrawType() == DrawType.TRAPEZOID)
+    		return Math.log10(getSize());
+    	return getSize();
+    }
     public static void main(String[] args)
     {
         Distance r = new Distance(20, 30, 1);

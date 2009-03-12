@@ -4,8 +4,11 @@
  ****************************************************************************/
 package edu.cuny.brooklyn.tandem.model;
 
+import org.apache.log4j.Logger;
+
 public class Range implements Comparable<Distance>
 {
+	private static final Logger logger_ = Logger.getLogger(Range.class);
     private final int min_;
     private final int max_;
     private final int midPoint_;
@@ -131,7 +134,7 @@ public class Range implements Comparable<Distance>
         }
         catch (IllegalArgumentException e)
         {
-            System.out.println(e.getMessage());
+            logger_.error(e,e);
         }
         try
         {
@@ -139,7 +142,7 @@ public class Range implements Comparable<Distance>
         }
         catch (IllegalArgumentException e)
         {
-            System.out.println(e.getMessage());
+        	logger_.error(e,e);
         }
         
         try
@@ -148,7 +151,7 @@ public class Range implements Comparable<Distance>
         }
         catch (IllegalArgumentException e)
         {
-            System.out.println(e.getMessage());
+        	logger_.error(e,e);
         }
         System.out.println(d);
         

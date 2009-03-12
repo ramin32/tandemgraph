@@ -18,10 +18,10 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import edu.cuny.brooklyn.tandem.controller.graph.GraphRangeSelector;
+import edu.cuny.brooklyn.tandem.controller.graph.drawer.GraphImageDrawer;
+import edu.cuny.brooklyn.tandem.controller.graph.drawer.GraphRuler;
 import edu.cuny.brooklyn.tandem.controller.graph.listener.RepeatClickListener;
 import edu.cuny.brooklyn.tandem.controller.graph.listener.RepeatListenerDelegator;
-import edu.cuny.brooklyn.tandem.helper.GraphImageDrawer;
-import edu.cuny.brooklyn.tandem.helper.GraphRuler;
 import edu.cuny.brooklyn.tandem.model.DistanceList;
 import edu.cuny.brooklyn.tandem.model.DrawType;
 import edu.cuny.brooklyn.tandem.model.JdbcTandemDao;
@@ -112,6 +112,15 @@ public class GraphPanelView extends JPanel
         
         g.drawString(sequenceString, x, y + SEQUENCE_FONT_SIZE);
         
+    }
+    
+    public int getAdjustedHeight()
+    {
+    	return getHeight() - MARGIN;
+    }
+    public int getAdjustedWidth()
+    {
+    	return getWidth() - MARGIN;
     }
 }
 

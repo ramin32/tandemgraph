@@ -6,6 +6,8 @@ import java.awt.event.MouseEvent;
 import javax.swing.JPanel;
 import javax.swing.event.MouseInputAdapter;
 
+import org.apache.log4j.Logger;
+
 import edu.cuny.brooklyn.tandem.helper.SwingUtil;
 
 public class DraggerListener extends MouseInputAdapter
@@ -68,7 +70,7 @@ public class DraggerListener extends MouseInputAdapter
     
     public void printPoints()
     {
-        System.out.println("X1 = " + x1 + ", X2 = " + x2);
+        Logger.getLogger(getClass()).debug("X1 = " + x1 + ", X2 = " + x2);
     }
     
     public static void main(String[] args)

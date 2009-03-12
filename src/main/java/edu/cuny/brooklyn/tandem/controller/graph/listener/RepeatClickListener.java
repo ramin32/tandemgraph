@@ -16,6 +16,8 @@ import javax.swing.JTable;
 
 import org.apache.log4j.Logger;
 
+import edu.cuny.brooklyn.tandem.controller.graph.drawer.TriangleShapeDrawer;
+import edu.cuny.brooklyn.tandem.helper.MathUtil;
 import edu.cuny.brooklyn.tandem.helper.SwingUtil;
 import edu.cuny.brooklyn.tandem.model.Distance;
 import edu.cuny.brooklyn.tandem.model.DistanceInformation;
@@ -27,7 +29,7 @@ public class RepeatClickListener extends MouseAdapter
 {
     private static final Logger logger_ = Logger.getLogger(RepeatClickListener.class);
     private static final int MOTION_RADIUS = 20;
-    private GraphPanelView containingPanelView_;
+    private GraphPanelView graphPanelView_;
     private final DistanceList distances_;
     private Integer previousX;
     private final JPanel mainPanel_;
@@ -43,18 +45,20 @@ public class RepeatClickListener extends MouseAdapter
 
     void install(final GraphPanelView panelView)
     {
-        containingPanelView_ = panelView;
-        containingPanelView_.addMouseListener(this);
-        containingPanelView_.addMouseMotionListener(this);
+        graphPanelView_ = panelView;
+        graphPanelView_.addMouseListener(this);
+        graphPanelView_.addMouseMotionListener(this);
         logger_.debug("I am installed!");
     }
 
     @Override 
     public void mouseMoved(MouseEvent e)
     {
-        if (distances_ == null || containingPanelView_ == null)
+        if (distances_ == null || graphPanelView_ == null)
             return;
 
+        
+        // Verify motion exceeds MOTION_RADIUS
         if(previousX == null || Math.abs(previousX - e.getX()) < MOTION_RADIUS)
         {
             previousX = e.getX();
@@ -62,51 +66,73 @@ public class RepeatClickListener extends MouseAdapter
         }
 
 
-        int adjustedHeight = containingPanelView_.getHeight() - containingPanelView_.MARGIN;
-        int adjustedWidth = containingPanelView_.getWidth() - containingPanelView_.MARGIN;
+        
 
         // skip click if it isn't inside the graph.
-        if (distances_.isEmpty() || e.getY() > adjustedHeight || e.getX() < containingPanelView_.MARGIN)
+        if (distances_.isEmpty() || e.getY() > graphPanelView_.getAdjustedHeight() || e.getX() < graphPanelView_.MARGIN)
             return;
 
         // Skip click if local range is too large to discern between individual repeats
-        if(distances_.withinMaxFunctioningArea(containingPanelView_))
+        if(distances_.withinMaxFunctioningArea(graphPanelView_))
         {   
-            distances_.setSelectedIndex(null);
-            mainPanel_.setToolTipText(null);  // Clear the tool tip since listener is not currently active
+            clearSelected();
             return;
         }
 
         int rangeStart = distances_.getLimitedRange().getLocalMin();
 
-        // Reverses the scale
-        double xUnScale = (double) distances_.getLimitedRange().getLocal().getSize() / adjustedWidth;
+        // Reverses the scales
+        double xUnScale = (double) distances_.getLimitedRange().getLocal().getSize() / graphPanelView_.getAdjustedWidth();
+        double yUnScale = (double) distances_.getAdjustedMaxRepeatSize() / graphPanelView_.getAdjustedHeight();
 
-        int actualPoint = (int) ((e.getX() - containingPanelView_.MARGIN) * xUnScale) + rangeStart;
+        int actualXPoint = rangeStart + (int) Math.round((e.getX() - graphPanelView_.MARGIN) * xUnScale);
+        int actualYPoint = (int) Math.round((graphPanelView_.getHeight() - e.getY() - graphPanelView_.MARGIN) * yUnScale);
 
         Distance correspondingDistance = null;
         Integer correspondingIndex = null;
         for (int i = distances_.getLocalStartIndex(); i <= distances_.getLocalEndIndex(); i++)
         {
-            int start = distances_.get(i).getMin();
-            int end = distances_.get(i).getMax();
-            if (actualPoint >= start && actualPoint <= end)
+        	Distance distance = distances_.get(i);
+            int start = distance.getMin();
+            int end = distance.getMax();
+            int midPoint = distance.getMidPoint();
+            if (actualXPoint >= start && actualXPoint <= end)
             {
-                correspondingDistance = distances_.get(i);
-                correspondingIndex = i;
+            	double yIntersect;
+            	if(start < midPoint)
+            		 yIntersect = MathUtil.computeYIntersect(start, 0, midPoint, distance.getAdjustedSize(), actualXPoint);
+            	else
+            		yIntersect = MathUtil.computeYIntersect(midPoint, distance.getAdjustedSize(), end, 0, actualXPoint);
+            	
+            	yIntersect = TriangleShapeDrawer.translateYPoint(yIntersect, yUnScale, graphPanelView_.getAdjustedHeight());
+            	
+            	if(actualYPoint < yIntersect)
+            	{
+            		correspondingDistance = distance;
+            		correspondingIndex = i;
+            	}
             }            
         }
 
         if (correspondingDistance == null)
-            return;
+        {
+        	clearSelected();
+        	return;
+        }
         distances_.setSelectedIndex(correspondingIndex);
-        containingPanelView_.repaint();
+        graphPanelView_.repaint();
 
         DistanceInformation distanceInformation = correspondingDistance.getDistanceInformation();
 
         String tipText = "Period Size: " + distanceInformation.getPeriod() + ", Errors: " + distanceInformation.getErrors();
         mainPanel_.setToolTipText(tipText);
 
+    }
+    
+    private final void clearSelected()
+    {
+    	distances_.setSelectedIndex(null);
+        mainPanel_.setToolTipText(null);  // Clear the tool tip since listener is not currently active
     }
 
     @Override 
