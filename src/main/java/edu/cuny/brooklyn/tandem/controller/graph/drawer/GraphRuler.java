@@ -66,7 +66,7 @@ public class GraphRuler
   {
     int mark = 1; for (int horLabel = horRange.getMin(); mark < this.MARKINGS; ++mark)
     {
-      String label = mark * horizontalScale + horRange.getMin();
+      String label = Integer.toString(mark * horizontalScale + horRange.getMin());
       label = commanize(label);
 
       int xPos = this.MARGIN + mark * xScale;
@@ -80,7 +80,7 @@ public class GraphRuler
   {
     for (int mark = 1; mark < this.MARKINGS; ++mark)
     {
-      String label = (this.MARKINGS - mark) * verticalScale;
+      String label = Integer.toString((this.MARKINGS - mark) * verticalScale);
 
       label = commanize(label);
 
@@ -94,7 +94,7 @@ public class GraphRuler
   {
     for (int mark = 0; mark < verticalScale; ++mark)
     {
-      String label = Math.round(Math.pow(10.0D, verticalScale - mark));
+      String label = Long.toString(Math.round(Math.pow(10.0D, verticalScale - mark)));
       label = commanize(label);
 
       int yPos = mark * yScale;
