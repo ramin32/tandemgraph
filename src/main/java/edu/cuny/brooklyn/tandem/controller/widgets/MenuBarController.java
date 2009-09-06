@@ -12,7 +12,6 @@ import edu.cuny.brooklyn.tandem.helper.SwingUtil;
 import edu.cuny.brooklyn.tandem.model.Chromosome;
 import edu.cuny.brooklyn.tandem.model.DistanceList;
 import edu.cuny.brooklyn.tandem.model.DistancesLoaderWorker;
-import edu.cuny.brooklyn.tandem.view.widgets.BusyDialog;
 
 public class MenuBarController
 {
@@ -59,15 +58,10 @@ public class MenuBarController
         }
         
     }
-    
-    public void openChromosome(JFrame frame, Chromosome chromosome)
-    {
-        
-        distanceList_.setChromosome(chromosome);
-        boolean undecorated = false;
-        BusyDialog busyDialog = new BusyDialog(frame, SwingUtil.createFileTextArea(InfoFiles.LOADING), undecorated);
-        DistancesLoaderWorker worker = new DistancesLoaderWorker(distanceList_, runnable_, busyDialog);
-        worker.execute();
-        
-    }
+
+	public void openChromosome(JFrame containingFrame, Chromosome chromosome) 
+	{
+		distanceList_.setChromosome(chromosome);
+		DistancesLoaderWorker.loadDistances(containingFrame, distanceList_, runnable_);	
+	}    
 }

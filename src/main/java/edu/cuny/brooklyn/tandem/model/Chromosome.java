@@ -14,7 +14,6 @@ public class Chromosome implements Comparable<Chromosome>
         id_ = id;
         name_ = name;
         string_ = "Name: " + name_ + ", ID: " + id_;
-        System.out.println(name);
     }
     
     public int getId()

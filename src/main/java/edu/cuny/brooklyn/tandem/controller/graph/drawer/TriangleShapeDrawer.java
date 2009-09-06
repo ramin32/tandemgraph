@@ -1,8 +1,9 @@
 package edu.cuny.brooklyn.tandem.controller.graph.drawer;
 
-import edu.cuny.brooklyn.tandem.model.Distance;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+
+import edu.cuny.brooklyn.tandem.model.Distance;
 
 public class TriangleShapeDrawer extends ShapeDrawer
 {

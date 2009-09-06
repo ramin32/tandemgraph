@@ -4,25 +4,18 @@
 
 package edu.cuny.brooklyn.tandem.controller.graph.listener;
 
-import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-import javax.swing.JDialog;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
 
 import org.apache.log4j.Logger;
 
 import edu.cuny.brooklyn.tandem.controller.graph.drawer.TriangleShapeDrawer;
 import edu.cuny.brooklyn.tandem.helper.MathUtil;
-import edu.cuny.brooklyn.tandem.helper.SwingUtil;
 import edu.cuny.brooklyn.tandem.model.Distance;
 import edu.cuny.brooklyn.tandem.model.DistanceInformation;
 import edu.cuny.brooklyn.tandem.model.DistanceList;
-import edu.cuny.brooklyn.tandem.model.JdbcTandemDao;
 import edu.cuny.brooklyn.tandem.view.GraphPanelView;
 
 public class RepeatClickListener extends MouseAdapter

@@ -61,13 +61,7 @@ public class JdbcTandemDao extends SimpleJdbcDaoSupport
         if (jdbcTandemDaoInstance_ == null)
             jdbcTandemDaoInstance_ = (JdbcTandemDao) new ClassPathXmlApplicationContext("conf/spring.xml").getBean("jdbcTandemDao");
         return jdbcTandemDaoInstance_;
-    }
-    
-    public void initialize()
-    {
-        getAllChromosomes();
-    }
-    
+    }    
     
     public List<Chromosome> getAllChromosomes()
     {
@@ -152,4 +146,8 @@ public class JdbcTandemDao extends SimpleJdbcDaoSupport
     {
         return getSimpleJdbcTemplate().queryForObject(SELECT_GROUPED_ALIGNMENT_BY_EDIT_DISTANCE_ID, String.class, distance.getId());
     }
+
+	public void initialize() {
+		getAllChromosomes();		
+	}
 }

@@ -1,6 +1,5 @@
 package edu.cuny.brooklyn.tandem.controller.graph.listener;
 
-import java.awt.Component;
 import java.awt.Dimension;
 
 import javax.swing.JDialog;

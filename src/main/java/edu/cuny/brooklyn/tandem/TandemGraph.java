@@ -23,8 +23,6 @@ import javax.swing.SwingUtilities;
 import org.apache.log4j.Logger;
 
 import edu.cuny.brooklyn.tandem.helper.SwingUtil;
-import edu.cuny.brooklyn.tandem.model.Chromosome;
-import edu.cuny.brooklyn.tandem.model.DistanceList;
 import edu.cuny.brooklyn.tandem.model.JdbcTandemDao;
 import edu.cuny.brooklyn.tandem.view.TandemGraphView;
 import edu.cuny.brooklyn.tandem.view.widgets.BusyDialog;
@@ -36,55 +34,26 @@ public class TandemGraph
 	public static void main(final String[] args)
 	{
 		logger_.debug("Intializing TandemGraph...");
-		DistanceList distanceList = initializeTandemGraph(args);
+		initializeTandemGraph();
 
 		logger_.debug("Obtaining instance of TandemGraphView...");
-		TandemGraphView tandemGraphView = new TandemGraphView(distanceList);
+		TandemGraphView tandemGraphView = new TandemGraphView(args);
 
 		logger_.debug("Invoking view...");
 		SwingUtilities.invokeLater(tandemGraphView);
 	}
 
-	private static DistanceList loadDistanceList(String[] args)
+
+	private static void initializeTandemGraph()
 	{
+		JPanel loadingPanel = new JPanel();
+		loadingPanel.add(getAboutButton(), BorderLayout.CENTER);
 
-		JdbcTandemDao tandemDao = JdbcTandemDao.getInstance();
-		tandemDao.initialize();
-
-		DistanceList distanceList = new DistanceList();
-		
-		if(args.length == 2)
-		{
-			String usersChromosome = args[1];
-			
-			for(Chromosome chromosome: tandemDao.getAllChromosomes())
-			{
-				if(usersChromosome == chromosome.getName())
-				{
-					distanceList.setChromosome(chromosome);
-					distanceList.load();
-					return distanceList;
-				}					
-			}
-			throw new RuntimeException(usersChromosome + " not found in the database!");
-		}
-		
-		return distanceList;
-	
-	}
-
-
-	private static DistanceList initializeTandemGraph(String[] args)
-	{
-				JPanel loadingPanel = new JPanel();
-				loadingPanel.add(getAboutButton(), BorderLayout.CENTER);
-
-				boolean undecorated = true;
-				BusyDialog busyDialog = new BusyDialog(null, loadingPanel, undecorated);
-				busyDialog.setLoading(true);
-				DistanceList distanceList = loadDistanceList(args);
-				busyDialog.dispose();
-				return distanceList;
+		boolean undecorated = true;
+		BusyDialog busyDialog = new BusyDialog(null, loadingPanel, undecorated);
+		busyDialog.setLoading(true);
+		JdbcTandemDao.getInstance().initialize();
+		busyDialog.dispose();
 	}
 
 	public static JButton getAboutButton()

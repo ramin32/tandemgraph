@@ -184,7 +184,7 @@ public class SwingUtil
         
         Dimension othersDimension = null;
         Point othersLocation = null;
-        if (otherComponent == null)
+        if (otherComponent == null || !otherComponent.isVisible())
         {
             othersDimension = Toolkit.getDefaultToolkit().getScreenSize();
             othersLocation = new Point(0,0);

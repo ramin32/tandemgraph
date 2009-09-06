@@ -1,12 +1,13 @@
 package edu.cuny.brooklyn.tandem.controller.graph.drawer;
 
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+
 import edu.cuny.brooklyn.tandem.model.Distance;
 import edu.cuny.brooklyn.tandem.model.DistanceList;
 import edu.cuny.brooklyn.tandem.model.DrawType;
 import edu.cuny.brooklyn.tandem.model.Range;
-import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.image.BufferedImage;
 
 public class GraphImageDrawer
 {

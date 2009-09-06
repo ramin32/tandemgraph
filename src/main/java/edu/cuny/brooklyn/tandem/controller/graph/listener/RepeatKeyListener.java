@@ -2,14 +2,10 @@ package edu.cuny.brooklyn.tandem.controller.graph.listener;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-
-import javax.swing.JPanel;
 
 import org.apache.log4j.Logger;
 
 import edu.cuny.brooklyn.tandem.model.DistanceList;
-import edu.cuny.brooklyn.tandem.view.GraphPanelView;
 
 public class RepeatKeyListener extends KeyAdapter
 {

@@ -1,10 +1,12 @@
 package edu.cuny.brooklyn.tandem.controller.graph.drawer;
 
-import edu.cuny.brooklyn.tandem.model.Range;
-import java.awt.Font;
 import java.awt.Graphics;
+
 import javax.swing.JPanel;
+
 import org.apache.log4j.Logger;
+
+import edu.cuny.brooklyn.tandem.model.Range;
 
 public class GraphRuler
 {

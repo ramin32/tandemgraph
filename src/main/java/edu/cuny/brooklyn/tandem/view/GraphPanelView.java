@@ -20,8 +20,6 @@ import javax.swing.JPanel;
 import edu.cuny.brooklyn.tandem.controller.graph.GraphRangeSelector;
 import edu.cuny.brooklyn.tandem.controller.graph.drawer.GraphImageDrawer;
 import edu.cuny.brooklyn.tandem.controller.graph.drawer.GraphRuler;
-import edu.cuny.brooklyn.tandem.controller.graph.listener.RepeatClickListener;
-import edu.cuny.brooklyn.tandem.controller.graph.listener.RepeatListenerDelegator;
 import edu.cuny.brooklyn.tandem.model.DistanceList;
 import edu.cuny.brooklyn.tandem.model.DrawType;
 import edu.cuny.brooklyn.tandem.model.JdbcTandemDao;
