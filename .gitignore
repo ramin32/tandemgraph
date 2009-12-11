@@ -2,3 +2,6 @@ build
 /\?
 .*
 log4j*
+*.pdf
+*.aux
+*.log
