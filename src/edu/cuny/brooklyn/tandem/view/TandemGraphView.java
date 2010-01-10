@@ -78,11 +78,9 @@ public class TandemGraphView implements Runnable
 
 		zoomSliderController_ = new ZoomSliderController(distances_.getLimitedRange(), viewUpdaterRunnable_, navigatorToolbar_.getTextRangeSelectorView());
 		zoomSliderView_ = new ZoomSliderView(zoomSliderController_, graphShifterController_);
-		listenerDelegator_ = new RepeatListenerDelegator(distances_, frame_, graphPanelView_);
-
+		listenerDelegator_ = new RepeatListenerDelegator(distances_, frame_, graphPanelView_, viewUpdaterRunnable_);
 
 		userDefinedChromosomeLoaderRunnable_ = createUserDefinedChromosomeLoaderRunnable(args);
-
 	}
 
 	private Runnable createUserDefinedChromosomeLoaderRunnable(final String[] args) {

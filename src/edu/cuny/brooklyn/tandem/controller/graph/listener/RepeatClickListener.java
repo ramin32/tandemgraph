@@ -21,12 +21,12 @@ import edu.cuny.brooklyn.tandem.view.GraphPanelView;
 public class RepeatClickListener extends MouseAdapter
 {
     private static final Logger logger_ = Logger.getLogger(RepeatClickListener.class);
-    private static final int MOTION_RADIUS = 20;
+    private static final int MOTION_RADIUS = 3;
     private GraphPanelView graphPanelView_;
     private final DistanceList distances_;
     private Integer previousX;
     private final JPanel mainPanel_;
-	private final RepeatListenerDelegator repeatListenerDelegator_;
+    private final RepeatListenerDelegator repeatListenerDelegator_;
 
     RepeatClickListener(DistanceList distances,  JPanel mainPanel,RepeatListenerDelegator delegator)
     {  
@@ -85,7 +85,7 @@ public class RepeatClickListener extends MouseAdapter
         Integer correspondingIndex = null;
         for (int i = distances_.getLocalStartIndex(); i <= distances_.getLocalEndIndex(); i++)
         {
-        	Distance distance = distances_.get(i);
+            Distance distance = distances_.get(i);
             int start = distance.getMin();
             int end = distance.getMax();
             int midPoint = distance.getMidPoint();
@@ -113,12 +113,9 @@ public class RepeatClickListener extends MouseAdapter
         	return;
         }
         distances_.setSelectedIndex(correspondingIndex);
-        graphPanelView_.repaint();
+        //graphPanelView_.repaint();
 
-        DistanceInformation distanceInformation = correspondingDistance.getDistanceInformation();
-
-        String tipText = "Period Size: " + distanceInformation.getPeriod() + ", Errors: " + distanceInformation.getErrors();
-        mainPanel_.setToolTipText(tipText);
+        repeatListenerDelegator_.runUpdater();
 
     }
     

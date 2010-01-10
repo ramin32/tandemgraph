@@ -41,6 +41,6 @@ public class RepeatKeyListener extends KeyAdapter
         	return;
         }
         
-        repeatListenerDelegator_.repaintMainPanel();
+        repeatListenerDelegator_.runUpdater();
     }
 }
