@@ -93,6 +93,9 @@ public class Range implements Comparable<Distance>
             return false;
         
         Range range = (Range) o;
+
+        return this.intersects(range);
+        /*
         
         if (max_ != range.max_)
             return false;
@@ -102,6 +105,7 @@ public class Range implements Comparable<Distance>
             return false;
         
         return true;
+        */
     }
     
     public int hashCode()
