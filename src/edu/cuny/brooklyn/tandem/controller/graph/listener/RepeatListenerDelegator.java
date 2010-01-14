@@ -109,9 +109,9 @@ public class RepeatListenerDelegator
 
     void runUpdater()
     {
-        mainRunnable_.run();
+        //mainRunnable_.run();
         updateToolTip();
-        //mainPanel_.repaint();
+        mainPanel_.repaint();
     }
 
     public void updateToolTip()

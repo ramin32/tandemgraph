@@ -28,7 +28,6 @@ public class ZoomSliderController
             return;
         }
         limitedRange_.setLocalRangePercentage(percentage);
-        textRangeSelectorView_.setFields();
         runnable_.run();
         
     }

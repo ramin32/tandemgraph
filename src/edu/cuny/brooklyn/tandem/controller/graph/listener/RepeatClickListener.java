@@ -83,6 +83,7 @@ public class RepeatClickListener extends MouseAdapter
 
         Distance correspondingDistance = null;
         Integer correspondingIndex = null;
+        Integer closestDistanceToMidpoint = null;
         for (int i = distances_.getLocalStartIndex(); i <= distances_.getLocalEndIndex(); i++)
         {
             Distance distance = distances_.get(i);
@@ -91,18 +92,30 @@ public class RepeatClickListener extends MouseAdapter
             int midPoint = distance.getMidPoint();
             if (actualXPoint >= start && actualXPoint <= end)
             {
-            	double yIntersect;
-            	if(start < midPoint)
-            		 yIntersect = MathUtil.computeYIntersect(start, 0, midPoint, distance.getAdjustedSize(), actualXPoint);
-            	else
-            		yIntersect = MathUtil.computeYIntersect(midPoint, distance.getAdjustedSize(), end, 0, actualXPoint);
+            	//double yIntersect;
+            	//if(start < midPoint)
+            		 //yIntersect = MathUtil.computeYIntersect(start, 0, midPoint, distance.getAdjustedSize(), actualXPoint);
+            	//else
+                    //yIntersect = MathUtil.computeYIntersect(midPoint, distance.getAdjustedSize(), end, 0, actualXPoint);
             	
-            	yIntersect = TriangleShapeDrawer.translateYPoint(yIntersect, yUnScale, graphPanelView_.getAdjustedHeight());
+                //yIntersect = TriangleShapeDrawer.translateYPoint(yIntersect, yUnScale, graphPanelView_.getAdjustedHeight());
             	
-            	if(actualYPoint < yIntersect)
+            	if(actualYPoint <= distance.getAdjustedSize())
             	{
+                    int currentDistance = Math.abs(midPoint - actualXPoint);
+                    logger_.debug("AY: " + actualYPoint + " dY: " + distance.getAdjustedSize());
+                    if(closestDistanceToMidpoint == null)
+                    {
+                        closestDistanceToMidpoint = currentDistance;
             		correspondingDistance = distance;
             		correspondingIndex = i;
+                    }
+
+                    if(currentDistance < closestDistanceToMidpoint)
+                    {
+            		correspondingDistance = distance;
+            		correspondingIndex = i;
+                    }
             	}
             }            
         }
@@ -110,6 +123,7 @@ public class RepeatClickListener extends MouseAdapter
         if (correspondingDistance == null)
         {
         	clearSelected();
+                repeatListenerDelegator_.runUpdater();
         	return;
         }
         distances_.setSelectedIndex(correspondingIndex);

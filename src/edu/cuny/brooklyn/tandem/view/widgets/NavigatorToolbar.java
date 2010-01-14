@@ -47,16 +47,6 @@ public class NavigatorToolbar extends JToolBar implements ActionListener
         
         
         graphRangeSelector.setTextRangeSelectorView(textRangeSelectorView_);
-        
-        addComponentListener(new ComponentAdapter()
-        {
-            @Override public void componentShown(ComponentEvent e)
-            {
-                super.componentShown(e);
-                textRangeSelectorView_.setFields();
-            }
-        });
-        
     }
         
     public TextRangeSelectorView getTextRangeSelectorView()

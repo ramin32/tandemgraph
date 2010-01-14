@@ -25,7 +25,7 @@ public class TandemGraphView implements Runnable
 
 	private static final int FRAME_WIDTH;
 	private static final int FRAME_HEIGHT;
-	private final String FRAME_TITLE = "Tandem Repeats Grapher V2.0";
+	private final String FRAME_TITLE = "TandemGraph V2.0";
 
 	// Set frame size to 1/2 height and 3/4 width of client monitor.
 	static
@@ -157,7 +157,10 @@ public class TandemGraphView implements Runnable
 				}
 
 				if (navigatorToolbar_ != null)
+                                {
 					navigatorToolbar_.setVisible(true);
+                                        navigatorToolbar_.setFields();
+                                }
 			}
 
 			if (frame_ != null)
