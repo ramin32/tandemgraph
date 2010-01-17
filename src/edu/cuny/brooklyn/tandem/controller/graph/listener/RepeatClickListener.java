@@ -103,7 +103,6 @@ public class RepeatClickListener extends MouseAdapter
             	if(actualYPoint <= distance.getAdjustedSize())
             	{
                     int currentDistance = Math.abs(midPoint - actualXPoint);
-                    logger_.debug("AY: " + actualYPoint + " dY: " + distance.getAdjustedSize());
                     if(closestDistanceToMidpoint == null)
                     {
                         closestDistanceToMidpoint = currentDistance;

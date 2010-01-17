@@ -7,6 +7,12 @@ import javax.swing.JPanel;
 import org.apache.log4j.Logger;
 
 import edu.cuny.brooklyn.tandem.model.Range;
+import java.awt.geom.AffineTransform;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.awt.Font;
+import java.awt.Color;
 
 public class GraphRuler
 {
@@ -74,8 +80,25 @@ public class GraphRuler
       int xPos = this.MARGIN + mark * xScale;
       g.drawLine(xPos, bottomMarginPos, xPos, bottomMarginPos + this.xAxisTickSize);
 
-      g.drawString(label, xPos - 3, bottomMarginPos + this.xAxisTickSize + g.getFont().getSize() + 1);
+      Image labelImage = createSlantedMarkingImage(label, g.getFont(), g.getColor());
+      g.drawImage(labelImage, 
+                   xPos - 3, 
+                   bottomMarginPos + this.xAxisTickSize + 1 ,//+  + 1,
+                   null);
     }
+  }
+
+  private final static Image createSlantedMarkingImage(String label, Font font, Color color)
+  {
+    Image image = new BufferedImage(100,100,BufferedImage.TYPE_INT_RGB);
+    Graphics2D g2d = (Graphics2D)image.getGraphics();
+    g2d.setFont(font);
+    g2d.setColor(color);
+    AffineTransform transform = g2d.getTransform().getRotateInstance(.2);
+    g2d.setTransform(transform);
+
+    g2d.drawString(label,1,g2d.getFont().getSize());
+    return image;
   }
 
   private final void drawVerticalLabels(Graphics g, int verticalScale, int yScale)
